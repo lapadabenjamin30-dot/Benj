@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet"><meta charset="UTF-8"><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Quiz</title>
+<style>
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  body {
+    font-family: 'Libertinus Math', serif;
+    margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; color: #0d1b2a;
+    overflow: hidden; animation: fadeIn 1.5s ease-in; position: relative;
+  }
+  body::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('https://i.pinimg.com/1200x/73/80/62/73806258a5d06da004387fdbac6ba97d.jpg');
+    background-size: cover; background-position: center;
+    filter: blur(8px); z-index: -1;
+  }
+  .home-btn {
+    position: absolute; top: 20px; left: 20px;
+    background-color: #8897BD; color: #fff;
+    padding: 10px 18px; font-size: 16px;
+    border-radius: 8px; text-decoration: none;
+    border: 2px solid #FFFFFF; transition: 0.3s; z-index: 2;
+  }
+  .home-btn:hover { background-color: #274690; }
+  .overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px; padding: 40px 30px;
+    width: 90%; max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    text-align: center; border: 5px double #1b3b6f;
+    position: relative; z-index: 1;
+  }
+  h1 { margin-bottom: 20px; font-size: 28px; color: #1b3b6f; }
+  #question { font-size: 20px; margin-bottom: 15px; }
+  #qimage { max-width: 90%; margin: 10px auto; display: none; border-radius: 10px; }
+  .choices button {
+    display: block; width: 100%; margin: 8px 0; padding: 14px;
+    font-size: 16px; border: 2px solid #1b3b6f; border-radius: 10px;
+    cursor: pointer; background-color: #d0d9ff; color: #0d1b2a;
+    transition: 0.3s;
+  }
+  .choices button:hover { background-color: #b8c6ff; }
+  .result { font-size: 20px; margin-top: 20px; font-weight: bold; }
+  #tryAgainBtn {
+    display: none; margin-top: 15px; padding: 12px 20px;
+    font-size:16px; border-radius:10px; border:2px solid #1b3b6f;
+    background-color:#d0d9ff; cursor:pointer;
+  }
+  #tryAgainBtn:hover { background-color: #b8c6ff; }
+  .reward img { max-width: 80%; margin-top: 15px; border-radius: 15px; }
+  #loading {
+    display: none;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #1b3b6f;
+  }
+  .dots::after {
+    content: '';
+    animation: dots 1s steps(3, end) infinite;
+  }
+  @keyframes dots {
+    0% { content: ''; }
+    33% { content: '.'; }
+    66% { content: '..'; }
+    100% { content: '...'; }
+  }
+</style>
+</head>
+<body>
+  <a href="Expanding-Your-Knowledge.html" class="home-btn">Return</a>
+
+  <div class="overlay">
+    <h1>Math Quiz</h1>
+    <div id="question"></div>
+    <img id="qimage" src="" alt="Question Image">
+    <div class="choices">
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+    </div>
+    <div id="loading" class="dots">Next</div>
+    <div class="result" style="display:none;"></div>
+    <div class="reward" style="display:none;">
+      <img id="rewardImage" src="" alt="Reward">
+    </div>
+    <button id="tryAgainBtn">Try Again</button>
+  </div>
+
+  <script>
+    const allQuestions = [
+      {q:"What is the formula for the area of a triangle?",choices:["A = lw","A = ½bh","A = πr²","A = s²"],answer:"A = ½bh"},
+      {q:"Which formula is used for the circumference of a circle?",choices:["C = 2πr","C = πr²","C = lw","C = ½bh"],answer:"C = 2πr"},
+      {q:"What is the formula for the volume of a cube?",choices:["V = s³","V = lw","V = πr²h","V = ½bh"],answer:"V = s³"},
+      {q:"Which formula represents the Pythagorean theorem?",choices:["a² + b² = c²","E = mc²","F = ma","A = ½bh"],answer:"a² + b² = c²"},
+      {q:"What is the formula for the area of a rectangle?",choices:["A = lw","A = 2πr","A = s²","A = ½bh"],answer:"A = lw"},
+      {q:"Which formula is for the surface area of a sphere?",choices:["SA = 4πr²","V = 4/3πr³","C = 2πr","A = lw"],answer:"SA = 4πr²"},
+      {q:"The formula for a geometric sequence nth term is?",choices:["an = a₁ + (n-1)d","an = a₁rⁿ⁻¹","Sn = n/2(2a₁+(n-1)d)","V = s³"],answer:"an = a₁rⁿ⁻¹"},
+      {q:"Which formula is for the sum of an arithmetic series?",choices:["Sn = n/2(2a₁+(n-1)d)","an = a₁rⁿ⁻¹","C = 2πr","A = ½bh"],answer:"Sn = n/2(2a₁+(n-1)d)"},
+      {q:"What is the formula for probability?",choices:["P = favorable/total","P = πr²","P = lw","P = a²+b²"],answer:"P = favorable/total"},
+      {q:"Which formula calculates the volume of a cylinder?",choices:["V = πr²h","V = lw","SA = 4πr²","C = 2πr"],answer:"V = πr²h"},
+      {q:"Solve: x + 5 = 12",choices:["5","6","7","8"],answer:"7"},
+      {q:"Formula for the area of a circle?",choices:["πr²","2πr","lw","½bh"],answer:"πr²"},
+      {q:"What is the perimeter of a square with side 9?",choices:["18","27","36","81"],answer:"36"},
+      {q:"Simplify: 4x + 6x",choices:["10","10x","12x","14x"],answer:"10x"},
+      {q:"The sum of angles in a triangle is?",choices:["90°","120°","180°","360°"],answer:"180°"},
+      {q:"A die is rolled. Probability of rolling 5?",choices:["1/2","1/3","1/6","1/12"],answer:"1/6"},
+      {q:"Find the value: 7²",choices:["14","21","28","49"],answer:"49"},
+      {q:"A pizza has 8 slices. Mary ate 3. Fraction left?",choices:["3/8","4/8","5/8","6/8"],answer:"5/8"},
+      {q:"What is the diameter if the radius is 11?",choices:["11","15","18","22"],answer:"22"},
+      {q:"Area of a rectangle length=12, width=5",choices:["60","12","24","50"],answer:"60"},
+      {q:"Find LCM of 6 and 8",choices:["12","18","20","24"],answer:"24"},
+      {q:"Simplify: (2x)(3x)",choices:["5x","6x","6x²","x⁶"],answer:"6x²"},
+      {q:"Angle sum of quadrilateral?",choices:["90°","180°","270°","360°"],answer:"360°"},
+      {q:"Peter has 3 red, 2 blue marbles. Probability picking blue?",choices:["1/2","2/5","3/5","1/3"],answer:"2/5"},
+      {q:"If 5 notebooks cost 100 pesos, cost of 1 notebook?",choices:["10","15","20","25"],answer:"20"},
+      {q:"Solve: 15 - x = 6",choices:["6","7","8","9"],answer:"9"},
+      {q:"Area of triangle base=10, height=8",choices:["20","40","50","80"],answer:"40"},
+      {q:"Probability of drawing a heart from deck of 52 cards, if there are 13 heart?",choices:["1/2","1/4","1/6","1/13"],answer:"1/4"},
+      {q:"The mode of [2,4,4,5,6]",choices:["2","4","5","6"],answer:"4"},
+      {q:"A rectangular garden is 8 meters long and 5 meters wide. What is its area?", choices:["40","26","30","13"], answer:"40"},
+      {q:"A pen costs 15 pesos. 4 pens cost?",choices:["45","50","55","60"],answer:"60"},
+      {q:"If diameter=14, circumference ≈ ?",choices:["22","28","44","88"],answer:"44"},
+      {q:"Perimeter of equilateral triangle side=7?",choices:["14","21","28","35"],answer:"21"},
+      {q:"A box has dimensions 2×3×4. Volume?",choices:["12","18","20","24"],answer:"24"},
+      {q:"What is 10% of 250?",choices:["20","25","30","35"],answer:"25"},
+      {q:"The supplement of 70° is?",choices:["20°","90°","110°","180°"],answer:"110°"},
+      {q:"Find median of [3,7,9,12,15]",choices:["7","9","12","15"],answer:"9"},
+      {q:"A container holds 100 liters of water. If 25% is removed and then 30 liters are added, how much water is in the container?", choices:["80 liters","85 liters","90 liters","95 liters"], answer:"80 liters"},
+      {q:"John invests 5000 pesos at 8% simple interest per year. How much interest does he earn in 3 years?", choices:["1200","1250","1300","1350"], answer:"1200"},
+              {q:"A fruit basket has apples and oranges. If apples are twice the number of oranges and total fruits are 36, how many apples are there?", choices:["12","18","24","30"], answer:"24"},
+      {q:"A pizza is cut into 12 slices. If 7 slices are eaten, what fraction of the pizza is left?", choices:["5/12","7/12","1/2","2/3"], answer:"5/12"},
+      {q:"John has twice as many marbles as Mike. If Mike has 15 marbles, how many does John have?", choices:["15","20","25","30"], answer:"30"},
+      {q:"A rectangle has a perimeter of 50 cm. If its length is 15 cm, what is its width?", choices:["10","12.5","20","25"], answer:"10"},
+      {q:"If base=5, height=12, area of triangle?",choices:["15","25","30","60"],answer:"30"},
+      {q:"Probability of tossing tails with coin?",choices:["1/2","1/3","1/4","1/5"],answer:"1/2"},
+      {q:"Which polygon has 8 sides?",choices:["Hexagon","Octagon","Nonagon","Decagon"],answer:"Octagon"},
+      {q:"Volume of cube side=5",choices:["25","75","100","125"],answer:"125"},
+    ];
+
+    function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+    const quizData = shuffle(allQuestions).slice(0,15);
+
+    let currentQuestion = 0, correctCount = 0;
+    const questionEl = document.getElementById('question');
+    const imgEl = document.getElementById('qimage');
+    const choiceButtons = document.querySelectorAll('.choices button');
+    const resultEl = document.querySelector('.result');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const rewardDiv = document.querySelector('.reward');
+    const rewardImg = document.getElementById('rewardImage');
+    const loadingEl = document.getElementById('loading');
+
+    function loadQuestion(){
+      const current = quizData[currentQuestion];
+      questionEl.textContent = `Q${currentQuestion+1}: ${current.q}`;
+      if(current.image){ imgEl.src=current.image; imgEl.style.display="block"; }
+      else { imgEl.style.display="none"; }
+      const shuffledChoices = shuffle([...current.choices]);
+      choiceButtons.forEach((btn,i)=>{
+        btn.textContent = shuffledChoices[i];
+        btn.disabled = false;
+        btn.onclick = ()=>{
+          if(btn.textContent===current.answer) correctCount++;
+          choiceButtons.forEach(b=>b.disabled=true);
+          loadingEl.style.display="block";
+          setTimeout(()=>{ loadingEl.style.display="none"; nextQuestion(); },1000);
+        };
+      });
+    }
+
+    function nextQuestion(){
+      currentQuestion++;
+      if(currentQuestion<quizData.length){ loadQuestion(); }
+      else {
+        questionEl.textContent="Quiz Completed!";
+        imgEl.style.display="none";
+        document.querySelector('.choices').style.display='none';
+        resultEl.textContent=`✅ Correct: ${correctCount} / ${quizData.length}`;
+        resultEl.style.display='block';
+        rewardImg.src="https://i.pinimg.com/originals/11/82/59/118259993924863bd3f6457da365e2ac.gif";
+        rewardDiv.style.display='block';
+        tryAgainBtn.style.display='inline-block';
+      }
+    }
+
+    tryAgainBtn.addEventListener('click',()=>location.reload());
+    loadQuestion();
+  </script>
+</body>
+</html>

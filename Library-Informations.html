@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Informations</title>
+  <style>
+    body {
+      font-family: 'EB Garamond', serif;
+      margin: 0;
+      background: #fdf6ec;
+      color: #2e2e2e;
+      background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+      background-size: 20px 20px;
+      overflow-x: hidden;
+      animation: fadeInBody 1.2s ease-in-out;
+    }
+    @keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #6b4226;
+      padding: 15px 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      animation: slideDown 1s ease;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #f9e4b7;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+      margin-left: 10px;
+    }
+    .navbar a:hover {
+      background: #d97a4a;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    @keyframes slideDown { from { transform: translateY(-60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9e4b7;
+      border-radius: 20px;
+      margin: 20px;
+      padding: 40px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: fadeUp 1.2s ease;
+    }
+    .hero-text { max-width: 50%; color: #4a2c1a; }
+    .hero-text h1 { font-size: 2.5rem; margin: 0; color: #6b4226; animation: fadeLeft 1.3s ease; }
+    .hero-text p { margin: 10px 0 20px; font-size: 1rem; color: #4a2c1a; animation: fadeLeft 1.5s ease; }
+    .hero-text a {
+      text-decoration: none; background: #6b4226; color: #fff;
+      padding: 10px 20px; border-radius: 10px; font-size: 0.9rem;
+      transition: 0.3s; animation: fadeLeft 1.7s ease; display: inline-block;
+    }
+    .hero-text a:hover { background: #d97a4a; transform: scale(1.1); }
+.hero img {
+  width: 200px;             /* keeps image large */
+  height: auto;             /* keeps proportions */
+  border-radius: 25px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  margin-left: auto;        /* pushes image to far right */
+  margin-right: 0;          /* removes any gap on the right */
+  display: block;
+  animation: zoomIn 1.5s ease;
+}
+    }
+
+    @keyframes fadeUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeLeft { from { transform: translateX(-40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* MAIN GRID */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      gap: 20px;
+      margin: 20px auto;
+      max-width: 1200px;
+      animation: fadeUp 1.5s ease;
+    }
+
+    /* Artwork */
+    .artwork h2, .recent-search h2 { font-size: 1.2rem; color: #6b4226; animation: fadeLeft 1.6s ease; }
+    .art-grid { display: flex; gap: 10px; }
+    .art-card { text-align: center; animation: zoomIn 1.6s ease; }
+    .art-card img {
+      width: 150px; height: 150px; border-radius: 15px; object-fit: cover;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15); transition: 0.3s;
+    }
+    .art-card img:hover { transform: scale(1.05) rotate(2deg); }
+    .art-card p { font-size: 0.75rem; margin-top: 5px; color: #4a2c1a; }
+    .view-more {
+      display: inline-block; margin-top: 15px; padding: 8px 15px;
+      border-radius: 20px; border: 1px solid #6b4226; text-decoration: none;
+      font-size: 0.8rem; color: #6b4226; transition: 0.3s; animation: fadeUp 1.8s ease;
+    }
+    .view-more:hover { background: #6b4226; color: #fff; transform: scale(1.05); }
+
+    /* Two Column */
+    .two-column { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .two-column .column { display: flex; flex-direction: column; gap: 10px; }
+    .search-item {
+      background: #fffaf3; border-radius: 30px; padding: 8px 15px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.85rem; color: #4a2c1a; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      animation: fadeUp 1.8s ease; transition: 0.3s; min-width: 300px; max-width: 320px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .search-item:hover { transform: scale(1.03); }
+
+    /* Side Icons */
+    .side-icons { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+    .side-icons img {
+      width: 100px; height: 100px; border-radius: 50%; background: #fff; padding: 5px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15); animation: zoomIn 2s ease; transition: 0.3s;
+    }
+    .side-icons img:hover { transform: scale(1.1) rotate(5deg); }
+
+    /* Info Cards */
+    .info-cards { display: flex; flex-direction: column; gap: 10px; margin: 20px; }
+    .info-cards h2 { color: #6b4226; animation: fadeLeft 1.6s ease; }
+    .info-card {
+      display: flex; align-items: center; background: #fffaf3; border-radius: 35px;
+      padding: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); gap: 15px;
+      transition: 0.3s; animation: fadeUp 1.6s ease;
+    }
+    .info-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .info-card img { width: 40px; height: 40px; }
+    .info-card h3 { margin: 0; font-size: 1.2rem; color: #6b4226; }
+    .info-card p { margin: 5px 0 0; font-size: 0.8rem; color: #4a2c1a; }
+
+    /* Insights */
+    .insights-box {
+      background: #fffaf3; border: 2px solid #6b4226; border-radius: 15px;
+      padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: fadeUp 1.7s ease;
+    }
+    .insights-footer {
+      border: 2px solid #6b4226; border-radius: 15px; margin-top: 15px; height: 140px;
+      background: url("https://i.pinimg.com/originals/0b/1d/fc/0b1dfc8ebe6f365f4208cb0cff5c46c9.gif") no-repeat center center / cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); animation: zoomIn 1.8s ease;
+    }
+
+    /* Bulletin */
+    .board {
+      width: 88%; height: 83vh; margin: 25px auto; background: #d7a86e;
+      border: 15px solid #6b4226; border-radius: 12px; padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4); overflow: hidden;
+    }
+    .board h1 {
+      text-align: center; margin: 0 0 30px; font-size: 40px; color: #3e2723;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    .board .cards {
+      display: flex; justify-content: space-around; align-items: flex-start;
+      flex-wrap: wrap; gap: 40px; position: relative;
+    }
+    .board .cards .bb-card {
+      width: 220px; height: 320px; background: #fff9f0; border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.25); padding: 16px; position: relative;
+      cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+      font-size: 18px; text-align: center; display: flex; justify-content: center; align-items: center;
+    }
+    .board .cards .bb-card::before {
+      content: ""; position: absolute; top: -40px; left: 50%;
+      width: 2px; height: 40px; background: #333; transform: translateX(-50%);
+    }
+    .board .cards .bb-card::after {
+      content: ""; position: absolute; top: -50px; left: 50%;
+      width: 16px; height: 16px; background: #e53935; border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4); transform: translateX(-50%);
+    }
+.board .cards .bb-card:hover {
+  transform: rotate(2deg) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+
+    .board .title {
+      position: absolute; background: #6b4226; color: white;
+      padding: 5px 12px; border-radius: 8px; font-size: 16px; font-weight: bold;
+      top: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+    }
+    .board .lower { margin-top: 50px; }
+
+    /* Fix: remove default blue link color */
+    .board .cards a,
+    .board .cards a:visited,
+    .board .cards a:hover,
+    .board .cards a:active {
+      text-decoration: none;
+      color: inherit;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="Main-Web-Page2.html">Home</a>
+    <a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Readers_Club.html">Readers Club</a>
+  </nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Sir Mj Mañego</h1>
+    <p>He is the head of the school library inside Makabulos Memorial High School.</p>
+    <a href="https://www.facebook.com/markjoseph.manego">View More</a>
+  </div>
+
+  <a href="https://www.facebook.com/markjoseph.manego">
+    <img src="https://i.pinimg.com/736x/cd/6e/bd/cd6ebd660070507d218829a17a63736f.jpg" alt="Sir Mj Mañego">
+  </a>
+</section>
+
+
+  <!-- MAIN GRID -->
+  <section class="main-grid">
+    <!-- Artwork -->
+    <div class="artwork">
+      <h2>Other teacher(s)</h2>
+      <div class="art-grid">
+        <div class="art-card">
+    <a href="https://www.facebook.com/MaimaiLucasDelacruz">
+          <img src="https://i.pinimg.com/736x/34/75/e9/3475e9a12c3539617fc01972795ca3e2.jpg" alt="" /> </a>
+          <p><b>Ma'am Mai-Mai Lucas Dela Cruz</b></p>
+        </div>
+      </div>   
+      <a href="https://www.facebook.com/MaimaiLucasDelacruz" class="view-more">View More</a>
+    </div>
+
+    <!-- Recent Search -->
+    <div class="recent-search">
+      <h2>Types of Books</h2>
+      <div class="search-list two-column">
+        <div class="column">
+          <div class="search-item">Religion <button>🕊️</button></div>
+          <div class="search-item">Literature <button>📖</button></div>
+          <div class="search-item">Social Science <button>💡</button></div>
+          <div class="search-item">Language <button>📜</button></div>
+          <div class="search-item">Science <button>🚀</button></div>
+        </div>
+        <div class="column">
+          <div class="search-item">Technology <button>💻</button></div>
+          <div class="search-item">Arts and Recreation <button>🎨</button></div>
+          <div class="search-item">History and Geography <button>🏛️</button></div>
+          <div class="search-item">Philosophy and Psychology <button>❤️</button></div>
+          <div class="search-item">General Works<button>📝</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side Icons -->
+    <div class="side-icons">
+      <img src="https://i.pinimg.com/originals/25/ea/ca/25eaca70f864d594696ba342aef48dbf.gif" alt="" />
+      <br /><br />
+      <img src="https://i.pinimg.com/originals/53/06/a3/5306a3bb88bd260da2b458e5985178a3.gif" alt="" />
+    </div>
+  </section>
+
+  <!-- Insights Text -->
+  <section class="info-cards">
+    <div class="insights-box">
+      <h4>Library Insights</h4>
+      <p>
+        The school library is a place where students read, study, and do research. 
+        It provides books, references, and digital resources that support learning in different subjects.
+      </p>
+      <p>
+        The library also serves as a quiet space where students can focus on assignments and projects. 
+        It offers access to computers and the internet for research purposes.
+      </p>
+      <p>
+        Overall, the library is an important part of our education because it helps us gain knowledge, 
+        develop good study habits, and explore new ideas.
+      </p>
+    </div>
+  </section>
+
+  <!-- Bulletin Board -->
+<section class="board" aria-label="Bulletin Board">
+  <h1>Bulletin Board</h1>
+  <p style="
+    text-align:center;
+    font-size:1.2rem;
+    color:#3e2723;
+    font-weight:600;
+    margin-top:-10px;
+    margin-bottom:30px;
+    text-shadow:1px 1px 2px rgba(0,0,0,0.15);
+  ">
+    📌 Click to view the <strong>Announcements and Informations</strong>!
+  </p> <br><br>
+
+  <div class="cards">
+
+    <a href="file:///C:/Users/mayel/OneDrive/Desktop/TECHnoLOGIC/Library_History.html" class="bb-card">
+      <div class="title">History</div>
+      <div class="paper-lines">
+        <hr><hr style="width:80%;">
+        <hr style="width:60%;"><hr style="width:75%;">
+        <hr style="width:50%;"><hr style="width:85%;">        
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:65%;"><hr style="width:55%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:65%;"><hr style="width:60%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+      </div>
+    </a>
+
+    <a href="file:///C:/Users/mayel/OneDrive/Desktop/TECHnoLOGIC/Starbooks.html" class="bb-card lower">
+      <div class="title">Starbooks & Traditional Books</div>
+      <div class="paper-lines">
+        <hr><hr style="width:70%;">
+        <hr style="width:60%;"><hr style="width:75%;">
+        <hr style="width:50%;"><hr style="width:85%;">        
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:65%;"><hr style="width:55%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:65%;"><hr style="width:60%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+      </div>
+    </a>
+
+    <a href="file:///C:/Users/mayel/OneDrive/Desktop/TECHnoLOGIC/What-sNew.html" class="bb-card">
+      <div class="title">Trivia</div>
+      <div class="paper-lines">
+        <hr><hr style="width:85%;">
+        <hr style="width:60%;"><hr style="width:75%;">
+        <hr style="width:50%;"><hr style="width:85%;">        
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:65%;"><hr style="width:55%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:65%;"><hr style="width:60%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+      </div>
+    </a>
+
+    <a href="file:///C:/Users/mayel/OneDrive/Desktop/TECHnoLOGIC/Announcements.html" class="bb-card lower">
+      <div class="title">Announcements</div>
+      <div class="paper-lines">
+        <hr><hr style="width:80%;">
+        <hr style="width:60%;"><hr style="width:75%;">
+        <hr style="width:50%;"><hr style="width:85%;">        
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:65%;"><hr style="width:55%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+        <hr style="width:50%;"><hr style="width:85%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:75%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:65%;"><hr style="width:60%;">
+        <hr style="width:55%;"><hr style="width:80%;">
+        <hr style="width:60%;"><hr style="width:70%;">
+      </div>
+    </a>
+
+  </div>
+</section>
+<style>
+.board .cards .bb-card:hover {
+  transform: rotate(2deg) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+.paper-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 90%;
+  margin: 30px auto 0;
+  padding: 10px 0;
+  gap: 8px;
+}
+
+.paper-lines hr {
+  border: none;
+  border-top: 1.5px solid #000;
+  width: 85%;
+  margin: 0;
+  opacity: 0.3;
+  visibility: visible;
+  pointer-events: none;
+}
+</style>
+  
+<!-- Insights Footer GIF -->
+  <section class="info-cards">
+    <div class="insights-footer"></div>
+  </section>
+
+  <!-- Info Cards -->
+  <section class="info-cards">
+    <h2>Did you know?</h2>
+    <div class="info-card">
+      <img src="https://i.pinimg.com/originals/ec/05/cf/ec05cfd83594fd4af1d75b24be0d4057.gif" alt="" />
+      <div>
+        <h3>The Library</h3>
+        <p>If you visit the library more than twice and read at least two books, you will earn an additional point in your English subject.</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <img src="https://i.pinimg.com/originals/5f/38/0e/5f380e2ecbf7d232a7d2e7092d53536d.gif" alt="" />
+      <div>
+        <h3>Reading</h3>
+        <p>You can enjoy reading! There are tons of different books from Entertainment books like comics and story to Professinal Books and Research!</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <img src="https://i.pinimg.com/originals/55/e8/af/55e8af23ff4e1055efd3605624dceb66.gif" alt="" />
+      <div>
+        <h3>Rules</h3>
+        <p>The rules are simple: eating is not allowed, and making loud noises is prohibited. Also Clean As You Go! (CLAYGO)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ Added Type of Books Popup -->
+  <div id="book-popup" class="book-popup">
+    <div class="book-popup-content">
+      <button class="close-btn" onclick="closePopup()">✖</button>
+      <h2 id="popup-title"></h2>
+      <div id="book-list" class="book-list"></div>
+    </div>
+  </div>
+
+  <style>
+  .book-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  .book-popup-content {
+    background: #fff9f0;
+    border: 3px solid #6b4226;
+    border-radius: 15px;
+    padding: 25px 30px;
+    width: 600px;
+    max-width: 90%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    color: #4a2c1a;
+    animation: fadeUp 0.6s ease;
+    position: relative;
+  }
+  .close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    background: #6b4226;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .close-btn:hover { background: #d97a4a; }
+  .book-popup-content h2 {
+    text-align: center;
+    color: #5c4033;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+  }
+  .book-list {
+    background: #fdf6ec;
+    border: 2px solid #a17452;
+    border-radius: 10px;
+    padding: 20px;
+    max-height: 350px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+  }
+  .book-item {
+    padding: 10px 15px;
+    border-bottom: 1px dashed #a17452;
+    font-size: 1rem;
+    color: #4a2c1a;
+    transition: background 0.2s;
+  }
+  .book-item:last-child { border-bottom: none; }
+  .book-item:hover { background: rgba(107,66,38,0.1); }
+  </style>
+
+  <script>
+  const booksByType = {
+"Religion": [
+  "Behold the Sign of Man in the Sky",
+  "Guidelines for Christian Social Action",
+  "The Greatest Treasure",
+  "Stories from the Веропо",
+  "Your Guide to Heriven Vol. 8",
+  "Isang Rituwal para sa mga Laikung Tagapaglingkod",
+  "Faith Songs for the Faith-Filled",
+  "Performance Counts and Accountability Pays!",
+  "Our Christmas Gift to You",
+  "A Faith for Today",
+  "Jesus’ Seven Last Words",
+  "The Mystery and Meaning of the Mass",
+  "Traveling Preacher",
+  "The Immaculate Heart of Mary",
+  "The Mass We Celebrate",
+  "Babe Bible",
+  "Ti Baro a Tulang ken Dagiti Salmo Naited",
+  "To Heal as Jesus Healed",
+  "Roads to Everywhere",
+  "God’s Love"
+],
+    "Literature": [
+    "Spanish Verb Finder – Dr. Kermethi P. Heda",
+    "Are We Slaves of Money – John Pryden",
+    "Reader’s Digest – Moller",
+    "Hands of a Priest – Brian Poyle",
+    "From Mir with Love – Jerry Lineger",
+    "In Praise of Walking",
+    "Walking Five Minute Solution",
+    "Battgth",
+    "Agatha Christie’s Detectives",
+    "The Rainbow and the Rose",
+    "The Children’s Classics",
+    "Elements of Nuclear Reactor Theory",
+    "Wildfire",
+    "Wide Wonderful World",
+    "Spelling",
+    "English Learning Portals",
+    "Communicate in English",
+    "Exploring Life through Filipino",
+    "Literature in Focus II",
+    "Practical Research",
+    "Reader’s Digest"
+    ],
+"Social Science": [
+  "Outliers",
+  "Sapiens",
+  "The Tipping Point",
+  "Thinking Fast and Slow",
+  "Blink",
+  "The Power of Habit",
+  "Freakonomics",
+  "Drive",
+  "Grit",
+  "Quiet",
+  "The Righteous Mind",
+  "Predictably Irrational",
+  "The Culture Code",
+  "Emotional Intelligence",
+  "Nudge",
+  "The Happiness Hypothesis",
+  "Originals",
+  "Social Intelligence",
+  "Mindset",
+  "Influence"
+],
+
+"Language": [
+  "The Elements of Style",
+  "Eats Shoots and Leaves",
+  "Word Power Made Easy",
+  "On Writing",
+  "The Sense of Style",
+  "The Language Instinct",
+  "Between You and Me",
+  "Sin and Syntax",
+  "Because Internet",
+  "The Art of Syntax",
+  "Story Genius",
+  "The Writer’s Journey",
+  "Write Tight",
+  "Writing Down the Bones",
+  "Bird by Bird",
+  "The Writing Life",
+  "Everybody Writes",
+  "The Copyeditor’s Handbook",
+  "Grammar Girl’s Quick and Dirty Tips",
+  "The Oxford Essential Guide to Writing"
+],
+
+"Science": [
+  "A Brief History of Time",
+  "The Selfish Gene",
+  "Cosmos",
+  "The Elegant Universe",
+  "The Grand Design",
+  "Astrophysics for People in a Hurry",
+  "The Gene",
+  "The Origin of Species",
+  "The Double Helix",
+  "Silent Spring",
+  "The Immortal Life of Henrietta Lacks",
+  "Chaos",
+  "The Order of Time",
+  "The Demon Haunted World",
+  "The Body",
+  "The Fabric of the Cosmos",
+  "The Disappearing Spoon",
+  "Why We Sleep",
+  "The Hidden Life of Trees",
+  "Brief Answers to the Big Questions"
+],
+
+"Technology": [
+  "The Innovators",
+  "Clean Code",
+  "The Phoenix Project",
+  "Hooked",
+  "The Lean Startup",
+  "Code",
+  "Artificial Intelligence A Guide for Thinking Humans",
+  "The Second Machine Age",
+  "The Singularity Is Near",
+  "Algorithms to Live By",
+  "The Shallows",
+  "You Look Like a Thing and I Love You",
+  "How to Create a Mind",
+  "Superintelligence",
+  "Zero to One",
+  "Deep Work",
+  "Rebel Code",
+  "The Big Nine",
+  "The Fourth Industrial Revolution",
+  "Futureproof"
+],
+
+"Arts and Recreation": [
+  "The Story of Art",
+  "Steal Like an Artist",
+  "Ways of Seeing",
+  "The War of Art",
+  "Big Magic",
+  "Creative Confidence",
+  "Show Your Work",
+  "Art and Fear",
+  "The Artist’s Way",
+  "Drawing on the Right Side of the Brain",
+  "Color and Light",
+  "Daily Rituals",
+  "The Creative Habit",
+  "How Music Works",
+  "The Architecture of Happiness",
+  "The Art Spirit",
+  "The Art of Looking Sideways",
+  "Letters to a Young Poet",
+  "The Shape of Design",
+  "Interaction of Color"
+],
+    "History and Geography": [
+    "National Geographic",
+    "Shanghai",
+    "Hubble's Eye on Universe",
+    "See How they Grow",
+    "Essential Word's for GRE",
+    "Teach Yourself",
+    "Creative Innovative",
+    "Jewel Scarabs",
+    "Hanging in the Balance",
+    "Mistralia",
+    "World Civilization",
+    "Healthwise for Life",
+    "Nutritional Healing",
+    "Architectural Digest",
+    "Curing Illness",
+    "You and Your Government",
+    "Lechuguilla Care",
+    "The Vimy Flies Again",
+    "Brain",
+    "Goodluck City",
+    "The World's Great Life"
+    ],
+    "Philosophy and Psychology": [
+  "Values I",
+  "Linking the World Through English",
+  "The Art of Being",
+  "Values Education 3",
+  "Values Education 3",
+  "Valuing Others",
+  "Values IV",
+  "Liberating the Creative Spirit in Asian Students",
+  "Guidance & Counseling",
+  "The Greatest Story Ever Told",
+  "Human Behavior at Work",
+  "God's Law of Love",
+  "Clinical Psychology",
+  "One Hundred Bible Lessons"
+    ],
+    "General Works": [
+ "Microsoft Foundation Class Library Reference",
+  "Teach Yourself Word 97",
+  "The Essentials of Programming",
+  "Peter Norton's Assembly Language Book for the IBM PC",
+  "Comparative Programming Language",
+  "Adobe Photoshop Elements",
+  "Microprocessors and Digital Systems",
+  "Adobe Gelive",
+  "Adobe InDesign",
+  "Adobe Photoshop IS Classroom in a Book",
+  "Inside Windows 2000 Server",
+  "Java 2 Platform",
+  "UML Distilled",
+  "Operating Systems Theory",
+  "Microsoft PowerPoint for Windows and Macintosh",
+  "Teach Yourself Page Maker 5.0",
+  "Official Microsoft Internet Explorer 4 Book",
+  "Networking",
+  "Using GPS",
+  "Computer Hardware W"
+    ]
+  };
+
+  function showBooks(type) {
+    const popup = document.getElementById("book-popup");
+    const title = document.getElementById("popup-title");
+    const list = document.getElementById("book-list");
+    title.textContent = type + " Books";
+    list.innerHTML = booksByType[type]
+      .map(book => `<div class='book-item'>${book}</div>`)
+      .join("");
+    popup.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closePopup() {
+    const popup = document.getElementById("book-popup");
+    popup.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  document.querySelectorAll(".search-item button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const type = btn.parentElement.textContent.trim().replace(/[\s🕊️📖💡📜🚀💻🎨🏛️❤️📝]+$/, "");
+      showBooks(type);
+    });
+  });
+  </script>
+
+</body>
+</html>

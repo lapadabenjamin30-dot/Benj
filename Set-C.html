@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Fuzzy+Bubbles:wght@400;700&family=Zen+Dots&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Quiz</title>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    body {
+      font-family: 'Zen Dots', serif;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; color: #0d3310;
+      overflow: hidden; animation: fadeIn 1.5s ease-in; position: relative;
+    }
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('https://i.pinimg.com/originals/8a/e2/ed/8ae2ede9e335295189021881938f2dac.gif');
+      background-size: cover; background-position: center;
+      filter: blur(8px); z-index: -1;
+    }
+    .home-btn {
+      position: absolute; top: 20px; left: 20px;
+      background-color: #2e7d32; color: #fff;
+      padding: 10px 18px; font-size: 16px;
+      border-radius: 8px; text-decoration: none;
+      border: 2px solid #1b5e20; transition: 0.3s; z-index: 2;
+    }
+    .home-btn:hover { background-color: #388e3c; }
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 20px; padding: 40px 30px;
+      width: 90%; max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      text-align: center; border: 5px double #2e7d32;
+      position: relative; z-index: 1;
+    }
+    h1 { margin-bottom: 20px; font-size: 28px; color: #1b5e20; }
+    #question { font-size: 20px; margin-bottom: 15px; color:#0d3310; }
+    #qimage { max-width: 90%; margin: 10px auto; display: none; border-radius: 10px; }
+    .choices button {
+      display: block; width: 100%; margin: 8px 0; padding: 14px;
+      font-size: 16px; border: 2px solid #2e7d32; border-radius: 10px;
+      cursor: pointer; background-color: #c8e6c9; color: #0d3310;
+      transition: 0.3s;
+    }
+    .choices button:hover { background-color: #a5d6a7; }
+    .result { font-size: 20px; margin-top: 20px; font-weight: bold; color:#1b5e20; }
+    #tryAgainBtn {
+      display: none; margin-top: 15px; padding: 12px 20px;
+      font-size:16px; border-radius:10px; border:2px solid #2e7d32;
+      background-color:#c8e6c9; cursor:pointer; color:#0d3310;
+    }
+    #tryAgainBtn:hover { background-color: #a5d6a7; }
+    .reward img { max-width: 80%; margin-top: 15px; border-radius: 15px; }
+    /* Loading animation */
+    #loading {
+      display: none;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #1b5e20;
+    }
+    .dots::after {
+      content: '';
+      animation: dots 1s steps(3, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: ''; }
+      33% { content: '.'; }
+      66% { content: '..'; }
+      100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+  <a href="Expanding-Your-Knowledge.html" class="home-btn">Return</a>
+
+  <div class="overlay">
+    <h1>Science Quiz</h1>
+    <div id="question"></div>
+    <img id="qimage" src="" alt="Question Image">
+    <div class="choices">
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+    </div>
+    <div id="loading" class="dots">Next</div>
+    <div class="result" style="display:none;"></div>
+    <div class="reward" style="display:none;">
+      <img id="rewardImage" src="" alt="Reward">
+    </div>
+    <button id="tryAgainBtn">Try Again</button>
+  </div>
+
+  <script>
+    const allQuestions = [
+      {q:"A car uses 8 liters of gasoline to travel 120 km. How many liters are needed for 300 km?",choices:["15 L","18 L","20 L","25 L"],answer:"20 L"},
+      {q:"A block of iron has a mass of 400 g and a volume of 50 cm³. What is its density?",choices:["4 g/cm³","6 g/cm³","8 g/cm³","10 g/cm³"],answer:"8 g/cm³"},
+      {q:"A student drops a ball from a building. Why does it fall to the ground?",choices:["Friction","Inertia","Gravity","Magnetism"],answer:"Gravity"},
+      {q:"A plant grows 3 cm per week. After 2 months, it measures 45 cm. What was its original height?",choices:["15 cm","18 cm","20 cm","21 cm"],answer:"21 cm"},
+      {q:"A scientist places ice in a glass of water. After melting, the water level stays the same. Why?",choices:["Ice becomes gas","Water contracts","Ice displaces equal volume","Water evaporates"],answer:"Ice displaces equal volume"},
+      {q:"A light ray passes from air into water. It bends towards the normal. What phenomenon is this?",choices:["Reflection","Diffraction","Refraction","Dispersion"],answer:"Refraction"},
+      {q:"A pulley helps lift a 50 kg box. If the box’s weight is 500 N, how much force is needed with an ideal 2:1 pulley system?",choices:["100 N","200 N","250 N","500 N"],answer:"250 N"},
+      {q:"A food contains 20 g protein, 10 g fat, and 30 g carbohydrate. How many calories does it provide?",choices:["200 kcal","270 kcal","330 kcal","350 kcal"],answer:"330 kcal"},
+      {q:"A battery produces 12 volts and a current of 3 amperes flows. What is the resistance?",choices:["2 Ω","3 Ω","4 Ω","5 Ω"],answer:"4 Ω"},
+      {q:"A rock takes 5 s to fall from a cliff. If g = 10 m/s², how high is the cliff?",choices:["100 m","110 m","120 m","125 m"],answer:"125 m"},
+      {q:"Which part of the cell contains genetic material (DNA)?",choices:["Ribosome","Nucleus","Mitochondria","Cytoplasm"],answer:"Nucleus"},
+      {q:"What is the main function of red blood cells?",choices:["Fight infection","Carry oxygen","Control blood pressure","Produce hormones"],answer:"Carry oxygen"},
+      {q:"Which law states: 'For every action, there is an equal and opposite reaction'?",choices:["Newton’s 1st law","Newton’s 2nd law","Newton’s 3rd law","Law of Gravitation"],answer:"Newton’s 3rd law"},
+      {q:"What is the process of water changing from liquid to gas?",choices:["Condensation","Evaporation","Freezing","Sublimation"],answer:"Evaporation"},
+      {q:"Which planet has the fastest revolution around the Sun?",choices:["Venus","Earth","Mercury","Mars"],answer:"Mercury"},
+      {q:"Which organ system removes waste from the body?",choices:["Circulatory","Excretory","Digestive","Nervous"],answer:"Excretory"},
+      {q:"The ozone layer protects us from which type of radiation?",choices:["Infrared","Gamma","Ultraviolet","X-ray"],answer:"Ultraviolet"},
+      {q:"What is the chemical formula of table salt?",choices:["HCl","NaCl","KCl","CO₂"],answer:"NaCl"},
+      {q:"Which blood type is called the 'universal donor'?",choices:["A","B","AB","O"],answer:"O"},
+      {q:"What is the unit of force?",choices:["Joule","Watt","Newton","Pascal"],answer:"Newton"},
+      {q:"Which is the largest planet?",choices:["Earth","Jupiter","Saturn","Neptune"],answer:"Jupiter"},
+      {q:"Which vitamin comes from sunlight?",choices:["A","B","C","D"],answer:"D"},
+      {q:"Which is the powerhouse of the cell?",choices:["Nucleus","Cytoplasm","Mitochondria","Ribosome"],answer:"Mitochondria"},
+      {q:"What do plants release during photosynthesis?",choices:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],answer:"Oxygen"},
+      {q:"What is Earth’s natural satellite?",choices:["Sun","Moon","Star","Mars"],answer:"Moon"},
+      {q:"What gas do humans breathe in?",choices:["Oxygen","Carbon dioxide","Nitrogen","Helium"],answer:"Oxygen"},
+      {q:"A thermometer shows 0°C. What happens to water at this temperature?",choices:["Boils","Freezes","Evaporates","Condenses"],answer:"Freezes"},
+      {q:"A plant has roots, stem, and leaves. Which part makes food?",choices:["Roots","Stem","Leaves","Flowers"],answer:"Leaves"},
+      {q:"A magnet attracts which material?",choices:["Wood","Plastic","Iron","Rubber"],answer:"Iron"},
+      {q:"A shadow is longest during?",choices:["Morning","Noon","Afternoon","Night"],answer:"Morning"},
+      {q:"A rainbow appears because of?",choices:["Reflection","Refraction","Evaporation","Gravity"],answer:"Refraction"}
+    ];
+
+    function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+    const quizData = shuffle(allQuestions).slice(0,15);
+
+    let currentQuestion = 0, correctCount = 0;
+    const questionEl = document.getElementById('question');
+    const imgEl = document.getElementById('qimage');
+    const choiceButtons = document.querySelectorAll('.choices button');
+    const resultEl = document.querySelector('.result');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const rewardDiv = document.querySelector('.reward');
+    const rewardImg = document.getElementById('rewardImage');
+    const loadingEl = document.getElementById('loading');
+
+    function loadQuestion(){
+      const current = quizData[currentQuestion];
+      questionEl.textContent = `Q${currentQuestion+1}: ${current.q}`;
+      if(current.image){ imgEl.src=current.image; imgEl.style.display="block"; }
+      else { imgEl.style.display="none"; }
+      const shuffledChoices = shuffle([...current.choices]);
+      choiceButtons.forEach((btn,i)=>{
+        btn.textContent = shuffledChoices[i];
+        btn.disabled = false;
+        btn.onclick = ()=>{
+          if(btn.textContent===current.answer) correctCount++;
+          choiceButtons.forEach(b=>b.disabled=true);
+          loadingEl.style.display="block"; // show animation
+          setTimeout(()=>{ loadingEl.style.display="none"; nextQuestion(); },1000);
+        };
+      });
+    }
+
+    function nextQuestion(){
+      currentQuestion++;
+      if(currentQuestion<quizData.length){ loadQuestion(); }
+      else {
+        questionEl.textContent="Quiz Completed!";
+        imgEl.style.display="none";
+        document.querySelector('.choices').style.display='none';
+        resultEl.textContent=`✅ Correct: ${correctCount} / ${quizData.length}`;
+        resultEl.style.display='block';
+        rewardImg.src="https://i.pinimg.com/originals/11/82/59/118259993924863bd3f6457da365e2ac.gif";
+        rewardDiv.style.display='block';
+        tryAgainBtn.style.display='inline-block';
+      }
+    }
+
+    tryAgainBtn.addEventListener('click',()=>location.reload());
+    loadQuestion();
+  </script>
+</body>
+</html>
+

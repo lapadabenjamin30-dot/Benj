@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reader's Club Officers</title>
+  <style>
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.member {
+  animation: fadeUp 0.8s ease forwards;
+  opacity: 0;
+}
+
+.row .member:nth-child(1) { animation-delay: 0.1s; }
+.row .member:nth-child(2) { animation-delay: 0.2s; }
+.row .member:nth-child(3) { animation-delay: 0.3s; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5efe6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .header {
+      width: 95%;
+      background: #5c4033;
+      color: #fdfaf6;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header a {
+      text-decoration: none;
+    }
+
+    .header-btn {
+      background: #fdfaf6;
+      color: #5c4033;
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .header-btn:hover {
+      background: #a17452;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      text-align: center;
+      position: relative;
+      padding-top: 50px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #5c4033;
+      margin-bottom: 50px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+
+    .member {
+      text-align: center;
+      color: #5c4033;
+      flex: 1;
+      min-width: 220px;
+      max-width: 350px;
+    }
+
+    .member h2 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #7b5e52;
+    }
+
+    .member .box {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border: 2.5px solid #a17452;
+      border-radius: 14px;
+      background: #fffaf3;
+      transition: 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .member .box:hover {
+      transform: scale(1.03);
+      border-color: #5c4033;
+      box-shadow: 0 6px 15px rgba(92,64,51,0.2);
+    }
+
+    .member .box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .member p {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #7b5e52;
+      letter-spacing: 0.5px;
+    }
+
+    .separator {
+      width: 100%;
+      height: 80px;
+      margin: 20px 0 50px 0;
+      background: transparent;
+      position: relative;
+    }
+
+    .separator::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 40px;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, #d2b48c, #a17452, #d2b48c);
+      border-radius: 100%;
+      transform: scaleY(1.3);
+      box-shadow: 0 0 10px rgba(161, 116, 82, 0.3);
+    }
+
+}
+.sparkles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .sparkles::before, .sparkles::after {
+      content: "";
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkleMove 8s linear infinite;
+      box-shadow:
+        20vw 10vh white,
+        50vw 80vh white,
+        80vw 30vh white,
+        10vw 60vh white,
+        40vw 50vh white,
+        70vw 20vh white;
+    }
+
+    @keyframes sparkleMove {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    /* 💭 Floating Circles */
+    .background-circles div {
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      animation: floaty 10s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .background-circles div:nth-child(1) {
+      width: 120px; height: 120px;
+      top: 20%; left: 15%;
+      animation-delay: 0s;
+    }
+    .background-circles div:nth-child(2) {
+      width: 200px; height: 200px;
+      top: 60%; left: 70%;
+      animation-delay: 3s;
+    }
+    .background-circles div:nth-child(3) {
+      width: 150px; height: 150px;
+      top: 40%; left: 40%;
+      animation-delay: 6s;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-30px) translateX(20px); }
+    }
+
+    .profile-view {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 250, 243, 0.97);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      overflow-y: auto;
+      z-index: 200;
+    }
+
+    .profile-view.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .back-btn {
+      align-self: flex-start;
+      background: #5c4033;
+      border: none;
+      padding: 12px 28px;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+
+    .back-btn:hover {
+      background: #7b5e52;
+    }
+
+    .profile-content {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 50px;
+      width: 100%;
+      max-width: 1100px;
+      flex-wrap: wrap;
+    }
+
+    .profile-left {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-left img {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(92,64,51,0.2);
+      object-fit: contain;
+    }
+
+    .profile-right {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .profile-role {
+      font-size: 1rem;
+      color: #a17452;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #3e2f23;
+      margin-bottom: 12px;
+    }
+
+    .profile-short {
+      color: #7b5e52;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+    }
+
+    .info-box {
+      background: #f1e4d1;
+      border-radius: 10px;
+      padding: 15px 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .info-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #7b5e52;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 1.1rem;
+      color: #3e2f23;
+    }
+/* ✨ Refined Officer Image Frame Styles ✨ */
+.member .box {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 4px double #a17452; /* elegant double border */
+  border-radius: 18px;
+  background: #fffaf3;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.4s ease;
+  box-shadow:
+    0 6px 15px rgba(92, 64, 51, 0.25),
+    inset 0 0 8px rgba(161, 116, 82, 0.2);
+}
+
+/* 🪶 Inner frame edge (adds depth inside) */
+.member .box::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(161, 116, 82, 0.25);
+  pointer-events: none;
+}
+
+/* 🕯️ Image itself */
+.member .box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.98) contrast(1.05);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* 🌟 Hover animation */
+.member .box:hover {
+  transform: scale(1.05);
+  border-color: #5c4033;
+  box-shadow:
+    0 10px 25px rgba(92, 64, 51, 0.35),
+    inset 0 0 10px rgba(161, 116, 82, 0.25);
+}
+
+.member .box:hover img {
+  transform: scale(1.07);
+  filter: brightness(1.05) contrast(1.1);
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Header -->
+  <div class="header">
+    <a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Library-Informations.html">
+      <button class="header-btn">Home</button>
+    </a>
+    <a href="file:///C:/Users/mayel/Downloads/ReaderC_Staff.html">
+      <button class="header-btn">Reader’s Club Staff</button>
+    </a>
+  </div>
+
+  <div class="container">
+    <h1>Reader's Club Officers</h1>
+
+    <!-- Officers -->
+    <div class="row">
+      <div class="member">
+        <h2>President</h2>
+        <div class="box" onclick="openProfile(1)">
+          <img src="https://i.pinimg.com/736x/e5/a7/20/e5a7207a8b93785699bd75fcf8dd4c11.jpg" alt="President">
+        </div>
+        <p>Judane Bilog</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="member">
+        <h2>Vice President</h2>
+        <div class="box" onclick="openProfile(2)">
+          <img src="https://i.pinimg.com/736x/8c/09/db/8c09dbc1acc73ee9f1ce2002af9f1768.jpg" alt="Vice President">
+        </div>
+        <p>Angela Casapao</p>
+      </div>
+
+      <div class="member">
+        <h2>Secretary</h2>
+        <div class="box" onclick="openProfile(3)">
+          <img src="https://i.pinimg.com/736x/da/1a/82/da1a82777d6760295f2fe1caeb224909.jpg" alt="Secretary">
+        </div>
+        <p>Joyce Villanueva</p>
+      </div>
+
+      <div class="member">
+        <h2>Treasurer</h2>
+        <div class="box" onclick="openProfile(4)">
+          <img src="https://i.pinimg.com/736x/e3/e4/cb/e3e4cbe82a7ea1695eedf5ae1aa76bd4.jpg" alt="Treasurer">
+        </div>
+        <p>Angela Gabriel</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="member">
+        <h2>Auditor</h2>
+        <div class="box" onclick="openProfile(5)">
+          <img src="https://i.pinimg.com/736x/cb/f6/1d/cbf61dbc531071a092535295386c55bf.jpg" alt="Auditor">
+        </div>
+        <p>Bianca Pagaduan</p>
+      </div>
+
+      <div class="member">
+        <h2>PRO</h2>
+        <div class="box" onclick="openProfile(6)">
+          <img src="https://i.pinimg.com/736x/f3/bf/ba/f3bfbab9445b31b2fbef75523ce92b30.jpg" alt="PRO">
+        </div>
+        <p>Stephanie Villacentino</p>
+      </div>
+
+      <div class="member">
+        <h2>Business Manager</h2>
+        <div class="box" onclick="openProfile(7)">
+          <img src="https://i.pinimg.com/736x/cd/7c/bf/cd7cbf6142641d99a04f9d064e51a0e4.jpg" alt="Creative Head">
+        </div>
+        <p>Angelo Casapao</p>
+      </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="row">
+      <div class="member">
+        <h2>Sub Treasurer</h2>
+        <div class="box" onclick="openProfile(8)">
+          <img src="https://i.pinimg.com/736x/03/39/54/033954e965c62b8c7f1e4f8d478ad5fc.jpg" alt="Sub Member">
+        </div>
+        <p>Jorge Gamit</p>
+      </div>
+
+      <div class="member">
+        <h2>Sub Business Manager</h2>
+        <div class="box" onclick="openProfile(9)">
+          <img src="https://i.pinimg.com/736x/a7/08/b9/a708b9be0d23433bbb8cf9193470a63c.jpg" alt="Sub Member">
+        </div>
+        <p>Zashta Gacusan</p>
+      </div>
+    </div>
+
+    <!-- Profile Popup -->
+    <div class="profile-view" id="profileView">
+      <button class="back-btn" onclick="closeProfile()">Back</button>
+      <div class="profile-content" id="profileInner"></div>
+    </div>
+  </div>
+
+  <script>
+    const members = {
+  1: { 
+    name: 'Judane Bilog', 
+    role: 'President', 
+    image: 'https://i.pinimg.com/736x/e5/a7/20/e5a7207a8b93785699bd75fcf8dd4c11.jpg', 
+    info: [
+    { label: "What's your Favorite Book?", value: "My favorite book is The <em>Alchemist</em> by <b>Paulo Coelho</b> because it teaches about following your dreams and trusting the journey of life." },
+    { label: "Why did you join the Reader's Club?", value: "I joined the readers club to share my love for books, discover new stories, and meet people who enjoy reading as much as I do." },
+    { label: "What's your Favorite Genre of Book?", value: "My favorite genre is Mystery and Adventure because I love solving puzzles and exploring exciting, unpredictable stories." },
+    { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "<i>Echoes of Tomorrow.</i> It’s about a young girl who finds a device that lets her hear messages from her future self, helping her change her destiny." },
+    { label: "What Book would you Recommend for Future Readers?", value: "<em>To Kill a Mockingbird</em> by <b>Harper Lee</b> because it teaches about courage, justice, and understanding others." }
+]
+
+  },
+
+  2: { 
+    name: 'Angela Casapao', 
+    role: 'Vice President', 
+    image: 'https://i.pinimg.com/736x/8c/09/db/8c09dbc1acc73ee9f1ce2002af9f1768.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "My Favorite is <em>Beowulf</em>" },
+      { label: "Why did you join the Reader's Club?", value: " Because I like to read, and the club gives extra points in class." },
+      { label: "What's your Favorite Genre of Book?", value: "My favorites are Fantasy, Mystery and romance" },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: " <i>Hidden magic, Found love.</i> In a world where magic hides, two hearts connect. Can they uncover the secrets of the past and find love along the way?" },
+      { label: "What Book would you Recommend for Future Readers?", value: "<em>Carry On</em> by <b>Rainbow Rowell</b>. It's a fun story about a magic school. There is a great romance in it. It also has some mysteries to figure out." }
+    ]
+  },
+
+  3: { 
+    name: 'Joyce Villanueva', 
+    role: 'Secretary', 
+    image: 'https://i.pinimg.com/736x/da/1a/82/da1a82777d6760295f2fe1caeb224909.jpg', 
+    info: [
+    { label: "What's your Favorite Book?", value: "My favorite book is <em>Golden Scenery of Tomorrow</em> because it inspires reflection and growth." },
+    { label: "Why did you join the Reader's Club?", value: "I joined the reader’s club because I wanted to engage myself with people who share the same interest with me. I also want to inspire others and be inspired to read more with the right people surrounding me." },
+    { label: "What's your Favorite Genre of Book?", value: "My favorite genres are <b>Rom-Com</b> and <b>Sci-Fi</b> because they mix humor, imagination, and meaningful stories." },
+    { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "<i>Serenity</i> — it will be about the life lessons I’ve learned, sharing my experiences so readers won’t repeat the mistakes I did. It revolves around my journey and, just like the title, it’s about peace earned through understanding life’s storms — encouraging readers to do better, know better, and become the best version of themselves." },
+    { label: "What Book would you Recommend for Future Readers?", value: "<em>The University Series (Books #1–#6)</em> and <em>Atomic Habits</em> because they both teach personal growth, discipline, and valuable lessons about life and self-improvement." },
+    ]
+  },
+
+  4: { 
+    name: 'Angela Gabriel', 
+    role: 'Treasurer', 
+    image: 'https://i.pinimg.com/736x/e3/e4/cb/e3e4cbe82a7ea1695eedf5ae1aa76bd4.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "My favorite book is The <em>Hunger Games</em>" },
+      { label: "Why did you join the Reader's Club?", value: "I joined the Readers Club because I enjoy reading and discovering new stories. It’s also a fun way to share ideas and connect with others, also I get extra points joining the club." },
+      { label: "What's your Favorite Genre of Book?", value: "My favorite genre is fiction because it allows me to explore different worlds and imagine stories beyond reality." },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "If I could create my own book, its title would be <i>The Lost City of Dreams</i> It would be about a young girl who discovers a hidden city where everything imagined becomes real, but she must face the consequences of her own creations." },
+      { label: "What Book would you Recommend for Future Readers?", value: "I would recommend <em>The Hunger Games</em> because it’s full of adventure, emotion, and lessons about bravery and survival." }
+    ]
+  },
+
+  5: { 
+    name: 'Bianca Pagaduan', 
+    role: 'Auditor', 
+    image: 'https://i.pinimg.com/736x/cb/f6/1d/cbf61dbc531071a092535295386c55bf.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "My favorite book is <em>Toe Tagged</em>"},
+      { label: "Why did you join the Reader's Club?", value: "Because I find comfort in reading" },
+      { label: "What's your Favorite Genre of Book?", value: "Fantasy, Sci-Fi, and Horror" },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "<i>Impeccable</i> it would be about living so true to yourself" },
+      { label: "What Book would you Recommend for Future Readers?", value: "<em>Toe Tagged</em>, because it really hooked me up" }
+    ]
+  },
+
+  6: { 
+    name: 'Stephanie Villacentino', 
+    role: 'PRO', 
+    image: 'https://i.pinimg.com/736x/f3/bf/ba/f3bfbab9445b31b2fbef75523ce92b30.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "" },
+      { label: "Why did you join the Reader's Club?", value: "" },
+      { label: "What's your Favorite Genre of Book?", value: "" },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "" },
+      { label: "What Book would you Recommend for Future Readers?", value: "" }
+    ]
+  },
+
+  7: { 
+    name: 'Angelo Casapao', 
+    role: 'Business Manager', 
+    image: 'https://i.pinimg.com/736x/cd/7c/bf/cd7cbf6142641d99a04f9d064e51a0e4.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "My favorite book is <em>The Diary of a Young Girl</em> by <b> Anne Frank </b> because it shows the real experiences of a young girl during a difficult time in history and teaches courage and hope." },
+      { label: "Why did you join the Reader's Club?", value: "I joined the Readers Club to learn from different real-life stories and gain lessons that I can apply to my own life. Reading also helps me understand people and their experiences better." },
+      { label: "What's your Favorite Genre of Book?", value: "My favorite genre is non-fiction or real-life stories because they inspire me and show true lessons about life, struggle, and success." },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "The title of my book would be <i>Pieces of Reality</i> It would be about the struggles and dreams of ordinary people, showing how every person’s story matters and how hope can change lives." },
+      { label: "What Book would you Recommend for Future Readers?", value: "I would recommend <em>Becoming</em> by <b>Michelle Obama</b> because it tells about her real journey in life, the challenges she faced, and how she became an inspiration to many people." }
+    ]
+  },
+
+  8: { 
+    name: 'Jorge Gamit', 
+    role: 'Sub Treasurer', 
+    image: 'https://i.pinimg.com/736x/03/39/54/033954e965c62b8c7f1e4f8d478ad5fc.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "My Favorite book is <em>Sunny</em>" },
+      { label: "Why did you join the Reader's Club?", value: "I joined the Reader’s Club because I know it will help me improve my speaking skills and widen my vocabulary." },
+      { label: "What's your Favorite Genre of Book?", value: "Romance" },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "<i>My Last 7 Days</i>, A deeply emotional story about love, forgiveness, and finding beauty even in goodbye." },
+      { label: "What Book would you Recommend for Future Readers?", value: "It would be <em>The History of Tarlac</em> because it is important to know and appreciate the place where you came from." }
+    ]
+  },
+
+  9: { 
+    name: 'Zashta Gacusan', 
+    role: 'Sub Business Manager', 
+    image: 'https://i.pinimg.com/736x/a7/08/b9/a708b9be0d23433bbb8cf9193470a63c.jpg', 
+    info: [
+      { label: "What's your Favorite Book?", value: "My favorite book is <em>Forged by Fire</em> by <b> Sharon M. Draper</b>. I like it because it’s emotional and shows how someone can stay strong even after going through a lot." },
+      { label: "Why did you join the Reader's Club?", value: "I joined the Readers Club because I like reading and discovering new stories. It’s also fun to share ideas with others and, honestly, the extra points help too." },
+      { label: "What's your Favorite Genre of Book?", value: "My favorite genre is realistic fiction because it feels real and I can relate to the characters and what they go through." },
+      { label: "If you Could Create your own Book, What Would its Title and Description be?", value: "If I could create my own book, the title would be <i>Flames of Resilience</i>. It would be about a teenager who learns to stay strong after facing problems in life and family." },
+      { label: "What Book would you Recommend for Future Readers?", value: "I’d recommend <em>Forged by Fire</em> because it’s touching, meaningful, and shows how people can change and grow stronger." }
+    ]
+  }
+};
+
+
+    const profileView = document.getElementById('profileView');
+    const profileInner = document.getElementById('profileInner');
+
+    function openProfile(id) {
+      const m = members[id];
+      if (!m) return;
+
+      profileInner.innerHTML = `
+        <div class="profile-left">
+          <img src="${m.image}" alt="${m.name}">
+        </div>
+        <div class="profile-right">
+          <div class="profile-role">${m.role}</div>
+          <div class="profile-name">${m.name}</div>
+          <div class="profile-short">Reader's Club Officer</div>
+          <div class="info-list">
+            ${m.info.map(i => `
+              <div class="info-box">
+                <div class="info-label">${i.label}</div>
+                <div class="info-value">${i.value}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      profileView.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProfile() {
+      profileView.classList.remove('active');
+      document.body.style.overflow = '';
+      profileInner.innerHTML = '';
+    }
+  </script>
+</body>
+</html>

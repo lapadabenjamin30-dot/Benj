@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivia Board</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background: linear-gradient(135deg, #fdf6e3, #f2e4c6, #e6d5a8);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+      color: #3e2c1c;
+      margin: 0;
+      padding: 30px;
+    }
+
+    /* Return Button */
+    .return-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #fffaf0;
+      border: 2px solid #b18c64;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 1rem;
+      color: #5a3c2a;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeSlide 0.8s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    .return-btn:hover {
+      background: #f9e9d0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      color: #5a3c2a;
+      margin-bottom: 40px;
+      text-shadow: 1px 1px #e6d8b4;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: popUp 1s ease forwards;
+    }
+
+    .trivia-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fffaf0;
+      border: 2px solid #b18c64;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: popUp 1s ease forwards;
+    }
+
+    .trivia-box:nth-of-type(1) {
+      animation-delay: 1s;
+    }
+    .trivia-box:nth-of-type(2) {
+      animation-delay: 2.5s;
+    }
+
+    /* Headings animation */
+    .trivia-text h2 {
+      margin-top: 0;
+      font-size: 1.6rem;
+      color: #5a3c2a;
+      border-bottom: 2px dashed #b18c64;
+      display: inline-block;
+      padding-bottom: 4px;
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeSlide 0.8s ease forwards;
+    }
+
+    .trivia-box:nth-of-type(1) .trivia-text h2 {
+      animation-delay: 1.6s;
+    }
+    .trivia-box:nth-of-type(2) .trivia-text h2 {
+      animation-delay: 3.2s;
+    }
+
+    /* Paragraphs animation */
+    .trivia-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 10px 0;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeSlideUp 0.8s ease forwards;
+    }
+
+    .trivia-box:nth-of-type(1) .trivia-text p:nth-of-type(1) {
+      animation-delay: 2s;
+    }
+    .trivia-box:nth-of-type(2) .trivia-text p:nth-of-type(1) {
+      animation-delay: 3.6s;
+    }
+    .trivia-box:nth-of-type(2) .trivia-text p:nth-of-type(2) {
+      animation-delay: 4s;
+    }
+
+    /* Image delayed */
+    .trivia-box img {
+      width: 220px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 3px solid #8c6d4f;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: popUp 0.8s ease forwards;
+    }
+
+    .trivia-box:nth-of-type(1) img {
+      animation-delay: 2.3s;
+    }
+    .trivia-box:nth-of-type(2) img {
+      animation-delay: 4.3s;
+    }
+
+    .trivia-text {
+      flex: 1;
+      padding: 0 20px;
+    }
+
+    /* Alternate layouts */
+    .reverse {
+      flex-direction: row-reverse;
+    }
+
+    /* Keyframes */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes popUp {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Return Button -->
+  <a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Library-Informations.html" class="return-btn">← Return</a>
+
+  <h1>TRIVIA TIME<br>DID YOU KNOW?</h1>
+
+  <!-- Trivia 1 -->
+  <div class="trivia-box">
+    <div class="trivia-text">
+      <h2>Trivia 1</h2>
+      <p>The word pneumonoultramicroscopicsilicovolcanoconiasis is one of the longest words in the English language! It refers to a lung disease caused by inhaling very fine particles of silica dust, often found near volcanoes. The word has 45 letters and was originally coined to be a very long word — but it's also used in medical contexts.</p>
+      <p>That word sound like someone slept on their keyboard.</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/d5/45/ca/d545ca87ab62504517ff68b30999e08e.gif" alt="Trivia Image 1">
+  </div>
+
+  <!-- Trivia 2 -->
+  <div class="trivia-box reverse">
+    <div class="trivia-text">
+      <h2>Trivia 2</h2>
+      <p>Did you know? You can’t swallow and breathe at the same time — your body automatically blocks the airway to protect you!</p>
+      <p>Did you try it yourself just now?</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/c9/5a/4f/c95a4f6580181edff7aa269b6a034c62.gif" alt="Trivia Image 2">
+  </div>
+  <!-- Trivia 3 -->
+  <div class="trivia-box">
+    <div class="trivia-text">
+      <h2>Trivia 3</h2>
+      <p>Bananas are berries, but strawberries aren’t.</p>
+      <p>So, why is it called a StrawBERRY if it isn't a Berry?</p>
+
+    </div>
+    <img src="https://i.pinimg.com/originals/d5/45/ca/d545ca87ab62504517ff68b30999e08e.gif" alt="Trivia Image 1">
+  </div>
+
+  <!-- Trivia 4 -->
+  <div class="trivia-box reverse">
+    <div class="trivia-text">
+      <h2>Trivia 4</h2>
+      <p>Honey never spoils — archaeologists found edible honey in ancient Egyptian tombs.</p>
+      <p>Egyptian honey out here lasting longer then some relationships.</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/c9/5a/4f/c95a4f6580181edff7aa269b6a034c62.gif" alt="Trivia Image 2">
+  </div>
+
+  <!-- Trivia 5 -->
+  <div class="trivia-box">
+    <div class="trivia-text">
+      <h2>Trivia 5</h2>
+      <p> <stronger>Did you know? </stronger>A day on Venus is indeed longer than a year on Venus. Specifically, a day on Venus (the time it takes to rotate once on its axis) lasts about 243 Earth days </p>
+    </div>
+    <img src="https://i.pinimg.com/originals/d5/45/ca/d545ca87ab62504517ff68b30999e08e.gif" alt="Trivia Image 1">
+  </div>
+
+  <!-- Trivia 6 -->
+  <div class="trivia-box reverse">
+    <div class="trivia-text">
+      <h2>Trivia 6</h2>
+      <p>Did you know? The shortest war in history lasted only 38 minutes (Anglo-Zanzibar War, 1896).</p>
+      <p>Hmmm, I wonder how long did the longest war started...</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/c9/5a/4f/c95a4f6580181edff7aa269b6a034c62.gif" alt="Trivia Image 2">
+  </div>
+
+  <!-- Trivia 7 -->
+  <div class="trivia-box">
+    <div class="trivia-text">
+      <h2>Trivia 7</h2>
+      <p> There are more stars in the universe than grains of sand on Earth.</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/d5/45/ca/d545ca87ab62504517ff68b30999e08e.gif" alt="Trivia Image 1">
+  </div>
+
+  <!-- Trivia 8 -->
+  <div class="trivia-box reverse">
+    <div class="trivia-text">
+      <h2>Trivia 8</h2>
+      <p>Fun fact! The Eiffel Tower can grow taller in summer because metal expands with heat.</p>
+      <p>Wanna know what else can expand...? Liquid! because when liquids turn into gas it also expands due to the heat.</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/c9/5a/4f/c95a4f6580181edff7aa269b6a034c62.gif" alt="Trivia Image 2">
+  </div>
+
+  <!-- Trivia 9 -->
+  <div class="trivia-box">
+    <div class="trivia-text">
+      <h2>Trivia 9</h2>
+      <p>The heart of a blue whale is as big as a small car!</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/d5/45/ca/d545ca87ab62504517ff68b30999e08e.gif" alt="Trivia Image 1">
+  </div>
+
+  <!-- Trivia 10 -->
+  <div class="trivia-box reverse">
+    <div class="trivia-text">
+      <h2>Trivia 10</h2>
+      <p>Fun fact! Cows have best friends and get stressed when separated.</p>
+      <p>Welp looks like cows have better friendship than most people hehe.</p>
+    </div>
+    <img src="https://i.pinimg.com/originals/c9/5a/4f/c95a4f6580181edff7aa269b6a034c62.gif" alt="Trivia Image 2">
+  </div>
+
+</body>
+</html>

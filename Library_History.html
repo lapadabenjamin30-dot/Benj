@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Library History — Magical</title>
+  <style>
+    :root{
+      --sepia:#5a3c2a;
+      --border:#b18c64;
+      --paper:#fffaf0;
+      --accent:#8c6d4f;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Garamond', serif;
+      background: linear-gradient(135deg,#fdf6e3,#f7edd5);
+      color:#3e2c1c;
+      overflow-x:hidden;
+      transition: opacity 0.8s ease;
+    }
+    body.fade-out { opacity:0; }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      opacity:0.18;
+      z-index:-1;
+    }
+
+    .return-btn{
+      position:fixed;
+      top:18px;
+      left:18px;
+      background:var(--paper);
+      border:2px solid var(--border);
+      color:var(--sepia);
+      padding:8px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      box-shadow:0 4px 10px rgba(0,0,0,0.18);
+      transition: transform .22s ease, box-shadow .22s ease, background .22s;
+      z-index:2000;
+    }
+    .return-btn:hover{
+      transform: translateY(-2px) scale(1.03);
+      background:#efe0c2;
+      box-shadow:0 6px 14px rgba(0,0,0,0.25);
+    }
+
+    h1{
+      text-align:center;
+      color:var(--sepia);
+      margin:36px 0 18px;
+      text-shadow:1px 1px #e6d8b4;
+      font-size:2.2rem;
+      opacity:0;
+      transform: translateY(-18px);
+      animation:fadeUp .9s ease forwards .35s;
+    }
+
+    .big-box{
+      max-width:1200px;
+      margin: 10px auto 60px;
+      background:var(--paper);
+      border:4px solid var(--border);
+      border-radius:14px;
+      padding:26px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+      opacity:0;
+      transform: translateY(30px) scale(.98);
+      animation:popUp .9s ease forwards .9s;
+      position:relative;
+    }
+
+    @keyframes popUp { to { opacity:1; transform: translateY(0) scale(1); } }
+    @keyframes fadeUp { to { opacity:1; transform: translateY(0); } }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap:18px;
+    }
+
+    .section{
+      background:transparent;
+      padding:12px;
+      border-radius:8px;
+      opacity:0;
+      transform: translateY(18px);
+    }
+    .text1{ animation:fadeUp .8s ease forwards 1.4s; }
+    .shelfSec{ animation:fadeUp .8s ease forwards 1.8s; }
+    .gifSec{ animation:fadeUp .8s ease forwards 2.2s; }
+    .text2{ animation:fadeUp .8s ease forwards 2.6s; }
+
+    .text-box{ font-size:1.35rem; line-height:1.85; }
+    .text-box h2{
+      margin:0 0 10px 0;
+      font-size:1.9rem;
+      color:var(--sepia);
+      display:inline-block;
+      border-bottom:2px dashed var(--border);
+      padding-bottom:6px;
+    }
+
+    .bookshelf{
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:8px;
+      height:250px;
+      background:#fcefdc;
+      border:2px solid var(--accent);
+      border-radius:8px;
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .shelf-board{
+      position:absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      height:20px;
+      background:#6b4226;
+    }
+
+    .book{
+      width:44px;
+      border-radius:4px;
+      border:1px solid rgba(0,0,0,0.22);
+      box-shadow:2px 3px 6px rgba(0,0,0,0.25);
+      transform-origin: bottom center;
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transition: transform .22s ease, box-shadow .22s ease, filter .15s ease;
+      animation:sway 3s ease-in-out infinite;
+      display:inline-block;
+    }
+    .book::before{
+      content:"";
+      position:absolute;
+      top:8px;
+      left:14%;
+      width:70%;
+      height:4px;
+      background:rgba(255,255,255,0.45);
+      border-radius:2px;
+    }
+    .book::after{
+      content:"";
+      position:absolute;
+      bottom:12px;
+      left:50%;
+      width:10px;
+      height:10px;
+      background:rgba(255,255,255,0.75);
+      border-radius:50%;
+      transform:translateX(-50%);
+    }
+    .book:hover{
+      transform: translateY(-6px) scale(1.08);
+      box-shadow:0 10px 24px rgba(0,0,0,0.32), 0 0 12px rgba(177,140,100,0.28);
+      filter:brightness(1.02);
+    }
+    @keyframes sway {
+      0% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+      100% { transform: rotate(-2deg); }
+    }
+
+    .book1{ height:150px; background:#c97e48; }
+    .book2{ height:120px; background:#d9a066; }
+    .book3{ height:190px; background:#a05d2c; }
+    .book4{ height:130px; background:#deb887; }
+    .book5{ height:170px; background:#8b5a2b; }
+    .book6{ height:140px; background:#d2691e; }
+    .book7{ height:160px; background:#cd853f; }
+    .book8{ height:135px; background:#a0522d; }
+
+    .gifSec img{
+      width:100%;
+      border-radius:10px;
+      display:block;
+      opacity:0;
+      transform: translateY(10px);
+      animation:fadeUp .9s ease forwards 2.8s;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(8,6,4,0.45);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .22s ease;
+      z-index:3000;
+    }
+    .modal.show{ opacity:1; pointer-events:auto; }
+    .modal-card{
+      width: min(720px, 92%);
+      background:var(--paper);
+      border:3px solid var(--border);
+      border-radius:12px;
+      padding:18px 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      transform: translateY(12px) scale(.98);
+      transition: transform .18s ease;
+      position:relative;
+    }
+    .modal.show .modal-card{ transform: translateY(0) scale(1); }
+    .modal-card h3{ margin:0 0 8px; color:var(--sepia); font-size:1.4rem; }
+    .modal-card p{ margin:6px 0 12px; line-height:1.6; font-size:1.05rem; }
+    .modal-actions{ display:flex; justify-content:flex-end; margin-top:6px; }
+    .btn{
+      background:var(--paper);
+      border:2px solid var(--border);
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .modal-close{
+      position:absolute;
+      right:12px;
+      top:12px;
+      background:transparent;
+      border:0;
+      font-size:20px;
+      cursor:pointer;
+      color:#5a3c2a;
+    }
+
+    .particles{ pointer-events:none; position:fixed; inset:0; z-index:1200; }
+    .particle{
+      position:absolute;
+      width:6px;height:6px;border-radius:50%;
+      background:rgba(255,255,255,0.85);
+      opacity:0;
+      transform:translateY(100vh) scale(.6);
+      animation: floatAnim linear infinite;
+    }
+    @keyframes floatAnim{
+      0%{ opacity:0; transform:translateY(110vh) scale(.4); }
+      10%{ opacity:1; }
+      90%{ opacity:0.6; }
+      100%{ transform:translateY(-15vh) scale(1); opacity:0; }
+    }
+    @media (max-width:900px){
+      h1{ font-size:1.8rem; }
+      .book{ width:36px; }
+      .text-box{ font-size:1.1rem; }
+    }
+    @media (max-width:640px){
+      .grid{ grid-template-columns: 1fr; }
+      .bookshelf{ height:210px; }
+    }
+  </style>
+</head>
+<body>
+  <a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Library-Informations.html" class="return-btn" id="returnBtn">← Return</a>
+  <h1>Library History</h1>
+
+  <div class="big-box">
+    <div class="grid">
+      <div class="section text-box text1">
+        <h2>Info Section</h2>
+        <p>The oldest known library, dating back to around 2500 BCE in ancient Mesopotamia, held thousands of clay tablets with cuneiform writing—showing that libraries have been preserving human knowledge for thousands of years.</p>
+      </div>
+
+      <div class="section shelfSec">
+        <div class="bookshelf">
+          <div class="book book1" data-title="Did you know?"
+               data-fact="An octopus has three hearts, and two stop beating when it swims"></div>
+          <div class="book book2" data-title="Did you know?"
+               data-fact="Butterflies can taste with their feet"></div>
+          <div class="book book3" data-title="Did you know?"
+               data-fact="Bananas are berries, but strawberries aren’t."></div>
+          <div class="book book4" data-title="Did you know?"
+               data-fact="Hugging someone you love releases oxytocin, the “cuddle hormone,” making you happier."></div>
+          <div class="book book5" data-title="Did you know?"
+               data-fact="Holding hands can actually relieve physical pain and stress because your brain calms down when you feel safe."></div>
+          <div class="book book6" data-title="Did you know?"
+               data-fact="Many species of birds, like swans and albatrosses, mate for life."></div>
+          <div class="book book7" data-title="Did you know?"
+               data-fact="You were once the youngest person in the world—right when you were born."></div>
+          <div class="book book8" data-title="Did you know?"
+               data-fact="The Mona Lisa has no eyebrows—they were fashionable to shave off in her era."></div>
+          <div class="shelf-board"></div>
+        </div>
+      </div>
+
+      <div class="section gifSec">
+        <img src="https://i.pinimg.com/originals/67/5f/fd/675ffdd5f78ea458ce557e531f85a42f.gif">
+      </div>
+
+      <div class="section text-box text2">
+        <h2>Details Section</h2>
+        <p>Libraries are more than just places to borrow books—they’re treasure troves of history and knowledge. The Library of Congress in Washington, D.C. has over 170 million items, including books, maps, and recordings.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="bookModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">✕</button>
+      <h3 id="modalTitle">Title</h3>
+      <p id="modalFact">Fact content…</p>
+      <div class="modal-actions">
+        <button class="btn" id="modalCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="particles" id="particles"></div>
+
+  <script>
+    function navigateWithFade(url){
+      document.documentElement.scrollIntoView({behavior:'smooth'});
+      document.body.classList.add('fade-out');
+      setTimeout(()=> window.location.href = url, 700);
+    }
+
+    const returnBtn = document.getElementById('returnBtn');
+    if(returnBtn){
+      returnBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        navigateWithFade(this.getAttribute('href'));
+      });
+    }
+
+    const modal = document.getElementById('bookModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalFact  = document.getElementById('modalFact');
+    const modalClose = document.getElementById('modalClose');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    function openModal(title, fact){
+      modalTitle.textContent = title;
+      modalFact.textContent = fact;
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      modalClose.focus();
+    }
+    function closeModal(){
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+    document.querySelectorAll('.book').forEach(book=>{
+      const title = book.dataset.title;
+      const fact = book.dataset.fact;
+      book.addEventListener('click', ()=> openModal(title,fact));
+      book.addEventListener('keydown',(e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          openModal(title,fact);
+        }
+      });
+    });
+
+    (function spawnParticles(){
+      const container = document.getElementById('particles');
+      const count = 26;
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'particle';
+        el.style.left = (Math.random()*110 - 5) + 'vw';
+        el.style.width = (4 + Math.random()*6) + 'px';
+        el.style.height = el.style.width;
+        const dur = 6 + Math.random()*10;
+        el.style.animationDuration = dur + 's';
+        el.style.animationDelay = (Math.random()*6) + 's';
+        el.style.opacity = (0.3 + Math.random()*0.9);
+        container.appendChild(el);
+      }
+    })();
+  </script>
+</body>
+</html>

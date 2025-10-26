@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Starbooks Old PC Popup</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url('https://i.pinimg.com/originals/0b/1d/fc/0b1dfc8ebe6f365f4208cb0cff5c46c9.gif') no-repeat center center fixed; 
+      background-size: cover;
+      font-family: "Courier New", monospace;
+      overflow: hidden;
+    }
+
+    /* Blur overlay for BG */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: inherit;
+      filter: blur(6px) brightness(2);
+      z-index: -1;
+    }
+
+    /* Old CRT Monitor */
+    .computer {
+      width: 500px;
+      height: 380px;
+      border: 10px solid #230F08;
+      border-radius: 8px;
+      background: #dcdcdc;
+      position: relative;
+      box-shadow: 10px 12px 20px rgba(0,0,0,0.6);
+    }
+
+    /* Screen area */
+    .screen {
+      width: 440px;
+      height: 280px;
+      margin: 20px auto;
+      border: 4px inset #34170D;
+      position: relative;
+      background: radial-gradient(circle at center, #f0f9f0 0%, #d9e6d9 70%, #a98a9 100%);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* CRT Scanlines Effect */
+    .screen::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.05) 0px,
+        rgba(0, 0, 0, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+
+    /* Power button */
+    .power-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #676767;
+      position: absolute;
+      bottom: 10px;
+      left: 20px;
+      box-shadow: inset -2px -2px 4px #222;
+    }
+
+    /* Popup Window */
+    .popup {
+      width: 250px;
+      height: 120px;
+      border: 2px solid black;
+      background: #FEFEFA;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .popup .close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .popup span {
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Old Computer Stand */
+    .stand {
+      width: 120px;
+      height: 40px;
+      background: #230F08;
+      margin: 0 auto;
+      border-radius: 3px;
+    }
+    .base {
+      width: 220px;
+      height: 25px;
+      background: #110703;
+      margin: 5px auto;
+      border-radius: 3px;
+      box-shadow: 3px 3px 0px #111;
+    }s
+
+  </style>
+</head>
+<body>
+
+  <div>
+    <!-- Old CRT Monitor -->
+    <div class="computer">
+      <div class="screen">
+        <div class="popup">
+          <div class="close"><a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Library-Informations.html">X</div></a>
+          <a href="file:///C:/Users/mayel/OneDrive/Desktop/TECHnoLOGIC/Starbooks_2.html"><span>Starbooks</span></a>
+        </div>
+      </div>
+      <div class="power-btn"></div>
+    </div>
+
+    <!-- Stand -->
+    <div class="stand"></div>
+    <div class="base"></div>
+  </div>
+
+</body>
+</html>

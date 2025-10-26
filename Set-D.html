@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Fuzzy+Bubbles:wght@400;700&family=Lobster&family=Zen+Dots&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filipino Quiz</title>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    body {
+      font-family: 'Lobster', serif;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; color: #3e2723;
+      overflow: hidden; animation: fadeIn 1.5s ease-in; position: relative;
+    }
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('https://i.pinimg.com/1200x/78/f2/cb/78f2cb5e0955601de8770d7823635328.jpg');
+      background-size: cover; background-position: center;
+      filter: blur(8px) brightness(0.8); z-index: -1;
+    }
+    .home-btn {
+      position: absolute; top: 20px; left: 20px;
+      background-color: #6d4c41; color: #fff;
+      padding: 10px 18px; font-size: 16px;
+      border-radius: 8px; text-decoration: none;
+      border: 2px solid #3e2723; transition: 0.3s; z-index: 2;
+    }
+    .home-btn:hover { background-color: #8d6e63; }
+    .overlay {
+      background-color: rgba(255, 248, 240, 0.95);
+      border-radius: 20px; padding: 40px 30px;
+      width: 90%; max-width: 500px;
+      box-shadow: 0 10px 25px rgba(62, 39, 35, 0.5);
+      text-align: center; border: 5px double #6d4c41;
+      position: relative; z-index: 1;
+    }
+    h1 { margin-bottom: 20px; font-size: 28px; color: #5d4037; }
+    #question { font-size: 20px; margin-bottom: 15px; }
+
+    /* ✅ Darker brown choices */
+    .choices button {
+      display: block; width: 100%; margin: 8px 0; padding: 14px;
+      font-size: 16px; border: 2px solid #4e342e; border-radius: 10px;
+      cursor: pointer; background-color: #8d6e63; color: #fff;
+      transition: 0.3s;
+    }
+    .choices button:hover { background-color: #6d4c41; }
+
+    .result { font-size: 20px; margin-top: 20px; font-weight: bold; color: #4e342e; }
+
+    /* ✅ Try Again button styled same as choices */
+    #tryAgainBtn {
+      display: none; margin-top: 15px; padding: 12px 20px;
+      font-size:16px; border-radius:10px; border:2px solid #4e342e;
+      background-color:#8d6e63; cursor:pointer; color:#fff;
+      transition: 0.3s;
+    }
+    #tryAgainBtn:hover { background-color: #6d4c41; }
+
+    .reward img { max-width: 80%; margin-top: 15px; border-radius: 15px; }
+
+    /* Loading animation */
+    #loading {
+      display: none;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #5d4037;
+    }
+    .dots::after {
+      content: '';
+      animation: dots 1s steps(3, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: ''; }
+      33% { content: '.'; }
+      66% { content: '..'; }
+      100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+  <a href="Expanding-Your-Knowledge.html" class="home-btn">Return</a>
+
+  <div class="overlay">
+    <h1>Filipino Quiz</h1>
+    <div id="question"></div>
+    <div class="choices">
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+    </div>
+    <div id="loading" class="dots">Susunod</div>
+    <div class="result" style="display:none;"></div>
+    <div class="reward" style="display:none;">
+      <img id="rewardImage" src="" alt="Reward">
+    </div>
+    <button id="tryAgainBtn">Ulitin</button>
+  </div>
+
+  <script>
+    const allQuestions = [
+      {q:"Ano ang tamang gamit ng pang-ukol sa pangungusap na: Umalis siya _ Maynila kahapon.",choices:["sa","ng","kay","mula sa"],answer:"sa"},
+      {q:"Piliin ang pangungusap na may maling gamit ng pangngalan:",choices:["Ang Pilipinas ay isang arkipelago.","Si Andres Bonifacio ang ama ng Katipunan.","Nakita ko si Maria at Pedro sa palengke.","Bumili ako ng dalawang mangga kahapon sa kanila Juan."],answer:"Bumili ako ng dalawang mangga kahapon sa kanila Juan."},
+      {q:"Ano ang tawag sa pag-uugnay ng dalawang sugnay gamit ang pangatnig?",choices:["Pag-iisa","Paghahati","Pagsusugnay","Pag-uulit"],answer:"Pagsusugnay"},
+      {q:"Ano ang wastong gamit ng kung at kapag?",choices:["Ginagamit ang kung sa tiyak na pangyayari.","Ginagamit ang kapag sa hindi tiyak na pangyayari.","Ginagamit ang kung sa kondisyon, at kapag sa tiyak na panahon.","Magkapareho lamang ang gamit ng kung at kapag."],answer:"Ginagamit ang kung sa kondisyon, at kapag sa tiyak na panahon."},
+      {q:"Anong pang-uri ang ginamit: Napakaganda ng tanawin sa Banaue Rice Terraces.",choices:["Lantay","Pahambing","Pasukdol","Palansak"],answer:"Pasukdol"},
+      {q:"Aspekto ng pandiwa: Nag-aaral pa rin siya kahit gabi na.",choices:["Perpektibo","Imperpektibo","Kontemplatibo","Pawatas"],answer:"Imperpektibo"},
+      {q:"Ano ang tawag sa pagbibigay ng ganda sa wika sa pamamagitan ng matalinghagang pahayag?",choices:["Aliterasyon","Tayutay","Eupemismo","Parirala"],answer:"Tayutay"},
+      {q:"Piliin ang pangungusap na nasa balintiyak na tinig.",choices:["Binasa ni Pedro ang aklat.","Binasa ang aklat ni Pedro.","Si Pedro ay nagbasa ng aklat.","Nagbasa si Pedro ng aklat."],answer:"Binasa ang aklat ni Pedro."},
+      {q:"Ano ang tawag sa paggamit ng dalawang salita na magkasalungat upang makalikha ng bagong kahulugan?",choices:["Alusyon","Ironiya","Oksimoron","Parabula"],answer:"Oksimoron"},
+      {q:"Ano ang tawag sa paraan ng pagbigkas ng pantig gaya ng malumay, malumi, mabilis, maragsa?",choices:["Klaster","Tono","Diin","Diin at Haba"],answer:"Tono"},
+      {q:"Ano ang pangunahing tema ng Florante at Laura?",choices:["Pag-ibig at Katarungan","Pag-ibig sa bayan at paniniwala sa Diyos","Kalayaan laban sa Kastila","Pagmamahalan nina Florante at Laura"],answer:"Pag-ibig sa bayan at paniniwala sa Diyos"},
+      {q:"Sa epikong Biag ni Lam-ang, ano ang katangian ng pangunahing tauhan?",choices:["Nakikipag-usap sa mga hayop.","Marunong siyang manggamot.","Nagsasalita at nakikipaglaban mula pagkasilang.","Dakilang mandirigma sa dagat."],answer:"Nagsasalita at nakikipaglaban mula pagkasilang."},
+      {q:"Ano ang layunin ng mga awit at korido noong Panahon ng Kastila?",choices:["Aliwin ang mga manonood","Turuan ng aral-pangmoralidad","Ihanda ang mga Pilipino sa rebolusyon","Magpahayag ng panitikan ng bayan"],answer:"Turuan ng aral-pangmoralidad"},
+      {q:"Anyo ng panitikang nakatuon sa alamat ng mga bayani at mahiwagang nilalang?",choices:["Epiko","Korido","Awit","Dula"],answer:"Epiko"},
+      {q:"Paksa ng mga tulang isinulat sa ilalim ng mga Hapon?",choices:["Pambansang kalayaan","Pag-ibig at damdamin","Katutubong kultura","Pagpapasailalim sa dayuhan"],answer:"Pag-ibig at damdamin"},
+      {q:"Alin ang hindi kabilang sa mga katangian ng awit at korido?",choices:["May sukat at tugma","Buhay ng mga hari at prinsipe","Tumatalakay sa kasalukuyang lipunan","Pakikipagsapalaran"],answer:"Tumatalakay sa kasalukuyang lipunan"},
+      {q:"Sino ang kilalang manunulat ng 'Sa Aking Mga Kabata'?",choices:["Jose Rizal","Andres Bonifacio","Marcelo H. del Pilar","Jose Palma"],answer:"Jose Rizal"},
+      {q:"Paksa ng mga panitikang isinulat noong panahon ng Amerikano?",choices:["Paghanga sa teknolohiya","Kalayaan at Demokrasya","Pagpaparangal sa mga Kastila","Buhay sa probinsya"],answer:"Kalayaan at Demokrasya"},
+      {q:"Layunin ng panitikang rebolusyonaryo noong panahon ng Kastila?",choices:["Aliwin ang tao","Pukawin ang damdaming makabayan","Ituro ang relihiyon","Itaguyod ang kalakalan"],answer:"Pukawin ang damdaming makabayan"},
+      {q:"Sino ang may-akda ng tulang 'Ako’y Pilipino'?",choices:["Marcelo H. del Pilar","Jose Corazon de Jesus","Claro M. Recto","Amado V. Hernandez"],answer:"Amado V. Hernandez"},
+      {q:"Ano ang tawag sa paggamit ng Filipino at Ingles sa pagtuturo (Bilingguwal na Patakaran 1974)?",choices:["Kumbinasyon","Code-switching","Edukasyong Bilingguwal","Multilingguwalismo"],answer:"Edukasyong Bilingguwal"},
+      {q:"Itinatadhana ng Artikulo XIV ng Saligang Batas 1987 tungkol sa wika:",choices:["Filipino ang wikang panturo","Filipino at Ingles ang opisyal","Tagalog ang opisyal","Filipino lamang ang opisyal"],answer:"Filipino ang magiging opisyal na wika kasama ang Ingles"},
+      {q:"Ano ang tawag sa proseso ng paghiram ng salita at pagbibigay-Filipino sa anyo nito?",choices:["Asimilasyon","Pag-aangkop","Pagpapantig","Translasyon"],answer:"Asimilasyon"},
+      {q:"Kaibahan ng 'Pilipino' at 'Filipino'?",choices:["Pareho lang","'Pilipino' ay batay sa Tagalog; 'Filipino' ay para sa lahat ng wika","'Filipino' ay lumang tawag","'Pilipino' ay etniko; 'Filipino' ay mamamayan"],answer:"'Pilipino' ay batay sa Tagalog; 'Filipino' ay para sa lahat ng wika sa bansa"},
+      {q:"Sino ang nagpalaganap ng Wikang Pambansa sa pamamagitan ng talumpati sa Kongreso?",choices:["Manuel L. Quezon","Sergio Osmeña","Diosdado Macapagal","Ferdinand Marcos"],answer:"Manuel L. Quezon"},
+      {q:"Ano ang tawag sa wika ng isang rehiyon o lalawigan?",choices:["Kolokyal","Lalawiganin","Balbal","Pambansa"],answer:"Lalawiganin"},
+      {q:"Ano ang tawag sa pinagsamang tatlong wika na nagkakaroon ng pagkakaintindihan?",choices:["Multilingguwalismo","Lingua franca","Dialekto","Sosyolek"],answer:"Lingua franca"},
+      {q:"Ano ang layunin ng Komisyon sa Wikang Filipino (KWF)?",choices:["Magturo ng Ingles","Gumawa ng saligang batas","Paunlarin at itaguyod ang wikang pambansa","Isalin sa Ingles"],answer:"Paunlarin at itaguyod ang wikang pambansa"},
+      {q:"Alin ang halimbawa ng sosyolek?",choices:["Jejemon","Bisaya","Filipino","Ingles"],answer:"Jejemon"},
+      {q:"Alin sa mga ito ang halimbawa ng register ng wika?",choices:["Medisina – 'hypertension'","Balbal – 'petmalu'","Lalawiganin – 'buang'","Kolokyal – 'teka'"],answer:"Medisina – 'hypertension'"},
+      {q:"Ano ang tawag sa pinagmulan ng salita?",choices:["Sintaksis","Morpolohiya","Etimolohiya","Ponolohiya"],answer:"Etimolohiya"},
+      {q:"Alin ang halimbawa ng pang-abay na pamanahon?",choices:["Kaagad","Malakas","Maganda","Bata"],answer:"Kaagad"},
+      {q:"Sino ang tinaguriang 'Ama ng Panitikang Tagalog'?",choices:["Francisco Balagtas","Jose Rizal","Amado V. Hernandez","Lope K. Santos"],answer:"Francisco Balagtas"},
+      {q:"Ano ang tawag sa sukat ng tulang may labindalawang pantig sa bawat taludtod?",choices:["Dodecasyllabic / Alejandrino","Oktasilabo","Dekasillabo","Heptasyllabo"],answer:"Dodecasyllabic / Alejandrino"},
+      {q:"Alin ang hindi halimbawa ng ponemang suprasegmental?",choices:["Tono","Haba","Diin","Morpema"],answer:"Morpema"},
+      {q:"Ano ang layunin ng panitikan sa panahon ng Katipunan?",choices:["Magbigay-aliw","Magpahayag ng pag-ibig","Gumising sa damdaming makabayan","Itaguyod ang relihiyon"],answer:"Gumising sa damdaming makabayan"},
+      {q:"Anong uri ng tayutay ang paggamit ng mga salitang nagsisimula sa parehong tunog?",choices:["Aliterasyon","Metapora","Personipikasyon","Apostrope"],answer:"Aliterasyon"},
+      {q:"Ano ang tawag sa uri ng pangungusap na nagpapahayag ng utos?",choices:["Pasalaysay","Pautos / Pakiusap","Patanong","Padamdam"],answer:"Pautos / Pakiusap"},
+      {q:"Ano ang tawag sa wikang nabubuo kapag nagkahalo ang dalawang magkaibang wika?",choices:["Creole","Dialekto","Pidgin","Lingua franca"],answer:"Pidgin"},
+      {q:"Ano ang pamagat ng nobela ni Jose Rizal na tumatalakay sa katiwalian ng mga prayle?",choices:["El Filibusterismo","Florante at Laura","Urbana at Feliza","Ibong Adarna"],answer:"El Filibusterismo"}
+    ];
+
+    function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+    const quizData = shuffle(allQuestions).slice(0,15);
+
+    let currentQuestion = 0, correctCount = 0;
+    const questionEl = document.getElementById('question');
+    const choiceButtons = document.querySelectorAll('.choices button');
+    const resultEl = document.querySelector('.result');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const rewardDiv = document.querySelector('.reward');
+    const rewardImg = document.getElementById('rewardImage');
+    const loadingEl = document.getElementById('loading');
+
+    function loadQuestion(){
+      const current = quizData[currentQuestion];
+      questionEl.textContent = `Q${currentQuestion+1}: ${current.q}`;
+      const shuffledChoices = shuffle([...current.choices]);
+      choiceButtons.forEach((btn,i)=>{
+        btn.textContent = shuffledChoices[i];
+        btn.disabled = false;
+        btn.onclick = ()=>{
+          if(btn.textContent===current.answer) correctCount++;
+          choiceButtons.forEach(b=>b.disabled=true);
+          loadingEl.style.display="block";
+          setTimeout(()=>{ loadingEl.style.display="none"; nextQuestion(); },1000);
+        };
+      });
+    }
+
+    function nextQuestion(){
+      currentQuestion++;
+      if(currentQuestion<quizData.length){ loadQuestion(); }
+      else {
+        questionEl.textContent="Tapos na ang Quiz!";
+        document.querySelector('.choices').style.display='none';
+        resultEl.textContent=`✅ Tamang Sagot: ${correctCount} / ${quizData.length}`;
+        resultEl.style.display='block';
+        rewardImg.src="https://i.pinimg.com/originals/11/82/59/118259993924863bd3f6457da365e2ac.gif";
+        rewardDiv.style.display='block';
+        tryAgainBtn.style.display='inline-block';
+      }
+    }
+
+    tryAgainBtn.addEventListener('click',()=>location.reload());
+    loadQuestion();
+  </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cookie&family=DynaPuff:wght@400..700&family=Fuzzy+Bubbles:wght@400;700&family=Lobster&family=Luxurious+Roman&family=Meie+Script&family=Zen+Dots&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History Quiz</title>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    body {
+      font-family: 'Luxurious Roman', serif;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; color: #3b0a0a;
+      overflow: hidden; animation: fadeIn 1.5s ease-in; position: relative;
+    }
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('https://i.pinimg.com/736x/30/f3/c4/30f3c42066c75f2045c5417db8849cd1.jpg');
+      background-size: cover; background-position: center;
+      filter: blur(8px); z-index: -1;
+    }
+    .home-btn {
+      position: absolute; top: 20px; left: 20px;
+      background-color: #8b0000; color: #fff;
+      padding: 10px 18px; font-size: 16px;
+      border-radius: 8px; text-decoration: none;
+      border: 2px solid #3b0a0a; transition: 0.3s; z-index: 2;
+    }
+    .home-btn:hover { background-color: #a4161a; }
+    .overlay {
+      background-color: rgba(255, 245, 245, 0.95);
+      border-radius: 20px; padding: 40px 30px;
+      width: 90%; max-width: 500px;
+      box-shadow: 0 10px 25px rgba(139,0,0,0.4);
+      text-align: center; border: 5px double #8b0000;
+      position: relative; z-index: 1;
+    }
+    h1 { margin-bottom: 20px; font-size: 28px; color: #8b0000; }
+    #question { font-size: 20px; margin-bottom: 15px; }
+    #qimage { max-width: 90%; margin: 10px auto; display: none; border-radius: 10px; }
+    
+    /* Dark red choice buttons */
+    .choices button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 14px;
+      font-size: 16px;
+      border: 2px solid #5a0000;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #8b0000;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .choices button:hover {
+      background-color: #5a0000;
+    }
+
+    .result { font-size: 20px; margin-top: 20px; font-weight: bold; color: #8b0000; }
+
+    /* Try Again button with dark red theme */
+    #tryAgainBtn {
+      display: none; margin-top: 15px; padding: 12px 20px;
+      font-size:16px; border-radius:10px; border:2px solid #5a0000;
+      background-color:#8b0000; cursor:pointer; color:#fff;
+      transition: 0.3s;
+    }
+    #tryAgainBtn:hover { background-color: #5a0000; }
+
+    .reward img { max-width: 80%; margin-top: 15px; border-radius: 15px; }
+
+    /* Loading animation */
+    #loading {
+      display: none;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #8b0000;
+    }
+    .dots::after {
+      content: '';
+      animation: dots 1s steps(3, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: ''; }
+      33% { content: '.'; }
+      66% { content: '..'; }
+      100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+  <a href="Expanding-Your-Knowledge.html" class="home-btn">Return</a>
+
+  <div class="overlay">
+    <h1>History Quiz</h1>
+    <div id="question"></div>
+    <img id="qimage" src="" alt="Question Image">
+    <div class="choices">
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+    </div>
+    <div id="loading" class="dots">Next</div>
+    <div class="result" style="display:none;"></div>
+    <div class="reward" style="display:none;">
+      <img id="rewardImage" src="" alt="Reward">
+    </div>
+    <button id="tryAgainBtn">Try Again</button>
+  </div>
+
+  <script>
+    const allQuestions = [
+      {q:"Who was the first President of the United States?",choices:["Thomas Jefferson","George Washington","Abraham Lincoln","John Adams"],answer:"George Washington"},
+      {q:"What wall divided East and West Berlin during the Cold War?",choices:["Great Wall of China","Berlin Wall","Iron Curtain","Wall of Europe"],answer:"Berlin Wall"},
+      {q:"What ship sank in 1912 on its maiden voyage?",choices:["Lusitania","Titanic","Queen Mary","Mayflower"],answer:"Titanic"},
+      {q:"In which country did the Olympic Games originate?",choices:["Italy","Greece","France","Egypt"],answer:"Greece"},
+      {q:"Who gave the 'I Have a Dream' speech?",choices:["Malcolm X","Martin Luther King Jr.","Rosa Parks","Barack Obama"],answer:"Martin Luther King Jr."},
+      {q:"What ancient civilization built the pyramids?",choices:["Romans","Egyptians","Greeks","Aztecs"],answer:"Egyptians"},
+      {q:"Who discovered America in 1492?",choices:["Christopher Columbus","Ferdinand Magellan","Amerigo Vespucci","Leif Erikson"],answer:"Christopher Columbus"},
+      {q:"What war was fought between the North and South regions of the United States?",choices:["World War I","Civil War","Revolutionary War","Vietnam War"],answer:"Civil War"},
+      {q:"Who said 'Veni, Vidi, Vici'?",choices:["Napoleon Bonaparte","Alexander the Great","Julius Caesar","Attila the Hun"],answer:"Julius Caesar"},
+      {q:"Which country built the Great Wall?",choices:["China","Japan","Mongolia","India"],answer:"China"},
+      {q:"What historical period came after the Middle Ages?",choices:["Industrial Age","Renaissance","Modern Age","Bronze Age"],answer:"Renaissance"},
+      {q:"Who was the British Prime Minister during World War II?",choices:["Neville Chamberlain","Winston Churchill","Tony Blair","Margaret Thatcher"],answer:"Winston Churchill"},
+      {q:"Which U.S. President abolished slavery?",choices:["George Washington","Abraham Lincoln","Theodore Roosevelt","Franklin D. Roosevelt"],answer:"Abraham Lincoln"},
+      {q:"What year did World War II end?",choices:["1942","1944","1945","1947"],answer:"1945"},
+      {q:"Who was the first man to step on the Moon?",choices:["Neil Armstrong","Buzz Aldrin","Yuri Gagarin","Michael Collins"],answer:"Neil Armstrong"},
+      {q:"What empire was ruled by pharaohs?",choices:["Egyptian","Roman","Greek","Persian"],answer:"Egyptian"},
+      {q:"Where did the Industrial Revolution begin?",choices:["France","United States","United Kingdom","Germany"],answer:"United Kingdom"},
+      {q:"Which battle marked the end of Napoleon’s rule?",choices:["Austerlitz","Trafalgar","Waterloo","Vienna"],answer:"Waterloo"},
+      {q:"What structure in Paris was built in 1889 for a World’s Fair?",choices:["Arc de Triomphe","Louvre Museum","Eiffel Tower","Notre Dame"],answer:"Eiffel Tower"},
+      {q:"Who invented the light bulb?",choices:["Alexander Graham Bell","Thomas Edison","Nikola Tesla","Benjamin Franklin"],answer:"Thomas Edison"},
+      {q:"Which explorer circumnavigated the globe?",choices:["Christopher Columbus","Vasco da Gama","Ferdinand Magellan","Marco Polo"],answer:"Ferdinand Magellan"},
+      {q:"What ship brought the Pilgrims to America?",choices:["Mayflower","Santa Maria","Discovery","Constitution"],answer:"Mayflower"},
+      {q:"Who wrote the U.S. Declaration of Independence?",choices:["Thomas Jefferson","John Hancock","George Washington","Benjamin Franklin"],answer:"Thomas Jefferson"},
+      {q:"What country did Adolf Hitler lead?",choices:["Italy","Germany","Austria","Russia"],answer:"Germany"},
+      {q:"Who was Cleopatra?",choices:["A Roman goddess","Queen of Egypt","A Greek philosopher","A medieval queen"],answer:"Queen of Egypt"},
+      {q:"What was the first permanent English colony in America?",choices:["Plymouth","Jamestown","Roanoke","Salem"],answer:"Jamestown"},
+      {q:"Which city was known for its Hanging Gardens?",choices:["Babylon","Athens","Rome","Petra"],answer:"Babylon"},
+      {q:"What was the U.S. movement for women’s right to vote?",choices:["Feminist Revolution","Women’s Suffrage","Civil Rights Act","Equal Rights Campaign"],answer:"Women’s Suffrage"},
+      {q:"Who painted 'The Last Supper'?",choices:["Leonardo da Vinci","Michelangelo","Picasso","Van Gogh"],answer:"Leonardo da Vinci"},
+      {q:"Who was the Soviet leader during World War II?",choices:["Lenin","Joseph Stalin","Gorbachev","Khrushchev"],answer:"Joseph Stalin"}
+    ];
+
+    function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+    const quizData = shuffle(allQuestions).slice(0,15);
+
+    let currentQuestion = 0, correctCount = 0;
+    const questionEl = document.getElementById('question');
+    const imgEl = document.getElementById('qimage');
+    const choiceButtons = document.querySelectorAll('.choices button');
+    const resultEl = document.querySelector('.result');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const rewardDiv = document.querySelector('.reward');
+    const rewardImg = document.getElementById('rewardImage');
+    const loadingEl = document.getElementById('loading');
+
+    function loadQuestion(){
+      const current = quizData[currentQuestion];
+      questionEl.textContent = `Q${currentQuestion+1}: ${current.q}`;
+      if(current.image){ imgEl.src=current.image; imgEl.style.display="block"; }
+      else { imgEl.style.display="none"; }
+      const shuffledChoices = shuffle([...current.choices]);
+      choiceButtons.forEach((btn,i)=>{
+        btn.textContent = shuffledChoices[i];
+        btn.disabled = false;
+        btn.onclick = ()=>{
+          if(btn.textContent===current.answer) correctCount++;
+          choiceButtons.forEach(b=>b.disabled=true);
+          loadingEl.style.display="block"; 
+          setTimeout(()=>{ loadingEl.style.display="none"; nextQuestion(); },1000);
+        };
+      });
+    }
+
+    function nextQuestion(){
+      currentQuestion++;
+      if(currentQuestion<quizData.length){ loadQuestion(); }
+      else {
+        questionEl.textContent="Quiz Completed!";
+        imgEl.style.display="none";
+        document.querySelector('.choices').style.display='none';
+        resultEl.textContent=`✅ Correct: ${correctCount} / ${quizData.length}`;
+        resultEl.style.display='block';
+        rewardImg.src="https://i.pinimg.com/originals/11/82/59/118259993924863bd3f6457da365e2ac.gif";
+        rewardDiv.style.display='block';
+        tryAgainBtn.style.display='inline-block';
+      }
+    }
+
+    tryAgainBtn.addEventListener('click',()=>location.reload());
+    loadQuestion();
+  </script>
+</body>
+</html>

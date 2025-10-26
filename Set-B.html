@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Quiz</title>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    body {
+      font-family: 'Delius', serif;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; color: #7a5c00;
+      overflow: hidden; animation: fadeIn 1.5s ease-in; position: relative;
+      background: #fff9db;
+    }
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('https://i.pinimg.com/1200x/72/aa/6e/72aa6ead478c0959269b773fca9095ef.jpg');
+      background-size: cover; background-position: center;
+      filter: blur(8px) brightness(1.1); z-index: -1;
+    }
+    .home-btn {
+      position: absolute; top: 20px; left: 20px;
+      background-color: #ffcc00; color: #4a3800;
+      padding: 10px 18px; font-size: 16px;
+      border-radius: 8px; text-decoration: none;
+      border: 2px solid #b8860b; transition: 0.3s; z-index: 2;
+      font-weight: bold;
+    }
+    .home-btn:hover { background-color: #ffb700; }
+    .overlay {
+      background-color: rgba(255, 249, 219, 0.95);
+      border-radius: 20px; padding: 40px 30px;
+      width: 90%; max-width: 500px;
+      box-shadow: 0 10px 25px rgba(184, 134, 11, 0.35);
+      text-align: center; border: 5px double #ffcc00;
+      position: relative; z-index: 1;
+    }
+    h1 { margin-bottom: 20px; font-size: 28px; color: #b8860b; }
+    #question { font-size: 20px; margin-bottom: 15px; color: #7a5c00; }
+    #qimage { max-width: 90%; margin: 10px auto; display: none; border-radius: 10px; }
+    .choices button {
+      display: block; width: 100%; margin: 8px 0; padding: 14px;
+      font-size: 16px; border: 2px solid #ffcc00; border-radius: 10px;
+      cursor: pointer; background-color: #ffe066; color: #4a3800;
+      transition: 0.3s; font-weight: bold;
+    }
+    .choices button:hover { background-color: #ffd633; }
+    .result { font-size: 20px; margin-top: 20px; font-weight: bold; color: #7a5c00; }
+    #tryAgainBtn {
+      display: none; margin-top: 15px; padding: 12px 20px;
+      font-size:16px; border-radius:10px; border:2px solid #ffcc00;
+      background-color:#ffe066; cursor:pointer; font-weight: bold; color:#4a3800;
+    }
+    #tryAgainBtn:hover { background-color: #ffd633; }
+    .reward img { max-width: 80%; margin-top: 15px; border-radius: 15px; }
+    #loading {
+      display: none;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #b8860b;
+    }
+    .dots::after {
+      content: '';
+      animation: dots 1s steps(3, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: ''; }
+      33% { content: '.'; }
+      66% { content: '..'; }
+      100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+  <a href="Expanding-Your-Knowledge.html" class="home-btn">Return</a>
+
+  <div class="overlay">
+    <h1>English Quiz</h1>
+    <div id="question"></div>
+    <img id="qimage" src="" alt="Question Image">
+    <div class="choices">
+      <button></button>
+      <button></button>
+      <button></button>
+      <button></button>
+    </div>
+    <div id="loading" class="dots">Next</div>
+    <div class="result" style="display:none;"></div>
+    <div class="reward" style="display:none;">
+      <img id="rewardImage" src="" alt="Reward">
+    </div>
+    <button id="tryAgainBtn">Try Again</button>
+  </div>
+
+  <script>
+    const allQuestions = [
+      // ---- First 30 questions ----
+      {q:"Choose the correct past tense of “go”",choices:["goed","go","gone","went"],answer:"went"},
+      {q:"Which word is a noun?",choices:["quickly","happy","dog","run"],answer:"dog"},
+      {q:"Which sentence is correct?",choices:["She don’t like apples.","He go to school every day.","They are playing outside.","Me is happy."],answer:"They are playing outside."},
+      {q:"What is a synonym for “angry”?",choices:["sad","mad","happy","calm"],answer:"mad"},
+      {q:"Which sentence uses a simile?",choices:["The sun is a ball of fire.","She runs like the wind.","His room was a jungle.","Time flew by."],answer:"She runs like the wind."},
+      {q:"What is the plural of “child”?",choices:["childs","childes","children","childer"],answer:"children"},
+      {q:"Which of these is a compound word?",choices:["Running","Playground","Blue","Fast"],answer:"Playground"},
+      {q:"What is the opposite of “asleep”?",choices:["Awake","Snore","Dream","Nap"],answer:"Awake"},
+      {q:"What does the word “invisible” mean?",choices:["Can be seen","Not visible","Loud","Big"],answer:"Not visible"},
+      {q:"Choose the correct spelling:",choices:["Reciev","Receive","Receeve","Resieve"],answer:"Receive"},
+      {q:"She _ to school every day.",choices:["go","goes","going","gone"],answer:"goes"},
+      {q:"Which is a synonym of “angry”?",choices:["Joyful","Furious","Happy","Calm"],answer:"Furious"},
+      {q:"What part of speech is 'quickly'?",choices:["Noun","Adjective","Verb","Adverb"],answer:"Adverb"},
+      {q:"Choose the sentence with the correct punctuation:",choices:["I love reading books, writing poems and painting.","I love reading, books writing poems and painting.","I love: reading books, writing poems, painting.","I love reading books writing poems and painting."],answer:"I love reading books, writing poems and painting."},
+      {q:"Which sentence is in the past perfect tense?",choices:["She eats dinner.","She ate dinner.","She had eaten dinner.","She is eating dinner."],answer:"She had eaten dinner."},
+      {q:"What is the main idea of a paragraph?",choices:["The funniest sentence","The first detail","The most important point","A random fact"],answer:"The most important point"},
+      {q:"Which word is an antonym of 'increase'?",choices:["Rise","Add","Reduce","Grow"],answer:"Reduce"},
+      {q:"What is the function of a conjunction?",choices:["Describes a noun","Connects words or phrases","Names a person","Shows action"],answer:"Connects words or phrases"},
+      {q:"Which is a declarative sentence?",choices:["Where is the library?","Please open the door.","I enjoy science fiction novels.","Stop!"],answer:"I enjoy science fiction novels."},
+      {q:"What does the prefix 're-' in 'replay' mean?",choices:["Under","After","Again","Not"],answer:"Again"},
+      {q:"Which sentence uses a simile?",choices:["Her smile was sunshine.","He is a lion in battle.","She’s as fast as lightning.","The wind whispered softly."],answer:"She’s as fast as lightning."},
+      {q:"What is the opposite of 'honest'?",choices:["Loyal","Dishonest","Reliable","Truthful"],answer:"Dishonest"},
+      {q:"Identify the subject: 'The cat under the table is sleeping.'",choices:["Table","Under","Sleeping","The cat"],answer:"The cat"},
+      {q:"Choose the correct spelling:",choices:["Accomodate","Acommodate","Accommodate","Accomadate"],answer:"Accommodate"},
+      {q:"What is the theme of a story?",choices:["The names of the characters","The time and place","The central message or idea","The conflict"],answer:"The central message or idea"},
+      {q:"Which sentence has a metaphor?",choices:["He ran like the wind.","She was a rock during the crisis.","The baby cried loudly.","They played in the park."],answer:"She was a rock during the crisis."},
+      {q:"What is an imperative sentence?",choices:["Asks a question","Gives a command","Tells a story","Expresses surprise"],answer:"Gives a command"},
+      {q:"Identify the object: 'She kicked the ball.'",choices:["She","Kicked","Ball","The"],answer:"Ball"},
+      {q:"What does 'benevolent' mean?",choices:["Angry and rude","Kind and generous","Lazy and slow","Loud and proud"],answer:"Kind and generous"},
+      {q:"What is the correct plural of 'child'?",choices:["Childs","Childes","Children","Childrens"],answer:"Children"},
+    ];
+
+    function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+    const quizData = shuffle(allQuestions).slice(0,15);
+
+    let currentQuestion = 0, correctCount = 0;
+    const questionEl = document.getElementById('question');
+    const imgEl = document.getElementById('qimage');
+    const choiceButtons = document.querySelectorAll('.choices button');
+    const resultEl = document.querySelector('.result');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const rewardDiv = document.querySelector('.reward');
+    const rewardImg = document.getElementById('rewardImage');
+    const loadingEl = document.getElementById('loading');
+
+    function loadQuestion(){
+      const current = quizData[currentQuestion];
+      questionEl.textContent = `Q${currentQuestion+1}: ${current.q}`;
+      if(current.image){ imgEl.src=current.image; imgEl.style.display="block"; }
+      else { imgEl.style.display="none"; }
+      const shuffledChoices = shuffle([...current.choices]);
+      choiceButtons.forEach((btn,i)=>{
+        btn.textContent = shuffledChoices[i];
+        btn.disabled = false;
+        btn.onclick = ()=>{
+          if(btn.textContent===current.answer) correctCount++;
+          choiceButtons.forEach(b=>b.disabled=true);
+          loadingEl.style.display="block";
+          setTimeout(()=>{ loadingEl.style.display="none"; nextQuestion(); },1000);
+        };
+      });
+    }
+
+    function nextQuestion(){
+      currentQuestion++;
+      if(currentQuestion<quizData.length){ loadQuestion(); }
+      else {
+        questionEl.textContent="Quiz Completed!";
+        imgEl.style.display="none";
+        document.querySelector('.choices').style.display='none';
+        resultEl.textContent=`✅ Correct: ${correctCount} / ${quizData.length}`;
+        resultEl.style.display='block';
+        rewardImg.src="https://i.pinimg.com/originals/11/82/59/118259993924863bd3f6457da365e2ac.gif";
+        rewardDiv.style.display='block';
+        tryAgainBtn.style.display='inline-block';
+      }
+    }
+
+    tryAgainBtn.addEventListener('click',()=>location.reload());
+    loadQuestion();
+  </script>
+</body>
+</html>

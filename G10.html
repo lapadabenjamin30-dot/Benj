@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&family=DynaPuff:wght@400..700&family=Lobster&family=Mogra&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Library Visits - Grade 10</title>
+  <style>
+    body {
+      font-family: 'Delius', cursive, serif;
+      background: linear-gradient(135deg, #4b3b2b, #6d5843);
+      padding: 20px 0;
+      margin: 0;
+      color: #382a17;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Container for return button + content */
+    .container {
+      width: 85%;
+      max-width: 900px;
+      position: relative;
+      padding-left: 0; /* remove padding on left */
+    }
+
+    .return-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      margin-left: 0; /* flush left */
+      background-color: #7a5a2a; /* brown */
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+      user-select: none;
+      text-align: left;
+      /* align left edge to container’s left edge */
+      font-family: 'Delius', cursive, serif;
+    }
+    .return-button:hover {
+      background-color: #5d4318; /* darker brown on hover */
+    }
+
+    .big-box {
+      background: #fdf6e3; 
+      border: 1.5px solid #5a3e1b;
+      border-radius: 14px;
+      padding: 25px 30px;
+      box-shadow: 
+        0 8px 15px rgba(0, 0, 0, 0.15),
+        inset 0 0 12px rgba(255, 255, 255, 0.3);
+      font-size: 1rem;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      position: relative;
+      margin-bottom: 40px;
+    }
+    .big-box::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      border: 1px solid #a07c4f;
+      border-radius: 12px;
+      pointer-events: none;
+      box-shadow: 0 0 8px 2px rgba(160, 124, 79, 0.25);
+    }
+    .header {
+      font-family: 'Lobster', cursive;
+      font-size: 2.2rem;
+      font-weight: normal;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #5a3e1b;
+      text-shadow: 1px 1px 2px #bca272;
+      letter-spacing: 2px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 2px 10px rgba(90, 62, 27, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff9e6;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #c9b68b;
+      padding: 14px 18px;
+      text-align: center;
+      font-family: 'Delius', cursive;
+      color: #4a3a1a;
+    }
+    th {
+      background: #d4c59a;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 0 #fff7d6;
+    }
+    tr:nth-child(even) {
+      background: #f3ebd3;
+    }
+    tr:hover {
+      background: #e6d9a9;
+      cursor: default;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-button {
+      margin-top: 20px;
+      padding: 10px 18px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      background-color: #7a5a2a; /* brown */
+      color: white;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      transition: background-color 0.3s ease;
+      font-family: 'Delius', cursive, serif;
+    }
+    .nav-button:hover {
+      background-color: #5d4318; /* darker brown */
+    }
+
+    .back-button {
+      background-color: #7a5a2a; /* brown */
+    }
+    .back-button:hover {
+      background-color: #5d4318; /* darker brown */
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="file:///C:/Users/mayel/OneDrive/Desktop/TECHnoLOGIC/Announcements.html" class="return-button">← Return</a>
+
+  <!-- Section 1: 10 - Lakan -->
+  <div class="big-box" id="section-lakan">
+    <div class="header">10 - Lakan | Library Visits Record</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Library Visits</th>
+          <th>Plus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Aguilar, Brent Jaycel</td><td>21</td><td>5</td></tr>
+        <tr><td>Alcantara, Aliyah Cassandra</td><td>6</td><td>1</td></tr>
+        <tr><td>Beech, Dave Enrico</td><td>8</td><td>2</td></tr>
+        <tr><td>Bernardino, John Matthew</td><td>7</td><td>1</td></tr>
+        <tr><td>Cajujgan, Railley Mishka</td><td>12</td><td>3</td></tr>
+        <tr><td>Cordoba, Arrianne Kate</td><td>8</td><td>2</td></tr>
+        <tr><td>Francisco, Andrea</td><td>12</td><td>3</td></tr>
+        <tr><td>Gapatan, Klifford</td><td>6</td><td>1</td></tr>
+        <tr><td>Gracia, Clark James</td><td>8</td><td>2</td></tr>
+        <tr><td>Gutierrez, John Cendrix</td><td>6</td><td>1</td></tr>
+        <tr><td>Hila, Mark Ashley</td><td>11</td><td>2</td></tr>
+        <tr><td>Libunao, Angel Ann</td><td>14</td><td>3</td></tr>
+        <tr><td>Martinez, Princess Louraine</td><td>8</td><td>2</td></tr>
+        <tr><td>Mateo, John Wynne</td><td>19</td><td>2</td></tr>
+        <tr><td>Protestante, Maria Gabrielle</td><td>8</td><td>2</td></tr>
+        <tr><td>Roy, Ashley</td><td>10</td><td>2</td></tr>
+        <tr><td>Sanchez, Jhomeella</td><td>8</td><td>2</td></tr>
+        <tr><td>Sico, Kate Lhiyan</td><td>16</td><td>4</td></tr>
+        <tr><td>Urielia, Daniel</td><td>9</td><td>2</td></tr>
+        <tr><td>Valdez, Bella Victoria</td><td>17</td><td>4</td></tr>
+        <tr><td>Yumul, Heiden Margarethe</td><td>9</td><td>2</td></tr>
+      </tbody>
+    </table>
+    <button class="nav-button" onclick="showSection('datu')">Next →</button>
+  </div>
+
+  <!-- Section 2: 10 - Datu -->
+  <div class="big-box hidden" id="section-datu">
+    <div class="header">10 - Datu | Library Visits Record</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Library Visits</th>
+          <th>Plus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Antonio, Arzedek Apolo</td><td>12</td><td>3</td></tr>
+        <tr><td>Cablao, Nina Angeli</td><td>7</td><td>1</td></tr>
+        <tr><td>Escalona, MC Justine Charles</td><td>11</td><td>2</td></tr>
+        <tr><td>Escanlar, Dimsdale</td><td>6</td><td>1</td></tr>
+        <tr><td>Erese, Zyrus</td><td>12</td><td>3</td></tr>
+        <tr><td>Gabor, Geren</td><td>9</td><td>2</td></tr>
+        <tr><td>Gapay, Dhaniel Allyson</td><td>4</td><td>1</td></tr>
+        <tr><td>Garcia, Zyra Mae</td><td>4</td><td>1</td></tr>
+        <tr><td>Taganas, Rex</td><td>7</td><td>1</td></tr>
+        <tr><td>Tapoc, Vince Jaeden</td><td>12</td><td>3</td></tr>
+      </tbody>
+    </table>
+    <button class="nav-button back-button" onclick="showSection('lakan')">← Go Back</button>
+  </div>
+</div>
+
+<script>
+  function showSection(section) {
+    const lakan = document.getElementById('section-lakan');
+    const datu = document.getElementById('section-datu');
+
+    if (section === 'datu') {
+      lakan.classList.add('hidden');
+      datu.classList.remove('hidden');
+    } else {
+      datu.classList.add('hidden');
+      lakan.classList.remove('hidden');
+    }
+  }
+</script>
+
+</body>
+</html>

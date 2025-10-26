@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Books Layout Sketch</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background: #fdf6e3; /* parchment */
+      margin: 0;
+      padding: 20px;
+      color: #3e2c1c;
+    }
+
+    .window {
+      width: 85%;
+      max-width: 900px;
+      margin: auto;
+      border: 3px solid #8c6d4f;
+      border-radius: 10px;
+      background: #fffaf0;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      overflow: hidden;
+      min-height: 700px;
+      padding-bottom: 20px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #6b4226;
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .header span {
+      cursor: pointer;
+    }
+
+    .header .icon {
+      font-size: 1.3rem;
+    }
+
+    /* Remove link default styles */
+    .header a {
+      color: inherit;       /* same color as header text */
+      text-decoration: none; /* remove underline */
+    }
+
+    /* Content */
+    .content {
+      padding: 20px;
+    }
+
+    .content p {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    /* Books */
+    .books {
+      display: flex;
+      justify-content: flex-start;
+      gap: 30px;
+      margin: 30px 0;
+      margin-left: 60px; /* shift books to the right */
+    }
+
+    .open-book {
+      position: relative;
+      width: 120px;
+      height: 90px;
+      perspective: 600px;
+    }
+
+    /* Descending order */
+    .book1 { margin-top: -20px; }
+    .book2 { margin-top: 0; }
+    .book3 { margin-top: 20px; }
+    .book4 { margin-top: 40px; }
+
+    .page {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: #fffdf5;
+      border: 1px solid #5a3c2c;
+    }
+
+    .page.left {
+      left: 0;
+      border-radius: 6px 0 0 6px;
+      transform: rotateY(10deg);
+    }
+
+    .page.right {
+      right: 0;
+      border-radius: 0 6px 6px 0;
+      transform: rotateY(-10deg);
+    }
+
+    .spine {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 100%;
+      background: #6b4226;
+      border-radius: 2px;
+      z-index: 2;
+    }
+
+    /* Image + text box layout */
+    .image-text {
+      display: flex;
+      gap: 20px;
+      margin: 20px 0;
+      align-items: flex-start;
+    }
+
+    /* Text on left */
+    .text-side {
+      flex: 2;
+    }
+
+    /* Image box on right */
+    .sidebar {
+      flex: 1;
+      border: 2px dashed #b18c64;
+      border-radius: 8px;
+      background: #fff8e1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-style: italic;
+      color: #6b4226;
+      text-align: center;
+      padding: 20px;
+      height: 420px; /* elongated vertically */
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <!-- Header -->
+    <div class="header">
+      <span class="icon">📚</span>
+      <span>Books</span>
+      <span class="close"><a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Library-Informations.html">✖</a></span>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p>STARBOOKS stands for Science and Technology Academic and Research-Based Openly Operated Kiosk Station. It’s a digital library developed by DOST–Science and Technology Information Institute (STII) in the Philippines.</p>
+
+      <!-- Books -->
+      <div class="books">
+        <div class="open-book book1">
+          <div class="page left"></div>
+          <div class="page right"></div>
+          <div class="spine"></div>
+        </div>
+        <div class="open-book book2">
+          <div class="page left"></div>
+          <div class="page right"></div>
+          <div class="spine"></div>
+        </div>
+        <div class="open-book book3">
+          <div class="page left"></div>
+          <div class="page right"></div>
+          <div class="spine"></div>
+        </div>
+        <div class="open-book book4">
+          <div class="page left"></div>
+          <div class="page right"></div>
+          <div class="spine"></div>
+        </div>
+      </div>
+
+      <!-- Text on left, image on right -->
+      <div class="image-text">
+        <div class="text-side">
+          <p>Unlike traditional books, Starbooks is a digital collection of S&T resources that you can’t find in regular school or public libraries. You don’t need the internet to use it! It’s an offline kiosk, so students and researchers in remote areas can still access thousands of valuable resources.</p>
+        </div>
+        <div class="sidebar">
+          <p>IMG / GIF<br>(Book-related)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

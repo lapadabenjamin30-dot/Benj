@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reader’s Club Highlights</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background: linear-gradient(135deg, #fdf6e3, #f2e4c6, #e6d5a8);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+      color: #3e2c1c;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* 🔹 Header */
+    .header {
+      width: 100%;
+      background: #bfa67a;
+      color: #fff;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      animation: fadeDown 1s ease forwards;
+    }
+
+    /* 🔹 Button container */
+    .header-buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .header a {
+      text-decoration: none;
+    }
+
+    .header-btn {
+      background: #fffaf0;
+      color: #5a3c2a;
+      padding: 10px 24px;
+      border-radius: 8px;
+      border: 2px solid #b18c64;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-btn:hover {
+      background: #f9e9d0;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+    }
+
+    /* 🔹 Section Layout */
+    .section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fffaf0;
+      border: 2px solid #b18c64;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 50px auto;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      width: 85%;
+      max-width: 1200px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .section img {
+      width: 280px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 3px solid #8c6d4f;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .section img:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    }
+
+    .text-box {
+      flex: 1;
+      padding: 0 30px;
+      animation: fadeIn 2s ease;
+    }
+
+    .text-box h2 {
+      font-size: 1.8rem;
+      color: #5a3c2a;
+      border-bottom: 2px dashed #b18c64;
+      display: inline-block;
+      padding-bottom: 6px;
+      transition: color 0.3s ease;
+    }
+
+    .text-box h2:hover {
+      color: #b18c64;
+    }
+
+    .text-box p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #4a3524;
+      margin-top: 15px;
+    }
+
+    /* Alternate layout for even sections */
+    .reverse {
+      flex-direction: row-reverse;
+    }
+
+    /* 🔹 Animations */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Fixed Header -->
+  <div class="header">
+    <div class="header-buttons">
+      <a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Library-Informations.html"><button class="header-btn">Home</button></a>
+      <a href="file:///C:/Users/mayel/OneDrive/Desktop/E-Tech%20MT_PT%20(TECHnoLOGIC)/Readers_Club.html"><button class="header-btn">Reader’s Club Officers</button></a>
+    </div>
+  </div>
+
+  <h1 style="text-align:center; color:#5a3c2a; text-shadow:1px 1px #e6d8b4; font-size:2.5rem; margin-top:40px; animation: fadeIn 1.5s ease;">
+    Reader’s Club Staff Members
+  </h1>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <img src="" alt="Member 1">
+    <div class="text-box">
+      <h2>Mark Joseph Mañego</h2>
+      <p><strong>What's your Favorite Book?</strong></p><br>
+      <p><strong>What's your Favorite Genre of Book?</strong></p><br>
+      <p><strong>If you Could Create your own Book, What Would its Title and Description be?</strong></p><br>
+      <p><strong>What Book would you Recommend for Future Readers?</strong></p>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section reverse">
+    <img src="" alt="Member 2">
+    <div class="text-box">
+      <h2>Mai-Mai Dela Cruz</h2>
+      <p><strong>What's your Favorite Book?</strong></p><br>
+      <p><strong>What's your Favorite Genre of Book?</strong></p><br>
+      <p><strong>If you Could Create your own Book, What Would its Title and Description be?</strong></p><br>
+      <p><strong>What Book would you Recommend for Future Readers?</strong></p>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <img src="" alt="Member 3">
+    <div class="text-box">
+      <h2>Jewel Balanay</h2>
+
+      <p><strong>What's your Favorite Book?</strong><br>
+      <em>Little Women</em> by Louisa May Alcott</p><br>
+
+      <p><strong>Why did you join the Reader's Club?</strong><br>
+      If I were to answer this in the perspective of a reader and not an adviser of the Reader’s Club English Department, well, reading is not only a hobby of mine but also my way to understand life better as I navigate adulthood. Yes, reading alone is powerful, but for me, sharing different perspectives with other readers makes the experience more meaningful.</p><br>
+
+      <p><strong>What's your Favorite Genre of Book?</strong><br>
+      Coming-of-age: I love reading stories of growth, identity, and self-discovery.</p><br>
+
+      <p><strong>If you Could Create your own Book, What Would its Title and Description be?</strong><br>
+      If I could write my own book, I would call it <em>The Star That Fell</em>. The story would be about a girl who dreamed of fame and success but lost herself in the process of chasing the spotlight. She betrayed others and, in the end, realized that ambition without values leads to emptiness.</p><br>
+
+      <p><strong>What Book would you Recommend for Future Readers?</strong><br>
+      <em>The Perks of Being a Wallflower</em> by Stephen Chbosky.</p>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section reverse">
+    <img src="" alt="Member 4">
+    <div class="text-box">
+      <h2>Shiela Abaya Alfonso</h2>
+
+      <p><strong>What's your Favorite Book?</strong><br>
+      <em>I Love You Since 1982</em> — it has a heartfelt and emotional story that really touched me.</p><br>
+
+      <p><strong>Why did you join the Reader's Club?</strong><br>
+      I joined the Reader’s Club because, as a teacher, I want to inspire my students to develop a love for reading and show them how books can open their minds and hearts.</p><br>
+
+      <p><strong>What's your Favorite Genre of Book?</strong><br>
+      Rom-com: I enjoy stories that mix love and humor — they always make me smile.</p><br>
+
+      <p><strong>If you Could Create your own Book, What Would its Title and Description be?</strong><br>
+      If I could create my own book, it would be about the struggles and journey of a teenager or adult finding their way in life, showing how challenges can help shape who we become.</p><br>
+
+      <p><strong>What Book would you Recommend for Future Readers?</strong><br>
+      <em>I Love You Since 1982</em> — it teaches valuable lessons about love, growth, and understanding oneself.</p>
+    </div>
+  </div>
+
+  <script>
+    // 🔸 Smooth fade-in animation when scrolling
+    const sections = document.querySelectorAll('.section');
+
+    function showSections() {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop < triggerBottom) {
+          section.classList.add('show');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', showSections);
+    showSections();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Section</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comfortaa', serif;
+      color: #3c2f2f;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background Layer */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        linear-gradient(to bottom, rgba(255,255,255,0) 35%, #faf7f2 60%), 
+        url('https://i.pinimg.com/originals/71/e7/48/71e748cc6fedc700240795d96c564652.gif') no-repeat center top/cover;
+      background-attachment: fixed;
+      opacity: 0;
+      animation: bgFadeIn 3s ease forwards, bgZoom 20s ease-in-out forwards;
+      z-index: -1; /* stays behind content */
+    }
+
+    /* Background Animations */
+    @keyframes bgFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes bgZoom {
+      0% { background-size: 110%; }
+      100% { background-size: 100%; }
+    }
+
+    /* Content Animations */
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Return Button */
+    .return-btn {
+      display: inline-block;
+      margin: 15px;
+      padding: 10px 20px;
+      background-color: #4b3832;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .return-btn:hover {
+      background-color: #7c5f58;
+    }
+
+    /* Header */
+    .team-header {
+      position: relative;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #4b3832;
+      background: rgba(250,247,242,0.7);
+      border-bottom: 3px solid #d4c1a3;
+      animation: slideUp 1.5s ease forwards;
+    }
+
+    .team-header h2 {
+      font-size: 48px;
+      margin: 0;
+      animation: slideUp 1.2s ease forwards;
+    }
+
+    .team-header p {
+      font-size: 18px;
+      margin-top: 10px;
+      animation: slideUp 1.8s ease forwards;
+    }
+
+    /* Section */
+    .team-section {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(to bottom, rgba(250,247,242,0.9), rgba(250,247,242,0.95));
+    }
+
+    .team-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      justify-items: center;
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 0;
+    }
+
+    /* Cards */
+    .team-card {
+      background: #fffdf7;
+      border-radius: 20px;
+      padding: 25px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      opacity: 0;
+      animation: popIn 1s ease forwards;
+    }
+
+    .team-card:nth-child(1) { animation-delay: 0.5s; }
+    .team-card:nth-child(2) { animation-delay: 0.8s; }
+    .team-card:nth-child(3) { animation-delay: 1.1s; }
+    .team-card:nth-child(4) { animation-delay: 1.4s; }
+    .team-card:nth-child(5) { animation-delay: 1.7s; }
+    .team-card:nth-child(6) { animation-delay: 2s; }
+
+    .team-card:hover {
+      transform: translateY(-10px) scale(1.05);
+    }
+
+    .team-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 3px solid #d4c1a3;
+    }
+
+    .team-card h3 {
+      margin: 10px 0 5px;
+      font-size: 22px;
+      color: #3c2f2f;
+    }
+
+    .team-card span {
+      display: block;
+      color: #8b5e3c;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .team-card p {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- Return button -->
+  <a href="Main-Web-Page2.html" class="return-btn">← Return</a>
+
+  <section class="team-header">
+    <div class="overlay">
+      <h2>Members</h2>
+      <p>Created by: TECHnoLOGIC</p>
+    </div>
+  </section>
+
+ <div class="team-container">
+    <div class="team-card">
+      <img src="https://scontent.fmnl8-6.fna.fbcdn.net/v/t39.30808-6/531031169_122168930780448015_5383755894479875182_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFEONMoNsZo8LbxtfqbUZS8xVNiW9dvlW3FU2Jb12-VbUnfE1lT8uwhfUFj_yo1Edmy5Mz-U81zv02TkWaQaHyd&_nc_ohc=7hUJ5AQNoY4Q7kNvwFb8A0Q&_nc_oc=AdlEdyPw78dxdgq3KtaeGP4ijQJPBAjPHl0LVaFz_Nd-nczEvN_iIiibJ548TXsUa41XqqOkJ99NC_o5nefzBr_d&_nc_zt=23&_nc_ht=scontent.fmnl8-6.fna&_nc_gid=NIGlLIuq5VgErN-mNkG-FA&oh=00_AfZzwEFBa3l_TpJRvM8NKV9rcxssEFsupvkiY9Md7kztCw&oe=68DF3023" alt="">
+        <h3>Niña Jamig</h3>
+        <span>Web Strategist</span>
+        <p>Plans what the website should do and how it will reach its goals.</p>
+      </div>
+      <div class="team-card">
+        <img src="https://i.pinimg.com/736x/8e/d6/4b/8ed64bf5899d3b7d9eded3ab8914b36d.jpg" alt="">
+        <h3>Jasper Ray Palaming</h3>
+        <span>Project Manger</span>
+        <p>Leads the team, makes sure tasks are done on time.</p>
+      </div>
+      <div class="team-card">
+        <img src="https://scontent.fmnl8-6.fna.fbcdn.net/v/t39.30808-1/453069004_1210302446791417_8943531475347836119_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeH2sgF2drcs1c6t9lSt2jaBQoppRKP3VMNCimlEo_dUw6EMPPcipCLxm_iUaJGCQNdDfYA4FeyaUziUCZgmygNb&_nc_ohc=YObiOICiGLMQ7kNvwEBoaz-&_nc_oc=Adn7jDtKzJ-G6HmJwThFk4S_S9Ld0vKSwtBiwcMMoUBOBEGDjbUdijFupWHrDQTOaS6HinaYbyLTq15Ys0SMiLqH&_nc_zt=24&_nc_ht=scontent.fmnl8-6.fna&_nc_gid=ZvwUcRbBzFS4_fKZVP4A2Q&oh=00_AfZLHYWrtzfWe8JzPI8h7OjkiNrV0tq_6iRKppx_fRQygQ&oe=68DF4631" alt="">
+        <h3>Erika Pagarigan</h3>
+        <span>Content Specialist</span>
+        <p>Makes and manages the words, images, or videos for the website.</p>
+      </div>
+      <div class="team-card">
+        <img src="https://scontent.fmnl8-2.fna.fbcdn.net/v/t39.30808-1/473737956_1403957747653454_1623694228066159562_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=111&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeHYrKyb9jo5c_DFWG237ftqjjmAARV36u6OOYABFXfq7jPkCeCc_oQzqWWlOMdd1uJbWZWsV_Dec_GLaMjQdVYa&_nc_ohc=HLQ8B9cNctwQ7kNvwEskSHV&_nc_oc=AdkLC_Rzz2eME5XsJC71Bu9fyo3917_B7QpPsLoMqjbB47O64mBGGFY2D3cS24J8sH3bV2GDxKcWmgJ9Ltgt4l0K&_nc_zt=24&_nc_ht=scontent.fmnl8-2.fna&_nc_gid=LpblQOK9ZystsY7u4WwjVQ&oh=00_Afa-tsl6u3V0WR0WC_fAVH-x-HCzQ_1iMjNMaAjK4wNGvA&oe=68DF43F9" alt="">
+        <h3>Benjamin Lapada</h3>
+        <span>Developer</span>
+        <p>Builds and programs the website so it works properly.</p>
+      </div>
+      <div class="team-card">
+        <img src="https://i.pinimg.com/736x/fc/e2/a7/fce2a78c553e74b1666725123fe5040b.jpg" alt="">
+        <h3>Francis Martinez</h3>
+        <span>Inbound Marketer</span>
+        <p>Attracts people to the website using helpful content, social media, or emails.</p>
+      </div>
+      <div class="team-card">
+        <img src="https://scontent.fmnl8-1.fna.fbcdn.net/v/t39.30808-6/481339142_631154399609449_3729970932734593125_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFXnbG8eL9dhkhQWZApTFG-WtVDW5Vx8UVa1UNblXHxRXJzrAkMRAygZDI7mN7bEnDcUD89jj19VhUGQwRta9YY&_nc_ohc=Ras-QIyEAWgQ7kNvwFQfyIn&_nc_oc=AdmV0csnkdOZDit-GOMF6_bj96Z6eYeyeEkipk1zq8bbshL9CndumiOO0LLIged5E_15ANPyhE2_1Q8bHAsZPBR1&_nc_zt=23&_nc_ht=scontent.fmnl8-1.fna&_nc_gid=2g3q9oM022WyGk_PpNHNQQ&oh=00_AfYTIsdrEEP0jFL154hs_YkJDlxh20LBe2t61kYEZfwH0w&oe=68DF3353" alt="">
+        <h3>Maluri Tabamo</h3>
+        <span>Web Designer</span>
+        <p>Designs how the website looks.</p>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BookMatch Quiz — Final</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+
+body {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #3a2b1d, #1a1108 70%);
+  color: #2b1b0f;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.dust-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  background: transparent;
+}
+
+.dust-bg::before, .dust-bg::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: radial-gradient(rgba(255, 223, 150, 0.25) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.3;
+  animation: floatDust 10s linear infinite;
+  mix-blend-mode: screen;
+}
+
+.dust-bg::after {
+  animation-delay: 5s;
+  opacity: 0.15;
+  background-size: 2px 2px;
+}
+
+/* Dust motion animation */
+@keyframes floatDust {
+  from { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-10px) translateX(5px) scale(1.02); }
+  to { transform: translateY(0) translateX(0); }
+}
+
+/* Lift panels above dust */
+.panel, .intro-screen {
+  position: relative;
+  z-index: 5;
+}
+
+  :root {
+    --bg1: #3b2f2f;  /* dark mahogany */
+    --bg2: #5a4636;  /* warm brown */
+    --panel: #f7f3e9; /* parchment */
+    --accent: #7a5c3f; /* antique gold-brown */
+    --muted: #a9957b;
+    --highlight: #c9a66b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Libre Baskerville', serif;
+    background: radial-gradient(var(--bg1), var(--bg2));
+    color: #2b1b0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+    overflow: auto;
+  }
+
+  .panel {
+    width: 100%;
+    max-width: 960px;
+    background: var(--panel);
+    border: 1px solid #bfa57d;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    margin: 16px auto;
+    transform: scale(0.96);
+    opacity: 0;
+    transition: all .36s cubic-bezier(.2,.9,.2,1);
+    display: none;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.03) 0,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+  }
+
+  .panel.active { display: block; transform: scale(1); opacity: 1; }
+
+  h1, h2, h3 {
+    margin: 6px 0;
+    color: var(--accent);
+    text-shadow: 0 1px 0 #fff;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    font-family: 'Libre Baskerville', serif;
+    transition: all 0.3s;
+  }
+
+  .btn.primary {
+    background: linear-gradient(180deg, var(--accent), var(--highlight));
+    color: #fff;
+    box-shadow: 0 4px 0 #5e432b;
+  }
+  .btn.primary:hover { transform: scale(1.05); }
+
+  .btn.secondary {
+    background: #d8c6a3;
+    color: #3a2b1d;
+    box-shadow: 0 4px 0 #b59c77;
+  }
+  .btn.secondary:hover { transform: scale(1.05); }
+
+  input[type="text"] {
+    width: 90%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--muted);
+    font-size: 15px;
+    font-family: 'Libre Baskerville', serif;
+    background: #fcfaf5;
+    color: #3a2b1d;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+    align-items: stretch;
+  }
+
+  .option {
+    background: #f3e6cf;
+    border: 1px solid var(--muted);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .option:hover { background: #f0dcb6; }
+
+  .checkbox-list {
+    max-height: 260px;
+    overflow: auto;
+    text-align: left;
+    margin-top: 12px;
+  }
+
+  label {
+    display: block;
+    margin: 6px 0;
+    font-size: 15px;
+  }
+
+  .small-note {
+    font-size: 13px;
+    color: var(--accent);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .book-section {
+    animation: pageFlip .9s ease;
+    text-align: left;
+    padding: 12px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #fffef9, #f8f3e8);
+    border: 1px solid #d8c8a3;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+
+  @keyframes pageFlip {
+    from { transform: rotateY(90deg); opacity: 0; }
+    to { transform: rotateY(0); opacity: 1; }
+  }
+
+  .book-title { font-weight: bold; color: #5a3e26; }
+  .book-reason { font-style: italic; color: #66513a; font-size: 13px; }
+  .book-insight { color: var(--accent); font-size: 13px; }
+
+  .progress-wrap {
+    width: 100%;
+    background: #e3d3b1;
+    border-radius: 8px;
+    height: 12px;
+    margin-bottom: 12px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 8px;
+    width: 0%;
+    transition: width .25s;
+  }
+
+  @media (max-width: 720px) {
+    .result-grid { grid-template-columns: 1fr; }
+    input[type="text"] { width: 100%; }
+  }
+
+.intro-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(#4b2f1d, #1a0f09);
+  color: #f5e1c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Libre Baskerville', serif;
+  z-index: 9999;
+  animation: fadeOut 4s ease 2.5s forwards;
+}
+
+.intro-text {
+  font-size: 2.6rem;
+  opacity: 0;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  background: linear-gradient(180deg, #f9d79d, #c79a5a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 
+    0 0 10px rgba(255, 220, 160, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 1.8s ease forwards, glowText 2.8s ease-in-out 1s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); filter: blur(3px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes glowText {
+  0%,100% { text-shadow: 0 0 10px #d6a45f, 0 0 30px #f5d29a; }
+  50% { text-shadow: 0 0 25px #ffe0a8, 0 0 55px #ffdf85; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+
+/* Soft warm ambient flicker (like candlelight on the page) */
+@keyframes flicker {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.05); }
+  80% { filter: brightness(0.97); }
+}
+
+/* Smooth entrance animation for panels */
+@keyframes panelAppear {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* Apply animations */
+body {
+  animation: flicker 6s ease-in-out infinite alternate;
+}
+
+.panel.active {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+  animation: panelAppear 0.8s ease forwards;
+}
+
+/* Softer, deeper shadows for a cozy old-library feel */
+.panel {
+  box-shadow: 0 10px 25px rgba(46, 32, 14, 0.55),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn.primary {
+  box-shadow: 0 4px 10px rgba(87, 55, 27, 0.6);
+}
+.btn.secondary {
+  box-shadow: 0 4px 10px rgba(87, 55, 27, 0.3);
+}
+
+.option {
+  box-shadow: 0 2px 8px rgba(70, 47, 27, 0.35);
+}
+
+/* Make headings glow slightly for a magical touch */
+h1, h2, h3 {
+  text-shadow: 0 0 10px rgba(206, 164, 95, 0.4),
+               1px 2px 3px rgba(0, 0, 0, 0.4);
+  animation: flicker 8s ease-in-out infinite alternate;
+}
+
+</style>
+</head>
+<body>
+<div class="dust-bg"></div>
+
+
+<!-- Entrance Screen -->
+<div id="introScreen" class="intro-screen active">
+  <h1 class="intro-text">Step into a vast Exploration of Yourself!</h1>
+</div>
+
+  <!-- Welcome Panel -->
+  <div id="welcomePanel" class="panel active" role="region" aria-label="Welcome">
+    <h1>Let's Go and Discover Your Book Personality</h1>
+    <p>Answer 15 short questions by typing your responses. We'll analyze the words and recommend books just for you.</p>
+    <button id="startButton" class="btn primary" type="button">Discover Your Book Personality</button>
+    <button id="notNow" class="btn secondary" type="button" onclick="location.href='Main-Web-Page2.html'">Not Now</button>
+  </div>
+
+  <!-- Quiz Panel -->
+  <div id="quizPanel" class="panel" role="region" aria-label="Quiz" aria-live="polite">
+    <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+    <h2 id="questionText">Question</h2>
+    <input id="answerInput" type="text" placeholder="Type your answer here..." />
+    <div style="margin-top:12px">
+      <button id="nextBtn" class="btn primary" type="button">Next</button>
+    </div>
+    <p class="small-note">Tip: be descriptive — the analyzer checks for keywords, mood, and context.</p>
+  </div>
+
+  <!-- Subcategory Panel -->
+  <div id="subcategoryPanel" class="panel" role="region" aria-label="Subcategories">
+    <h2 id="chosenGenreTitle"></h2>
+    <h3>Select a subcategory:</h3>
+    <div id="subcategoryOptions" class="options"></div>
+  </div>
+
+  <!-- Elements Panel -->
+  <div id="elementsPanel" class="panel" role="region" aria-label="Elements">
+    <h2 id="chosenSubcatTitle"></h2>
+    <h3>Select elements (pick 1–5):</h3>
+    <div id="elementsList" class="checkbox-list"></div>
+    <div style="margin-top:12px">
+      <button id="showResult" class="btn primary" type="button">See My Book Personality</button>
+    </div>
+    <p class="small-note">Pick at least 1 and up to 5 elements — these will shape your recommendations.</p>
+  </div>
+
+  <!-- Result Panel -->
+  <div id="resultPanel" class="panel" role="region" aria-label="Results">
+    <h2>Your Book Personality is:</h2>
+    <p id="resultType"></p>
+    <p id="whyText" class="small-note"></p>
+    <div id="recommendations"></div>
+    <div style="margin-top:14px">
+      <button id="restartBtn" class="btn primary" type="button">Take Quiz Again</button>
+      <button class="btn secondary" onclick="location.href='Main-Web-Page2.html'">Return</button>
+    </div>
+  </div>
+
+<script>
+
+
+/* -------- QUESTIONS -------- */
+const QUESTIONS = [
+  "If you could step into the world of any story, what kind of world would it be?",
+  "When life feels heavy, what type of story lifts your spirits?",
+  "Which emotion do you want a book to make you feel the most?",
+  "If your life were a book, what would be your title?",
+  "How do you usually connect with the characters in a story?",
+  "What kind of ending do you find the most satisfying?",
+  "If you could live one day as a book character, what would they be like?",
+  "Do you prefer stories that make you think, laugh, or feel deeply?",
+  "What kind of conflict in a story draws your attention most?",
+  "What sort of setting feels like home to you — magical, real, or mysterious?",
+  "What keeps you turning the pages when you read a book?",
+  "If a story taught you a life lesson, what kind of lesson would you want it to be?",
+  "What kind of hero (or antihero) do you admire most in stories?",
+  "When you finish a book, what do you usually feel — reflection, inspiration, or excitement?",
+  "What’s one word that describes your dream story experience?"
+];
+
+/* -------- UI refs -------- */
+const startButton = document.getElementById('startButton');
+const welcomePanel = document.getElementById('welcomePanel');
+const quizPanel = document.getElementById('quizPanel');
+const questionText = document.getElementById('questionText');
+const answerInput = document.getElementById('answerInput');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+
+const subcategoryPanel = document.getElementById('subcategoryPanel');
+const chosenGenreTitle = document.getElementById('chosenGenreTitle');
+const subcategoryOptions = document.getElementById('subcategoryOptions');
+
+const elementsPanel = document.getElementById('elementsPanel');
+const chosenSubcatTitle = document.getElementById('chosenSubcatTitle');
+const elementsList = document.getElementById('elementsList');
+const showResultBtn = document.getElementById('showResult');
+
+const resultPanel = document.getElementById('resultPanel');
+const resultType = document.getElementById('resultType');
+const whyText = document.getElementById('whyText');
+const recommendationsDiv = document.getElementById('recommendations');
+const restartBtn = document.getElementById('restartBtn');
+
+/* -------- STATE -------- */
+let idx = 0;
+let genreScores = {
+  romantic:0, adventure:0, detective:0, thinker:0, social:0, fantasy:0,
+  drama:0, comedy:0, action:0, mysteryThriller:0, tragedy:0
+};
+let chosenGenre = '';
+let chosenSubcat = '';
+
+/* -------- SAFE START (attach events after DOM load) -------- */
+document.addEventListener('DOMContentLoaded', () => {
+  // Attach handlers
+  startButton.addEventListener('click', handleStart);
+  nextBtn.addEventListener('click', handleNext);
+  answerInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleNext(); });
+  showResultBtn.addEventListener('click', validateAndShow);
+  restartBtn.addEventListener('click', restartQuiz);
+
+  // ensure initial panel visibility
+  showPanel(welcomePanel);
+});
+
+/* -------- Utilities to show/hide panels -------- */
+function showPanel(panel) {
+  // hide all first
+  [welcomePanel, quizPanel, subcategoryPanel, elementsPanel, resultPanel].forEach(p => p.classList.remove('active'));
+  panel.classList.add('active');
+}
+
+/* -------- Start / Flow functions -------- */
+function handleStart() {
+  resetScores();
+  idx = 0;
+  showPanel(quizPanel);
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (idx >= QUESTIONS.length) return finishQuiz();
+  questionText.textContent = `Question ${idx+1}: ${QUESTIONS[idx]}`;
+  answerInput.value = '';
+  answerInput.focus();
+  progressBar.style.width = `${Math.round((idx / QUESTIONS.length) * 100)}%`;
+}
+
+function handleNext() {
+  const ans = (answerInput.value || '').trim();
+  if (!ans) return; // require input
+  analyzeAnswer(ans);
+  idx++;
+  if (idx < QUESTIONS.length) loadQuestion();
+  else finishQuiz();
+}
+
+/* -------- Analyzer (keyword + phrase based) -------- */
+function analyzeAnswer(text) {
+  const t = (text || '').toLowerCase();
+  if (!t) return;
+  const patterns = {
+    romantic:["love","romance","relationship","kiss","heart","intimacy"],
+    adventure:["adventure","travel","explore","journey","quest","thrill"],
+    detective:["mystery","detective","crime","clue","investigate","whodunit"],
+    thinker:["think","learn","idea","philosophy","question","science"],
+    social:["friend","family","community","together","bond"],
+    fantasy:["magic","dragon","wizard","realm","sorcery","myth"],
+    drama:["drama","emotional","realistic","conflict","family","intense"],
+    comedy:["funny","humor","laugh","witty","satire","banter"],
+    action:["fight","battle","chase","explosion","adrenaline","combat"],
+    mysteryThriller:["thriller","suspense","twist","psychological","tense","paranoia"],
+    tragedy:["sad","tragic","loss","grief","melancholy","doomed"]
+  };
+  const tokens = t.split(/\W+/).filter(Boolean);
+  for (const g of Object.keys(patterns)) {
+    let hits = 0;
+    for (const k of patterns[g]) if (t.includes(k)) hits++;
+    for (const tok of tokens) if (patterns[g].includes(tok)) hits += 0.5;
+    genreScores[g] += hits;
+  }
+  if (t.match(/(fall in love|in love|falling in love)/)) genreScores.romantic += 2;
+  if (t.match(/(go on (an )?adventure|want to explore|love to explore)/)) genreScores.adventure += 2;
+  if (t.match(/(solve.*mystery|find the truth|clue|investigat)/)) { genreScores.detective += 2; genreScores.mysteryThriller += 0.8; }
+  if (t.match(/(why|what if|question|ponder|philosoph)/)) genreScores.thinker += 1.2;
+  if (Math.random() < 0.05) { const ks = Object.keys(genreScores); genreScores[ks[Math.floor(Math.random()*ks.length)]] += 0.5; }
+}
+
+/* -------- Finish quiz -> determine genre -------- */
+function finishQuiz() {
+  progressBar.style.width = '100%';
+  // determine top genre (tie: first with highest)
+  chosenGenre = Object.keys(genreScores).reduce((a,b) => genreScores[a] >= genreScores[b] ? a : b);
+  chosenGenreTitle.textContent = `You are mostly into: ${chosenGenre.toUpperCase()}`;
+  showPanel(subcategoryPanel);
+  loadSubcategories(chosenGenre);
+}
+
+/* -------- Original recommendations preserved, plus new genres --------
+   (I include the full merged 'recommendations' object here).
+   This object is large but intentionally complete and validated.
+*/
+
+/* ----------------- ORIGINAL / EXISTING GENRES preserved ----------------- */
+const recommendations = {
+  /* ---------- ROMANTIC (kept from original file) ---------- */
+  romantic: {
+    "BL": {
+      "Wholesome": ["Love Stage!! by Eiki Eiki","Given by Natsuki Kizu","Doukyuusei by Asumiko Nakamura"],
+      "Tragic": ["Ten Count by Rihito Takarai","Caste Heaven by Chise Ogawa","Saezuru Tori wa Habatakanai by Kou Yoneda"],
+      "Fantasy": ["Crimson Spell by Ayano Yamane","Finder Series by Ayano Yamane","From Blood and Ash by Jennifer L. Armentrout"],
+      "School Life": ["Dakaretai Otoko 1-i ni Odosarete Imasu by Hashigo Sakurabi","Seven Days by Venio Tachibana","Bloom Into You by Nio Nakatani"],
+      "Drama": ["Junjou Romantica by Shungiku Nakamura","Super Lovers by Miyuki Abe","Normal People by Sally Rooney"],
+      "Comedy": ["Hybrid Child by Shungiku Nakamura","Love Stage!! by Eiki Eiki","Bridget Jones's Diary by Helen Fielding"]
+    },
+    "GL": {
+      "Lighthearted": ["Bloom Into You by Nio Nakatani","Citrus by Saburouta","Kase-san and Morning Glories by Hiromi Takashima"],
+      "Serious": ["Aoi Hana by Takako Shimura","Octave by Haru Akiyama","Girl Friends by Milk Morinaga"],
+      "Historical": ["Rica’tte Kanji!? by Rica Takashima","Kase-san Series by Hiromi Takashima","After Hours by Yuhta Nishio"],
+      "Slice of Life": ["Girl Friends by Milk Morinaga","Sasameki Koto by Takashi Ikeda","Sweet Blue Flowers by Takako Shimura"],
+      "Fantasy": ["Yurikuma Arashi by Kunihiko Ikuhara","After Hours by Yuhta Nishio","The Night Circus by Erin Morgenstern"],
+      "Drama": ["Aoi Hana by Takako Shimura","Citrus+ by Saburouta","Normal People by Sally Rooney"]
+    },
+    "Historical Romance": {
+      "Victorian":["Jane Eyre by Charlotte Brontë","North and South by Elizabeth Gaskell","Wuthering Heights by Emily Brontë"],
+      "Regency":["Pride and Prejudice by Jane Austen","Sense and Sensibility by Jane Austen","Emma by Jane Austen"],
+      "WWII":["The Nightingale by Kristin Hannah","All the Light We Cannot See by Anthony Doerr","The English Patient by Michael Ondaatje"],
+      "Forbidden":["Anna Karenina by Leo Tolstoy","Madame Bovary by Gustave Flaubert","The Other Boleyn Girl by Philippa Gregory"],
+      "Royalty":["The Other Boleyn Girl by Philippa Gregory","Victoria by Daisy Goodwin","The Selection by Kiera Cass"],
+      "Tragic":["Atonement by Ian McEwan","Doctor Zhivago by Boris Pasternak","The Time Traveler's Wife by Audrey Niffenegger"]
+    },
+    "Fantasy Romance": {
+      "Magic":["A Court of Thorns and Roses by Sarah J. Maas","Serpent & Dove by Shelby Mahurin","Harry Potter and the Sorcerer's Stone by J.K. Rowling"],
+      "Dark":["Kingdom of the Wicked by Kerri Maniscalco","Shadow and Bone by Leigh Bardugo","The Poppy War by R.F. Kuang"],
+      "Royalty":["Throne of Glass by Sarah J. Maas","The Selection by Kiera Cass","The Priory of the Orange Tree by Samantha Shannon"],
+      "Forbidden Love":["From Blood and Ash by Jennifer L. Armentrout","Shatter Me by Tahereh Mafi","The Night Circus by Erin Morgenstern"],
+      "Epic":["Crescent City by Sarah J. Maas","The Priory of the Orange Tree by Samantha Shannon","Mistborn by Brandon Sanderson"],
+      "Otherworldly":["The Night Circus by Erin Morgenstern","The Star-Touched Queen by Roshani Chokshi","American Gods by Neil Gaiman"]
+    },
+    "RomCom": {
+      "Quirky":["The Rosie Project by Graeme Simsion","Attachments by Rainbow Rowell","The Flatshare by Beth O'Leary"],
+      "Workplace":["The Hating Game by Sally Thorne","By a Thread by Lucy Score","The Hating Game by Sally Thorne"],
+      "Enemies-to-Lovers":["Dating You / Hating You by Christina Lauren","You Deserve Each Other by Sarah Hogle","The Unhoneymooners by Christina Lauren"],
+      "Friends-to-Lovers":["Josh and Hazel’s Guide to Not Dating by Christina Lauren","Love, Rosie by Cecelia Ahern","People We Meet on Vacation by Emily Henry"],
+      "High School":["To All the Boys I’ve Loved Before by Jenny Han","Perfect Chemistry by Simone Elkeles","Looking for Alaska by John Green"],
+      "Slice of Life":["Fangirl by Rainbow Rowell","Eleanor Oliphant Is Completely Fine by Gail Honeyman","The Perks of Being a Wallflower by Stephen Chbosky"]
+    },
+    "Romantic Suspense": {
+      "Mystery":["Naked in Death by J.D. Robb","The Perfect Husband by Lisa Gardner","The Witness by Nora Roberts"],
+      "Thriller":["Mr. Perfect by Linda Howard","The Witness by Nora Roberts","Dark Places by Gillian Flynn"],
+      "Danger":["Dark Places by Gillian Flynn","Cry No More by Linda Howard","Whisper of Evil by Kay Hooper"],
+      "Secrets":["Don’t Tell by Karen Rose","The Girl Who Knew Too Much by Amanda Quick","You Don't Want to Know by Lisa Jackson"],
+      "Betrayal":["Promise Me Darkness by Paige Weaver","Kill and Tell by Linda Howard","Outfox by Sandra Brown"],
+      "Crime":["I’ll Be Watching You by Beverly Barton","Whisper of Evil by Kay Hooper","Cut and Run by Madeleine Urban"]
+    }
+  },
+
+  /* ---------- ADVENTURE (kept) ---------- */
+  adventure: {
+    "Epic Quest": {
+      "Dragons":["The Hobbit by J.R.R. Tolkien","Seraphina by Rachel Hartman","The Name of the Wind by Patrick Rothfuss"],
+      "Magic Items":["The Fellowship of the Ring by J.R.R. Tolkien","The Eye of the World by Robert Jordan","The Lies of Locke Lamora by Scott Lynch"],
+      "Chosen One":["Harry Potter and the Sorcerer’s Stone by J.K. Rowling","The Belgariad by David Eddings","Percy Jackson and the Olympians by Rick Riordan"],
+      "Mythical Lands":["The Chronicles of Narnia by C.S. Lewis","Earthsea by Ursula K. Le Guin","American Gods by Neil Gaiman"],
+      "Trials":["The Hero and the Crown by Robin McKinley","The Black Prism by Brent Weeks","The First Law Trilogy by Joe Abercrombie"],
+      "Destiny":["Mistborn by Brandon Sanderson","An Ember in the Ashes by Sabaa Tahir","The Wheel of Time by Robert Jordan"],
+      "Cursed":["The Dark Tower by Stephen King","Uprooted by Naomi Novik","The Witcher Series by Andrzej Sapkowski"],
+      "Prophecy":["Percy Jackson and the Olympians by Rick Riordan","Wheel of Time by Robert Jordan","The Song of Achilles by Madeline Miller"],
+      "Enemies":["The Sword of Shannara by Terry Brooks","The Broken Empire by Mark Lawrence","The Lies of Locke Lamora by Scott Lynch"],
+      "Allies":["The Priory of the Orange Tree by Samantha Shannon","Malazan Book of the Fallen by Steven Erikson","The Kingkiller Chronicle by Patrick Rothfuss"]
+    },
+    "Survival":{
+      "Island":["Robinson Crusoe by Daniel Defoe","Lord of the Flies by William Golding","Hatchet by Gary Paulsen"],
+      "Post-Apocalypse":["The Road by Cormac McCarthy","Station Eleven by Emily St. John Mandel","The Handmaid's Tale by Margaret Atwood"],
+      "Wilderness":["Hatchet by Gary Paulsen","Into the Wild by Jon Krakauer","Wild by Cheryl Strayed"],
+      "Space Survival":["The Martian by Andy Weir","Across the Universe by Beth Revis","The Expanse by James S.A. Corey"],
+      "Natural Disaster":["Earth Abides by George R. Stewart","Life As We Knew It by Susan Beth Pfeffer","The Day of the Triffids by John Wyndham"],
+      "Teamwork":["Alive by Piers Paul Read","Endurance by Alfred Lansing","The Maze Runner by James Dashner"],
+      "Isolation":["Room by Emma Donoghue","Moon by Duncan Jones (screenplay)","The Ocean at the End of the Lane by Neil Gaiman"],
+      "Resourceful":["Robinson Crusoe by Daniel Defoe","Swiss Family Robinson by Johann David Wyss","The Count of Monte Cristo by Alexandre Dumas"],
+      "Escape":["Papillon by Henri Charrière","The Count of Monte Cristo by Alexandre Dumas","Shantaram by Gregory David Roberts"],
+      "Challenge":["Into Thin Air by Jon Krakauer","Wild by Cheryl Strayed","Touching the Void by Joe Simpson"]
+    },
+    "Pirate":{
+      "Treasure Hunt":["Treasure Island by Robert Louis Stevenson","Pirate Latitudes by Michael Crichton","Bloody Jack by L.A. Meyer"],
+      "Naval Battles":["Master and Commander by Patrick O’Brian","Hornblower Series by C.S. Forester","The Pirates! In an Adventure with Scientists! by Gideon Defoe"],
+      "Sea Monsters":["Pirates! by Celia Rees","The Scar by China Miéville","The Sea by John Banville"],
+      "Mutiny":["Mutiny on the Bounty by Charles Nordhoff","The True Confessions of Charlotte Doyle by Avi","Piratica by Tanith Lee"],
+      "Crew":["Piratica by Tanith Lee","Pirate’s Passage by William Gilkerson","Captain Blood by Rafael Sabatini"],
+      "Map":["On Stranger Tides by Tim Powers","Sea Queens by Jane Yolen","The Map of Time by Félix J. Palma"],
+      "Legend":["The Pirate Hunter by Richard Zacks","Sea Queens by Jane Yolen","The Sea-Wolf by Jack London"],
+      "Port Towns":["Bloody Jack by L.A. Meyer","Pirate Latitudes by Michael Crichton","Treasure Island by Robert Louis Stevenson"],
+      "Gold":["Treasure Island by Robert Louis Stevenson","Sea Queens by Jane Yolen","The Gold Coast by Nelson DeMille"],
+      "Freedom":["Piratica by Tanith Lee","Sea Witch by Helen Hollick","Two Years Before the Mast by Richard Henry Dana Jr."]
+    },
+    "Sci-Fi Adventure": {
+      "Aliens":["Ender’s Game by Orson Scott Card","Childhood’s End by Arthur C. Clarke","Blindsight by Peter Watts"],
+      "Space Travel":["Dune by Frank Herbert","Leviathan Wakes by James S.A. Corey","2001: A Space Odyssey by Arthur C. Clarke"],
+      "AI":["Neuromancer by William Gibson","I, Robot by Isaac Asimov","The Circle by Dave Eggers"],
+      "TimeDilation":["The Forever War by Joe Haldeman","Tau Zero by Poul Anderson","The Time Traveler's Wife by Audrey Niffenegger"],
+      "Dystopia":["Ready Player One by Ernest Cline","The Hunger Games by Suzanne Collins","Brave New World by Aldous Huxley"],
+      "FutureWar":["Starship Troopers by Robert A. Heinlein","Old Man's War by John Scalzi","The Forever War by Joe Haldeman"],
+      "Empire":["Foundation by Isaac Asimov","The Expanse Series by James S.A. Corey","Red Mars by Kim Stanley Robinson"],
+      "Exploration":["Rendezvous with Rama by Arthur C. Clarke","Anathem by Neal Stephenson","The Martian by Andy Weir"],
+      "Colonization":["Red Mars by Kim Stanley Robinson","Aurora by Kim Stanley Robinson","The Sparrow by Mary Doria Russell"],
+      "CosmicMystery":["Anathem by Neal Stephenson","Blindsight by Peter Watts","Solaris by Stanisław Lem"]
+    },
+    "Time Travel": {
+      "Past":["Outlander by Diana Gabaldon","Timeline by Michael Crichton","Doomsday Book by Connie Willis"],
+      "Future":["The Time Machine by H.G. Wells","Kindred by Octavia Butler","The Time Traveler's Wife by Audrey Niffenegger"],
+      "Alternate":["11/22/63 by Stephen King","Recursion by Blake Crouch","This Is How You Lose the Time War by Amal El-Mohtar & Max Gladstone"],
+      "RomanticTwist":["The Time Traveler’s Wife by Audrey Niffenegger","The Night Watch by Sarah Waters","The Time Traveler's Wife by Audrey Niffenegger"],
+      "Paradox":["All You Need Is Kill by Hiroshi Sakurazaka","Looper (screenplay)","Version Control by Dexter Palmer"],
+      "Historical":["Doomsday Book by Connie Willis","The Pillars of the Earth by Ken Follett","The Other Boleyn Girl by Philippa Gregory"],
+      "Technology":["The Chronoliths by Robert Charles Wilson","Version Control by Dexter Palmer","The Time Machine by H.G. Wells"],
+      "Mystery":["The Shining Girls by Lauren Beukes","The Psychology of Time Travel by Kate Mascarenhas","The Shining Girls by Lauren Beukes"],
+      "Adventure":["Here and Now and Then by Mike Chen","The Doomsday Book by Connie Willis","The Map of Time by Félix J. Palma"],
+      "Speculative":["Kindred by Octavia Butler","The Time Traveler's Wife by Audrey Niffenegger","The Anubis Gates by Tim Powers"]
+    }
+  },
+
+  /* ---------- DETECTIVE (preserved) ---------- */
+  detective: {
+    "Classic Mystery": {
+      "Detective": ["The Hound of the Baskervilles by Arthur Conan Doyle","Murder on the Orient Express by Agatha Christie","The Moonstone by Wilkie Collins"],
+      "Butler": ["The Murder of Roger Ackroyd by Agatha Christie","The Daughter of Time by Josephine Tey","Unnatural Death by Dorothy L. Sayers"],
+      "Mansion": ["The Mysterious Affair at Styles by Agatha Christie","The Seven Deaths of Evelyn Hardcastle by Stuart Turton","Rebecca by Daphne du Maurier"],
+      "Murder": ["And Then There Were None by Agatha Christie","The Big Sleep by Raymond Chandler","The Black Echo by Michael Connelly"],
+      "Alibi": ["The ABC Murders by Agatha Christie","Presumed Innocent by Scott Turow","The Reversal by Michael Connelly"],
+      "Clues": ["Adventures of Sherlock Holmes by Arthur Conan Doyle","A Study in Scarlet by Arthur Conan Doyle","The No. 1 Ladies' Detective Agency by Alexander McCall Smith"],
+      "Suspects": ["The Mousetrap by Agatha Christie","Crooked House by Agatha Christie","The Talented Mr. Ripley by Patricia Highsmith"],
+      "Twist": ["The Woman in White by Wilkie Collins","The Reversal by Michael Connelly","Behind Her Eyes by Sarah Pinborough"],
+      "Poison": ["Strong Poison by Dorothy L. Sayers","Unnatural Death by Dorothy L. Sayers","The Daughter of Time by Josephine Tey"],
+      "Inspector": ["Maigret by Georges Simenon","The Inspector Lynley Mysteries by Elizabeth George","In the Woods by Tana French"]
+    },
+    "Crime Thriller": {
+      "Police":["The Black Echo by Michael Connelly","In the Woods by Tana French","The Girl with the Dragon Tattoo by Stieg Larsson"],
+      "Chase":["The Bourne Identity by Robert Ludlum","The Fugitive (novelization)","The Count of Monte Cristo by Alexandre Dumas"],
+      "Heist":["Six of Crows by Leigh Bardugo","Heist Society by Ally Carter","The Lies of Locke Lamora by Scott Lynch"],
+      "Corruption":["The Godfather by Mario Puzo","LA Confidential by James Ellroy","American Tabloid by James Ellroy"],
+      "Undercover":["Donnie Brasco by Joseph D. Pistone","Deep Cover by Michael Levine","The Recruit by Robert Muchamore"],
+      "Violence":["No Country for Old Men by Cormac McCarthy","Savages by Don Winslow","The Friends of Eddie Coyle by George V. Higgins"],
+      "Investigation":["The Reversal by Michael Connelly","The Girl with the Dragon Tattoo by Stieg Larsson","The Black Echo by Michael Connelly"],
+      "Twist":["Gone Girl by Gillian Flynn","Shutter Island by Dennis Lehane","The Silent Patient by Alex Michaelides"],
+      "Dark":["Silence of the Lambs by Thomas Harris","American Tabloid by James Ellroy","The Talented Mr. Ripley by Patricia Highsmith"],
+      "City":["The Neon Rain by James Lee Burke","City of the Lost by Kelley Armstrong","The Black House by Peter May"]
+    },
+    "Psychological": {
+      "Mind Games":["Fight Club by Chuck Palahniuk","The Silent Patient by Alex Michaelides","Misery by Stephen King"],
+      "Unreliable Narrator":["We Were Liars by E. Lockhart","Before I Go to Sleep by S.J. Watson","The Talented Mr. Ripley by Patricia Highsmith"],
+      "Obsession":["Misery by Stephen King","Lolita by Vladimir Nabokov","The Collector by John Fowles"],
+      "Fear":["It by Stephen King","House of Leaves by Mark Z. Danielewski","The Girl Next Door by Jack Ketchum"],
+      "Memory":["Before I Fall by Lauren Oliver","The Memory Police by Yoko Ogawa","The Shining Girls by Lauren Beukes"],
+      "Trauma":["Room by Emma Donoghue","Sharp Objects by Gillian Flynn","A Little Life by Hanya Yanagihara"],
+      "Twist":["Behind Her Eyes by Sarah Pinborough","Gone Girl by Gillian Flynn","Before I Go to Sleep by S.J. Watson"],
+      "Control":["1984 by George Orwell","Never Let Me Go by Kazuo Ishiguro","The Handmaid's Tale by Margaret Atwood"],
+      "Manipulation":["The Talented Mr. Ripley by Patricia Highsmith","The Secret History by Donna Tartt","The Collector by John Fowles"],
+      "Darkness":["The Girl Next Door by Jack Ketchum","Hell House by Richard Matheson","The Silence of the Lambs by Thomas Harris"]
+    },
+    "Forensic": {
+      "DNA":["Postmortem by Patricia Cornwell","Death du Jour by Kathy Reichs","The Bone Collector by Jeffery Deaver"],
+      "Crime Scene":["Body of Evidence by Patricia Cornwell","Grave Secrets by Kathy Reichs","Cold Moon by Jeffery Deaver"],
+      "Medical Examiner":["The Bone Collector by Jeffery Deaver","The Surgeon by Tess Gerritsen","Cause of Death by Patricia Cornwell"],
+      "Evidence":["Speaking in Bones by Kathy Reichs","Cold Moon by Jeffery Deaver","The Reversal by Michael Connelly"],
+      "Cold Cases":["The Crossing Places by Elly Griffiths","The Black Ice by Michael Connelly","Presumed Innocent by Scott Turow"],
+      "Autopsy":["Cause of Death by Patricia Cornwell","The Apprentice by Tess Gerritsen","Body of Evidence by Patricia Cornwell"],
+      "Technology":["Digital Fortress by Dan Brown","The Blue Nowhere by Jeffery Deaver","Snow Crash by Neal Stephenson"],
+      "Motive":["The Woods by Harlan Coben","The Guilty by David Baldacci","The 5th Horseman by James Patterson"],
+      "Profiling":["Mindhunter by John E. Douglas","The Alienist by Caleb Carr","The Anatomy of Motive by John E. Douglas"],
+      "Truth":["True Crime by Andrew Klavan","Presumed Innocent by Scott Turow","In Cold Blood by Truman Capote"]
+    },
+    "Cozy Mystery": {
+      "Small Town":["Murder at the Vicarage by Agatha Christie","Still Life by Louise Penny","The Sweetness at the Bottom of the Pie by Alan Bradley"],
+      "Tea Shop":["Death by Darjeeling by Laura Childs","The Jasmine Moon Murder by Laura Childs","A Fatal Thing Happened on the Way to the Forum by M.C. Beaton"],
+      "Bookstore":["The Cracked Spine by Paige Shelton","By Book or by Crook by Eva Gates","The Readers of Broken Wheel Recommend by Katarina Bivald"],
+      "Amateur Sleuth":["A is for Alibi by Sue Grafton","Murder with Peacocks by Donna Andrews","The No. 1 Ladies' Detective Agency by Alexander McCall Smith"],
+      "Pets":["Curiosity Thrilled the Cat by Sofie Kelly","The Cat Who Could Read Backwards by Lilian Jackson Braun","A Dog's Purpose by W. Bruce Cameron"],
+      "Baking":["Chocolate Chip Cookie Murder by Joanne Fluke","Meet Your Baker by Ellie Alexander","Death by Chocolate Truffle by Laura Childs"],
+      "Family":["Real Murders by Charlaine Harris","Apple Cider Slaying by Julie Anne Lindsey","The Sweetness at the Bottom of the Pie by Alan Bradley"],
+      "Community":["The Sweetness at the Bottom of the Pie by Alan Bradley","Murder at Honeychurch Hall by Hannah Dennison","Major Pettigrew's Last Stand by Helen Simonson"],
+      "Humor":["Murder with Peacocks by Donna Andrews","The Spellman Files by Lisa Lutz","The No. 1 Ladies' Detective Agency by Alexander McCall Smith"],
+      "Puzzle":["Sudden Death Crossword Puzzle Mysteries by Nero Blanc","The Crossword Murder by Nero Blanc","The Puzzle Palace by Vincent Bugliosi"]
+    }
+  },
+
+  /* ---------- THINKER (preserved) ---------- */
+  thinker: {
+    "Philosophy": {
+      "Existence":["Meditations by Marcus Aurelius","Being and Nothingness by Jean-Paul Sartre","Nausea by Jean-Paul Sartre"],
+      "Morality":["Groundwork of the Metaphysic of Morals by Immanuel Kant","Utilitarianism by John Stuart Mill","Nicomachean Ethics by Aristotle"],
+      "Logic":["Tractatus Logico-Philosophicus by Ludwig Wittgenstein","An Introduction to Logic by Irving Copi","Principia Mathematica (selected excerpts)"],
+      "Religion":["The Republic by Plato","City of God by Augustine","Confessions by Augustine"],
+      "Mind":["Meditations on First Philosophy by René Descartes","Consciousness Explained by Daniel Dennett","Being and Time by Martin Heidegger"],
+      "Ethics":["Nicomachean Ethics by Aristotle","Ethics by Baruch Spinoza","On Liberty by John Stuart Mill"],
+      "Politics":["The Prince by Niccolò Machiavelli","Leviathan by Thomas Hobbes","On Revolution by Hannah Arendt"],
+      "Knowledge":["Critique of Pure Reason by Immanuel Kant","Problems of Philosophy by Bertrand Russell","The Structure of Scientific Revolutions by Thomas Kuhn"],
+      "Society":["Democracy in America by Alexis de Tocqueville","The Social Contract by Jean-Jacques Rousseau","Bowling Alone by Robert D. Putnam"],
+      "Death":["The Denial of Death by Ernest Becker","On the Shortness of Life by Seneca","The Myth of Sisyphus by Albert Camus"]
+    },
+    "Science & Ideas": {
+      "Physics":["A Brief History of Time by Stephen Hawking","The Elegant Universe by Brian Greene","The Fabric of the Cosmos by Brian Greene"],
+      "Biology":["The Selfish Gene by Richard Dawkins","The Origin of Species by Charles Darwin","Genome by Matt Ridley"],
+      "Space":["Cosmos by Carl Sagan","Astrophysics for People in a Hurry by Neil deGrasse Tyson","Death by Black Hole by Neil deGrasse Tyson"],
+      "Technology":["The Innovators by Walter Isaacson","Life 3.0 by Max Tegmark","The Shallows by Nicholas Carr"],
+      "Chemistry":["The Disappearing Spoon by Sam Kean","Napoleon’s Buttons by Penny Le Couteur","Stuff Matters by Mark Miodownik"],
+      "Medicine":["The Emperor of All Maladies by Siddhartha Mukherjee","Being Mortal by Atul Gawande","The Man Who Mistook His Wife for a Hat by Oliver Sacks"],
+      "Ecology":["Silent Spring by Rachel Carson","The Sixth Extinction by Elizabeth Kolbert","Braiding Sweetgrass by Robin Wall Kimmerer"],
+      "Robotics":["Machines of Loving Grace by John Markoff","Life 3.0 by Max Tegmark","The Second Machine Age by Erik Brynjolfsson & Andrew McAfee"],
+      "Genetics":["Genome by Matt Ridley","The Double Helix by James D. Watson","The Gene by Siddhartha Mukherjee"],
+      "Astronomy":["Death by Black Hole by Neil deGrasse Tyson","A Brief History of Time by Stephen Hawking","The Fabric of the Cosmos by Brian Greene"]
+    },
+    "Self-Help & Growth": {
+      "Habits":["Atomic Habits by James Clear","The Power of Habit by Charles Duhigg","Make Your Bed by Admiral William H. McRaven"],
+      "Mindfulness":["The Miracle of Mindfulness by Thich Nhat Hanh","Wherever You Go, There You Are by Jon Kabat-Zinn","The Power of Now by Eckhart Tolle"],
+      "Motivation":["Drive by Daniel H. Pink","Start With Why by Simon Sinek","Grit by Angela Duckworth"],
+      "Productivity":["Deep Work by Cal Newport","The One Thing by Gary Keller","Essentialism by Greg McKeown"],
+      "Leadership":["Leaders Eat Last by Simon Sinek","Good to Great by Jim Collins","The 48 Laws of Power by Robert Greene"],
+      "Creativity":["Big Magic by Elizabeth Gilbert","The Artist's Way by Julia Cameron","Steal Like an Artist by Austin Kleon"],
+      "Resilience":["Option B by Sheryl Sandberg","Man's Search for Meaning by Viktor Frankl","Resilience by Eric Greitens"],
+      "Focus":["The One Thing by Gary Keller","Flow by Mihaly Csikszentmihalyi","The Now Habit by Neil Fiore"],
+      "Learning":["Make It Stick by Peter C. Brown","How People Learn by John D. Bransford","The Art of Learning by Josh Waitzkin"],
+      "PhilosophyPopular":["Sophie's World by Jostein Gaarder","The Consolations of Philosophy by Alain de Botton","The Tao of Pooh by Benjamin Hoff"]
+    }
+  },
+
+  /* ---------- SOCIAL (preserved) ---------- */
+  social: {
+    "Family & Relationships": {
+      "Family Saga":["The Kite Runner by Khaled Hosseini","Pachinko by Min Jin Lee","The Corrections by Jonathan Franzen"],
+      "Interpersonal Drama":["Normal People by Sally Rooney","Little Fires Everywhere by Celeste Ng","A Little Life by Hanya Yanagihara"],
+      "Parental":["The Glass Castle by Jeannette Walls","Educated by Tara Westover","Room by Emma Donoghue"],
+      "Marriage":["The Remains of the Day by Kazuo Ishiguro","Anna Karenina by Leo Tolstoy","The Awakening by Kate Chopin"],
+      "Generational":["Homegoing by Yaa Gyasi","One Hundred Years of Solitude by Gabriel García Márquez","The House of the Spirits by Isabel Allende"],
+      "Healing":["A Man Called Ove by Fredrik Backman","Eleanor Oliphant Is Completely Fine by Gail Honeyman","The Storied Life of A.J. Fikry by Gabrielle Zevin"]
+    },
+    "Friendship": {
+      "Coming-of-age":["The Perks of Being a Wallflower by Stephen Chbosky","Looking for Alaska by John Green","Paper Towns by John Green"],
+      "Support":["Wonder by R.J. Palacio","The Sisterhood of the Traveling Pants by Ann Brashares","The Kite Runner by Khaled Hosseini"],
+      "Humor":["Bossypants by Tina Fey","Yes Please by Amy Poehler","Me Talk Pretty One Day by David Sedaris"],
+      "Reunion":["Firefly Lane by Kristin Hannah","The Girls from Ames by Jeffrey Zaslow","Major Pettigrew's Last Stand by Helen Simonson"],
+      "Trust":["The Pact by Jodi Picoult","My Sister's Keeper by Jodi Picoult","The Kite Runner by Khaled Hosseini"]
+    },
+    "Community": {
+      "Small Town":["The Guernsey Literary and Potato Peel Pie Society by Mary Ann Shaffer","Major Pettigrew's Last Stand by Helen Simonson","The Readers of Broken Wheel Recommend by Katarina Bivald"],
+
+      "SocialIssues":["The Hate U Give by Angie Thomas","The Help by Kathryn Stockett","Small Great Things by Jodi Picoult"],
+      "Events":["The Guernsey Literary and Potato Peel Pie Society by Mary Ann Shaffer","The Book Club by Mary Alice Monroe","The Wedding by Dorothy West"]
+    }
+  },
+
+  /* ---------- FANTASY (preserved) ---------- */
+  fantasy: {
+    "High Fantasy": {
+      "Kingdoms":["A Game of Thrones by George R.R. Martin","The Way of Kings by Brandon Sanderson","The Lord of the Rings by J.R.R. Tolkien"],
+      "Magic":["The Name of the Wind by Patrick Rothfuss","The Magicians by Lev Grossman","Mistborn by Brandon Sanderson"],
+      "Prophecy":["The Belgariad by David Eddings","The Eye of the World by Robert Jordan","The Song of Achilles by Madeline Miller"],
+      "Dragons":["The Hobbit by J.R.R. Tolkien","Seraphina by Rachel Hartman","His Majesty's Dragon by Naomi Novik"],
+      "Quest":["The Lies of Locke Lamora by Scott Lynch","The First Law Trilogy by Joe Abercrombie","The Wheel of Time by Robert Jordan"],
+      "Epic":["The Lord of the Rings by J.R.R. Tolkien","The Stormlight Archive by Brandon Sanderson","Malazan Book of the Fallen by Steven Erikson"]
+    },
+    "Urban & Modern Fantasy": {
+      "HiddenMagic":["Rivers of London by Ben Aaronovitch","Neverwhere by Neil Gaiman","American Gods by Neil Gaiman"],
+      "DetectiveFantasy":["Storm Front by Jim Butcher","Moon Called by Patricia Briggs","The Rook by Daniel O'Malley"],
+      "City":["American Gods by Neil Gaiman","City of Stairs by Robert Jackson Bennett","The City We Became by N.K. Jemisin"]
+    },
+    "Dark & Mythic": {
+      "DarkFantasy":["The Witcher Series by Andrzej Sapkowski","The Poppy War by R.F. Kuang","The Black Company by Glen Cook"],
+      "MythRetellings":["Circe by Madeline Miller","The Song of Achilles by Madeline Miller","Norse Mythology by Neil Gaiman"]
+    }
+  },
+
+  /* ---------- NEW GENRES (drama, comedy, action, mysteryThriller, tragedy) ----------
+     Each has multiple subcategories and elements. For the new genres entries we store arrays
+     of objects with title/reason/insight so the UI can display the "why" and "insight".
+  */
+
+  drama: {
+  "Character Drama": {
+    "Emotional Depth": [
+      {title:"A Little Life – Hanya Yanagihara", desc:"A harrowing exploration of trauma, friendship, and survival."},
+      {title:"Normal People – Sally Rooney", desc:"An intimate portrait of love, miscommunication, and growing up."},
+      {title:"The Kite Runner – Khaled Hosseini", desc:"A moving story of betrayal, guilt, and redemption in Afghanistan."}
+    ],
+    "Family Secrets": [
+      {title:"The Secret History – Donna Tartt", desc:"A dark academic mystery about obsession and guilt."},
+      {title:"The Corrections – Jonathan Franzen", desc:"A multi-generational tale of family dysfunction and regret."},
+      {title:"We Were the Mulvaneys – Joyce Carol Oates", desc:"A family's unraveling after a buried trauma comes to light."}
+    ],
+    "Slow Burn": [
+      {title:"Olive Kitteridge – Elizabeth Strout", desc:"A tender, interconnected look at a small-town woman’s life."},
+      {title:"Gilead – Marilynne Robinson", desc:"A gentle meditation on faith, memory, and forgiveness."},
+      {title:"Stoner – John Williams", desc:"A quiet yet profound story of an ordinary man’s perseverance."}
+    ],
+    "Social Realism": [
+      {title:"The Road – Cormac McCarthy", desc:"A bleak yet powerful tale of love and survival after catastrophe."},
+      {title:"A Thousand Splendid Suns – Khaled Hosseini", desc:"Two women bond amid war and oppression in Afghanistan."},
+      {title:"The Remains of the Day – Kazuo Ishiguro", desc:"A butler reflects on love, duty, and missed chances."}
+    ],
+    "Interpersonal Conflict": [
+      {title:"Revolutionary Road – Richard Yates", desc:"A suburban couple’s dreams crumble under quiet despair."},
+      {title:"Who’s Afraid of Virginia Woolf? – Edward Albee", desc:"A searing play about marriage, illusion, and truth."},
+      {title:"The Bell Jar – Sylvia Plath", desc:"A haunting portrait of depression and societal pressure."}
+    ],
+    "Cultural Drama": [
+      {title:"Americanah – Chimamanda Ngozi Adichie", desc:"A love story intertwined with identity and race in modern America."},
+      {title:"Homegoing – Yaa Gyasi", desc:"An epic family saga tracing the legacy of slavery."},
+      {title:"The God of Small Things – Arundhati Roy", desc:"A lyrical tragedy about love and caste in India."}
+    ]
+  },
+  "Urban Drama": {
+    "Working Life": [
+      {title:"A Man Called Ove – Fredrik Backman", desc:"A grumpy widower finds new purpose through unlikely friendships."},
+      {title:"The Sellout – Paul Beatty", desc:"A sharp satire on race, politics, and modern America."},
+      {title:"Never Let Me Go – Kazuo Ishiguro", desc:"A quiet, melancholic tale of identity and loss."}
+    ],
+    "Neighborhood": [
+      {title:"The Little Paris Bookshop – Nina George", desc:"A bookseller heals hearts through the magic of reading."},
+      {title:"The Guernsey Literary and Potato Peel Pie Society – Mary Ann Shaffer", desc:"Letters reveal friendship and healing after WWII."},
+      {title:"Major Pettigrew's Last Stand – Helen Simonson", desc:"A charming story of late-life love and dignity."}
+    ],
+    "Immigrant Stories": [
+      {title:"Pachinko – Min Jin Lee", desc:"A sweeping family saga of resilience and identity in Japan."},
+      {title:"The Namesake – Jhumpa Lahiri", desc:"A moving exploration of cultural roots and belonging."},
+      {title:"American Dirt – Jeanine Cummins", desc:"A mother’s perilous journey across Mexico to save her son."}
+    ],
+    "Workplace Tension": [
+      {title:"The Circle – Dave Eggers", desc:"A chilling look at tech, privacy, and control in a digital age."},
+      {title:"The Assistants – Camille Perri", desc:"Office workers take justice into their own hands with humor."},
+      {title:"Then We Came to the End – Joshua Ferris", desc:"A witty take on office life and corporate chaos."}
+    ],
+    "Urban Isolation": [
+      {title:"Open City – Teju Cole", desc:"A reflective walk through loneliness in New York City."},
+      {title:"Dept. of Speculation – Jenny Offill", desc:"A fragmented, poetic look at marriage and motherhood."},
+      {title:"On Such a Full Sea – Chang-rae Lee", desc:"A futuristic tale of identity and community control."}
+    ],
+    "Social Change": [
+      {title:"The Brief Wondrous Life of Oscar Wao – Junot Díaz", desc:"A vibrant, tragic Dominican-American family saga."},
+      {title:"The Underground Railroad – Colson Whitehead", desc:"A bold reimagining of slavery and freedom in America."},
+      {title:"The Nickel Boys – Colson Whitehead", desc:"A haunting story of injustice at a reform school in the South."}
+    ]
+  }
+},
+
+
+comedy: {
+  "Romantic Comedy": {
+    "QuirkyLove": [
+      {title:"The Rosie Project – Graeme Simsion", desc:"A charmingly awkward scientist searches for love."},
+      {title:"The Flatshare – Beth O'Leary", desc:"Two strangers share a flat—and slowly fall in love."},
+      {title:"Red, White & Royal Blue – Casey McQuiston", desc:"A witty romance between a U.S. First Son and a British prince."}
+    ],
+    "WorkplaceComedy": [
+      {title:"The Hating Game – Sally Thorne", desc:"Rivals at work fall into a hilarious enemies-to-lovers story."},
+      {title:"Where’d You Go, Bernadette – Maria Semple", desc:"A comedic mystery about a missing mom and creative burnout."},
+      {title:"Eleanor Oliphant Is Completely Fine – Gail Honeyman", desc:"A lonely woman discovers joy in unexpected friendship."}
+    ],
+    "Absurdist": [
+      {title:"Catch-22 – Joseph Heller", desc:"A darkly funny satire of war and bureaucracy."},
+      {title:"Good Omens – Neil Gaiman & Terry Pratchett", desc:"An angel and demon join forces to stop the apocalypse."},
+      {title:"The Hitchhiker’s Guide to the Galaxy – Douglas Adams", desc:"A wildly humorous journey through space and absurdity."}
+    ],
+    "Satire": [
+      {title:"Slaughterhouse-Five – Kurt Vonnegut", desc:"A time-traveling anti-war satire blending humor and horror."},
+      {title:"The Sellout – Paul Beatty", desc:"A bold racial satire that skewers modern society."},
+      {title:"Thank You for Smoking – Christopher Buckley", desc:"A sharp parody of public relations and moral spin."}
+    ],
+    "Screwball": [
+      {title:"Bridget Jones’s Diary – Helen Fielding", desc:"A hilarious chronicle of modern dating struggles."},
+      {title:"Confessions of a Shopaholic – Sophie Kinsella", desc:"A witty look at love, debt, and designer handbags."},
+      {title:"Then We Came to the End – Joshua Ferris", desc:"Office comedy full of chaos, gossip, and heart."}
+    ],
+    "DarkComedy": [
+      {title:"A Confederacy of Dunces – John Kennedy Toole", desc:"A bizarre, hilarious tale of a misfit genius."},
+      {title:"The Wasp Factory – Iain Banks", desc:"Darkly comic, unsettling exploration of madness."},
+      {title:"I Am America (And So Can You!) – Stephen Colbert", desc:"A satirical self-help book from America’s favorite pundit."}
+    ]
+  },
+  "Light Humor": {
+    "SliceOfLife": [
+      {title:"The Storied Life of A.J. Fikry – Gabrielle Zevin", desc:"A grumpy bookseller finds joy and community again."},
+      {title:"The Bookish Life of Nina Hill – Abbi Waxman", desc:"A funny and cozy story about introversion and family."},
+      {title:"Where’d You Go, Bernadette – Maria Semple", desc:"A chaotic, loving portrait of an eccentric genius mom."}
+    ],
+    "EssayHumor": [
+      {title:"Bossypants – Tina Fey", desc:"The comedian’s sharp, hilarious reflections on life and work."},
+      {title:"Yes Please – Amy Poehler", desc:"Warm and funny essays from the beloved comedian."},
+      {title:"Me Talk Pretty One Day – David Sedaris", desc:"Witty, self-deprecating essays about life and language."}
+    ]
+  }
+},
+
+action: {
+  "Military & War": {
+    "ModernWarfare": [
+      {title:"The Forever War – Joe Haldeman", desc:"A sci-fi reflection on time, war, and alienation."},
+      {title:"The Things They Carried – Tim O’Brien", desc:"Haunting stories of soldiers burdened by memory."},
+      {title:"Band of Brothers – Stephen E. Ambrose", desc:"True story of WWII comradeship and courage."}
+    ],
+    "SpecialOps": [
+      {title:"American Sniper – Chris Kyle", desc:"A powerful, controversial memoir of duty and trauma."},
+      {title:"The Killer Angels – Michael Shaara", desc:"A vivid retelling of the Battle of Gettysburg."},
+      {title:"No Easy Day – Mark Owen", desc:"Inside look at SEAL Team 6 and the Bin Laden mission."}
+    ],
+    "SpyThriller": [
+      {title:"Casino Royale – Ian Fleming", desc:"James Bond’s first thrilling mission of danger and desire."},
+      {title:"Tinker Tailor Soldier Spy – John le Carré", desc:"A slow-burn tale of espionage and betrayal."},
+      {title:"The Bourne Identity – Robert Ludlum", desc:"A man with amnesia fights to uncover his deadly past."}
+    ],
+    "Heist": [
+      {title:"Six of Crows – Leigh Bardugo", desc:"A crew of criminals takes on an impossible heist."},
+      {title:"Heat – Michael Mann (novelization)", desc:"An intense crime saga of loyalty and obsession."},
+      {title:"The Lies of Locke Lamora – Scott Lynch", desc:"Clever thieves outsmart nobles in a fantasy Venice."}
+    ],
+    "Chase": [
+      {title:"The Fugitive", desc:"A wrongly accused man races to prove his innocence."},
+      {title:"Red Rising – Pierce Brown", desc:"A rebel rises in a brutal, class-divided future."},
+      {title:"The Martian – Andy Weir", desc:"An astronaut must survive alone on Mars."}
+    ],
+    "HeroicFantasyAction": [
+      {title:"The First Law Trilogy – Joe Abercrombie", desc:"Gritty battles and moral grayness in a brutal world."},
+      {title:"The Black Company – Glen Cook", desc:"A mercenary band fights through a dark, magical war."},
+      {title:"Mistborn – Brandon Sanderson", desc:"A thrilling rebellion fueled by a unique magic system."}
+    ]
+  }
+},
+
+mysteryThriller: {
+  "Psychological Thriller": {
+    "Unreliable": [
+      {title:"Gone Girl – Gillian Flynn", desc:"A twisty, unreliable tale of marriage and manipulation."},
+      {title:"The Silent Patient – Alex Michaelides", desc:"A therapist unravels a shocking act of violence."},
+      {title:"The Girl on the Train – Paula Hawkins", desc:"An alcoholic witness becomes entangled in a mystery."}
+    ],
+    "DomesticSuspense": [
+      {title:"The Couple Next Door – Shari Lapena", desc:"Secrets and lies unravel in a suburban neighborhood."},
+      {title:"The Girl Before – JP Delaney", desc:"A minimalist house hides dark, psychological games."},
+      {title:"Behind Closed Doors – B.A. Paris", desc:"A chilling portrait of a perfect marriage turned nightmare."}
+    ],
+    "Conspiracy": [
+      {title:"The Da Vinci Code – Dan Brown", desc:"A cryptic chase through art, religion, and mystery."},
+      {title:"The Bourne Identity – Robert Ludlum", desc:"A spy with no memory hunted across the world."},
+      {title:"Digital Fortress – Dan Brown", desc:"Hackers uncover secrets that threaten global security."}
+    ],
+    "SlowBurn": [
+      {title:"The Little Stranger – Sarah Waters", desc:"A ghostly tale of class, decay, and obsession."},
+      {title:"Mexican Gothic – Silvia Moreno-Garcia", desc:"A young woman confronts a haunted colonial mansion."},
+      {title:"The Woman in Black – Susan Hill", desc:"A classic ghost story steeped in grief and dread."}
+    ],
+    "Noir": [
+      {title:"No Country for Old Men – Cormac McCarthy", desc:"A bleak chase through violence and moral ruin."},
+      {title:"The Big Sleep – Raymond Chandler", desc:"A detective untangles lies in 1930s Los Angeles."},
+      {title:"The Talented Mr. Ripley – Patricia Highsmith", desc:"Charm and envy drive a chilling act of deceit."}
+    ],
+    "TechThriller": [
+      {title:"Blindsight – Peter Watts", desc:"A cerebral sci-fi thriller about alien intelligence."},
+      {title:"Snow Crash – Neal Stephenson", desc:"A fast, witty ride through a cyberpunk world."},
+      {title:"The Circle – Dave Eggers", desc:"A tech dystopia where privacy no longer exists."}
+    ]
+  }
+},
+
+tragedy: {
+  "Classical Tragedy": {
+    "EpicLoss":[
+      {title:"Oedipus Rex – Sophocles"},
+      {title:"Antigone – Sophocles"},
+      {title:"Hamlet – William Shakespeare"}
+    ],
+    "ModernPain":[
+      {title:"A Little Life – Hanya Yanagihara"},
+      {title:"Extremely Loud & Incredibly Close – Jonathan Safran Foer"},
+      {title:"Never Let Me Go – Kazuo Ishiguro"}
+    ],
+    "RomanticTragedy":[
+      {title:"Romeo and Juliet – William Shakespeare"},
+      {title:"The Remains of the Day – Kazuo Ishiguro"},
+      {title:"The Great Gatsby – F. Scott Fitzgerald"}
+    ],
+    "SocietalTragedy":[
+      {title:"The Road – Cormac McCarthy"},
+      {title:"The Plague – Albert Camus"},
+      {title:"Lord of the Flies – William Golding"}
+    ],
+    "PersonalLoss":[
+      {title:"Me Before You – Jojo Moyes"},
+      {title:"The Year of Magical Thinking – Joan Didion"},
+      {title:"The Bell Jar – Sylvia Plath"}
+    ],
+    "Bittersweet":[
+      {title:"The Time Traveler’s Wife – Audrey Niffenegger"},
+      {title:"The Light Between Oceans – M.L. Stedman"},
+      {title:"About Time (film/novelization)"}
+   ]
+  }
+ }
+};
+
+
+/* -------- SUBCATEGORY UI -------- */
+function loadSubcategories(genre) {
+  subcategoryOptions.innerHTML = '';
+  const obj = recommendations[genre];
+  if (!obj) {
+    subcategoryOptions.textContent = 'No subcategories available for ' + genre;
+    return;
+  }
+  Object.keys(obj).forEach(sub => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.textContent = sub;
+    btn.onclick = () => { chosenSubcat = sub; showElements(genre, sub); };
+    subcategoryOptions.appendChild(btn);
+  });
+}
+
+/* -------- ELEMENTS UI (1-5 selection) -------- */
+function showElements(genre, sub) {
+  chosenSubcatTitle.textContent = `Subcategory: ${sub}`;
+  elementsList.innerHTML = '';
+  const elObj = recommendations[genre][sub] || {};
+  // If elements are keys mapping to arrays or objects:
+  Object.keys(elObj).forEach(el => {
+    const label = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = el;
+    cb.style.marginRight = '8px';
+    cb.onchange = limitSelection;
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(' ' + el));
+    elementsList.appendChild(label);
+  });
+  showPanel(elementsPanel);
+}
+
+/* Limit selection to max 5 (disable other boxes when limit reached) */
+function limitSelection() {
+  const boxes = Array.from(elementsList.querySelectorAll('input[type="checkbox"]'));
+  const checked = boxes.filter(b => b.checked);
+  boxes.forEach(b => b.disabled = (checked.length >= 5 && !b.checked));
+}
+
+/* Validate at least 1 and up to 5, then show results */
+function validateAndShow() {
+  const selected = Array.from(elementsList.querySelectorAll('input:checked')).map(c => c.value);
+  if (selected.length < 1) { alert('Please select at least one element.'); return; }
+  if (selected.length > 5) { alert('Please select up to 5 elements.'); return; }
+  showFinalResult(selected);
+}
+
+/* -------- FINAL RESULTS (3 books per element) -------- */
+function showFinalResult(selectedEls) {
+  showPanel(resultPanel);
+  resultType.textContent = `${chosenGenre.toUpperCase()} → ${chosenSubcat}`;
+  whyText.textContent = generateWhy(chosenGenre);
+
+  recommendationsDiv.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.className = 'result-grid';
+
+  selectedEls.slice(0,5).forEach(el => {
+    const section = document.createElement('div');
+    section.className = 'book-section';
+    section.innerHTML = `<h3>${el}</h3>`;
+    const container = document.createElement('div');
+
+    const data = recommendations[chosenGenre][chosenSubcat][el];
+
+    // If data is an array of strings (original)
+    if (Array.isArray(data) && data.length && typeof data[0] === 'string') {
+      data.slice(0,3).forEach(titleStr => {
+        const bline = document.createElement('div');
+        bline.style.marginBottom = '10px';
+        const t = document.createElement('div');
+        t.className = 'book-title';
+        t.textContent = titleStr;
+        bline.appendChild(t);
+        container.appendChild(bline);
+      });
+    } 
+    // If data is an array of objects (newGenres)
+    else if (Array.isArray(data) && data.length && typeof data[0] === 'object') {
+      data.slice(0,3).forEach(b => {
+        const bline = document.createElement('div');
+        bline.style.marginBottom = '10px';
+        const t = document.createElement('div');
+        t.className = 'book-title';
+        t.textContent = b.title;
+        bline.appendChild(t);
+        container.appendChild(bline);
+      });
+    } 
+    // If data is a nested object
+    else if (typeof data === 'object' && !Array.isArray(data)) {
+      const flat = [];
+      Object.values(data).forEach(v => { if (Array.isArray(v)) flat.push(...v); });
+      flat.slice(0,3).forEach(titleStr => {
+        const bline = document.createElement('div');
+        bline.style.marginBottom = '10px';
+        const t = document.createElement('div');
+        t.className = 'book-title';
+        t.textContent = titleStr;
+        bline.appendChild(t);
+        container.appendChild(bline);
+      });
+    } 
+    else {
+      const none = document.createElement('div');
+      none.textContent = 'No recommendations found for this element.';
+      container.appendChild(none);
+    }
+
+    section.appendChild(container);
+    grid.appendChild(section);
+  });
+
+  recommendationsDiv.appendChild(grid);
+}
+
+/* -------- Why text generator -------- */
+function generateWhy(g) {
+  const map = {
+    romantic: "Your answers emphasized emotion, relationships, and connection — you enjoy heartfelt stories.",
+    adventure: "You showed curiosity and a love for discovery — high-energy journeys match you.",
+    detective: "You like puzzles, clues, and hunting for truth — mysteries fit your taste.",
+    thinker: "You prefer big ideas, questions, and reflection — thought-provoking books suit you.",
+    social: "You value relationships, communities, and human stories.",
+    fantasy: "Imagination, wonder, and otherworldly escapes appeal to you.",
+    drama: "You appreciate deep character work and emotional stakes.",
+    comedy: "You like wit, humor, and stories that make you laugh while thinking.",
+    action: "You enjoy fast-paced stakes, conflict, and adrenaline.",
+    mysteryThriller: "You favor tension, suspense, and surprising twists.",
+    tragedy: "You're drawn to powerful emotional arcs about loss and resilience."
+  };
+  return map[g] || "Your tastes blend many things — you have a unique reading personality!";
+}
+
+/* -------- Helpers & reset -------- */
+function resetScores() { Object.keys(genreScores).forEach(k => genreScores[k] = 0); }
+function restartQuiz() {
+  resetScores();
+  idx = 0;
+  chosenGenre = '';
+  chosenSubcat = '';
+  recommendationsDiv.innerHTML = '';
+  whyText.textContent = '';
+  showPanel(welcomePanel);
+  progressBar.style.width = '0%';
+}
+
+/* -------- Defensive: catch runtime errors and log them (helps debugging) -------- */
+window.addEventListener('error', (e) => {
+  console.error('Runtime error:', e.error || e.message || e);
+});
+
+/* -------- END of script -------- */
+</script>
+
+</body>
+</html>
